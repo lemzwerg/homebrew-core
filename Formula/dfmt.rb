@@ -16,14 +16,17 @@ class Dfmt < Formula
 
   devel do
     url "https://github.com/Hackerpilot/dfmt.git",
-        :tag => "v0.5.0-beta3",
-        :revision => "845358bb61603031b0817aed03097064c8f2553f"
-    version "0.5.0-beta3"
+        :tag => "v0.5.0-beta.5",
+        :revision => "9fb13d0cafb3a9f0252e7e45277c37c28889731c"
+    version "0.5.0-beta5"
   end
 
   depends_on "dmd" => :build
 
   def install
+    if build.stable?
+      rmtree "libdparse/experimental_allocator"
+    end
     system "make"
     bin.install "bin/dfmt"
   end

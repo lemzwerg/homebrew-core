@@ -1,15 +1,15 @@
 class Pngquant < Formula
   desc "PNG image optimizing utility"
   homepage "https://pngquant.org/"
-  url "https://pngquant.org/pngquant-2.8.0-src.tar.gz"
-  sha256 "685f5a007582abbe7735f09b12c0202cb091ede935dbc5199c8b27e0a90346d6"
+  url "https://pngquant.org/pngquant-2.8.2-src.tar.gz"
+  sha256 "e93a400df7514880135171ae105a412e76d76745ce9648647dfeea66c890b9c3"
   head "https://github.com/pornel/pngquant.git"
 
   bottle do
     cellar :any
-    sha256 "1e625bc508681a0b9ffc489079e3fd096b18e496192a1a0d063d4ee129885100" => :sierra
-    sha256 "5c7989802e432adbffd0fb3bb0dd170ee93df6537684b88e7350b050d795af98" => :el_capitan
-    sha256 "2707b7ef3d533d771f520242feaa158f27cbc1190d0480b41590996937726551" => :yosemite
+    sha256 "88a6a0062aa21324c449840d5304789a1feed2309bd9817d83114a0e54a22402" => :sierra
+    sha256 "4a7393976890e0d00d1335410aff6c7dde6b820894262da2b7c27508c2287ee8" => :el_capitan
+    sha256 "1530412b698806c01980dd29917aafcc14cb8dd223725d35e7d45672cbceabe6" => :yosemite
   end
 
   option "with-openmp", "Enable OpenMP"

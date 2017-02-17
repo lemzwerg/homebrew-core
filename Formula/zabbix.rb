@@ -1,16 +1,19 @@
 class Zabbix < Formula
   desc "Availability and monitoring solution"
   homepage "https://www.zabbix.com/"
-  url "https://downloads.sourceforge.net/project/zabbix/ZABBIX%20Latest%20Stable/3.2.1/zabbix-3.2.1.tar.gz"
-  sha256 "8926b96ef05cba041d05329130f40e8e1311ad201e58c75d22005eda4075c091"
+  url "https://downloads.sourceforge.net/project/zabbix/ZABBIX%20Latest%20Stable/3.2.3/zabbix-3.2.3.tar.gz"
+  mirror "https://fossies.org/linux/misc/zabbix-3.2.3.tar.gz"
+  sha256 "e6dba74039d8d6efff86ec3da99909f4daeaeb66d48781bbb666e3094533da25"
+  revision 1
 
   bottle do
-    sha256 "523d9352eea76c38dc11ab1c991405936e1c289c534f7ce03147b5e7f248fed1" => :sierra
-    sha256 "e9baa9e0cd489484d4a403a8e45e5148d45a4e9474ec50481e7bde3e71928ea4" => :el_capitan
-    sha256 "798afed3776b500f352d0d7fbf6a170441ad8096df304edea51748b0a2679a17" => :yosemite
+    sha256 "35a2068460d9ca35b0a52f8beb8e56a0c3144eb469a4fff993c35eaadafc9ff8" => :sierra
+    sha256 "be5a15450a93c860ae19d8a4fbf6738282dfc9e6fecc3bb633b3863f2472659a" => :el_capitan
+    sha256 "8f22eb0c9e5fc108a6e3127c86eef174542214c3e7f08ab535dfda4e06cc061d" => :yosemite
   end
 
   option "with-mysql", "Use Zabbix Server with MySQL library instead PostgreSQL."
+  option "with-sqlite", "Use Zabbix Server with SQLite library instead PostgreSQL."
   option "without-server-proxy", "Install only the Zabbix Agent without Server and Proxy."
 
   deprecated_option "agent-only" => "without-server-proxy"
@@ -47,6 +50,8 @@ class Zabbix < Formula
 
       if build.with? "mysql"
         args << "--with-mysql=#{brewed_or_shipped("mysql_config")}"
+      elsif build.with? "sqlite"
+        args << "--with-sqlite3"
       else
         args << "--with-postgresql=#{brewed_or_shipped("pg_config")}"
       end

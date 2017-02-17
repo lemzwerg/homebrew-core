@@ -2,16 +2,16 @@ class Syncthing < Formula
   desc "Open source continuous file synchronization application"
   homepage "https://syncthing.net/"
   url "https://github.com/syncthing/syncthing.git",
-      :tag => "v0.14.12",
-      :revision => "5bb74ee61ca43da27120ad99ea98e10e0a1f76a3"
+      :tag => "v0.14.23",
+      :revision => "204f125ab33eb5f4595343940db343ffb01108ee"
 
   head "https://github.com/syncthing/syncthing.git"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "c98d2f2281ad48904a3d96dc7b3e69830d494125eb28c7d5bd7717c75c89923f" => :sierra
-    sha256 "979b5980ed7be51648ac2ab2f8b7803a48c28f645b4fadf016ee3a267daf7751" => :el_capitan
-    sha256 "53c49f8e919e9c9bf487c1305ef617372b90dcf5a4dec788b1928de491af2603" => :yosemite
+    sha256 "97555dcfa8157a319762e11b34732ad0aa0268de085cefda152ea5bd423b1f75" => :sierra
+    sha256 "828f3cdad8f6a8217fb0a0c9faeecd9bafa30959a66f64efb43ee897637a0362" => :el_capitan
+    sha256 "f087744e02160657bd8eaa2cbbda4cf41139b84afd3e4f2f20d7cbb2b5cc9a65" => :yosemite
   end
 
   depends_on "go" => :build

@@ -1,15 +1,15 @@
+# encoding: UTF-8
 class Clipper < Formula
   desc "Share macOS clipboard with tmux and other local and remote apps"
   homepage "https://wincent.com/products/clipper"
-  url "https://github.com/wincent/clipper/archive/0.3.tar.gz"
-  sha256 "ddadc32477744f39a0604255c68c159613809f549c3b28bedcedd23f3f93bcf0"
+  url "https://github.com/wincent/clipper/archive/0.4.1.tar.gz"
+  sha256 "76875e8e3cc7ab53e8966dd52a47d08e8acb6b6db7a0af69a3ec529fe9ae7766"
 
   bottle do
     cellar :any_skip_relocation
-    rebuild 1
-    sha256 "9dd51dbb7c3834c99bcd8c496dbd07831b0a180d03e5696d02606b601945029b" => :sierra
-    sha256 "d8cb0cf54d7c07e1adf527edb351e9fa47736432e99ea6dcfed9b4239d853448" => :el_capitan
-    sha256 "454c13885a8b0bff59efebf64aa7708b2428bdc6a3a94bf6adbcb9a139aba730" => :yosemite
+    sha256 "a3d294b554108d9d4279c4cb7faec47bace12d809ceace2d78eb6379d64c1cf3" => :sierra
+    sha256 "3544a2a3a19abac783869335f5429d7d34e709fb9487f3a5c7d6f956b7c2a561" => :el_capitan
+    sha256 "8555464d08d154a85e81a10704913e63dcf7fe94fd3d055f44bbbfae3b93f27d" => :yosemite
   end
 
   depends_on "go" => :build
@@ -47,5 +47,26 @@ class Clipper < Formula
     </dict>
     </plist>
     EOS
+  end
+
+  test do
+    TEST_DATA = "a simple string! to test clipper, with söme spéciål characters!! 🐎\n".freeze
+
+    cmd = [opt_bin/"clipper", "-a", testpath/"clipper.sock", "-l", testpath/"clipper.log"].freeze
+    ohai cmd.join " "
+
+    require "open3"
+    Open3.popen3({ "LANG" => "en_US.UTF-8" }, *cmd) do |_, _, _, clipper|
+      sleep 0.5 # Give it a moment to launch and create its socket.
+      begin
+        sock = UNIXSocket.new testpath/"clipper.sock"
+        assert_equal TEST_DATA.bytesize, sock.sendmsg(TEST_DATA)
+        sock.close
+        sleep 0.5
+        assert_equal TEST_DATA, `LANG=en_US.UTF-8 pbpaste`
+      ensure
+        Process.kill "TERM", clipper.pid
+      end
+    end
   end
 end

@@ -1,16 +1,18 @@
 class Mailutils < Formula
   desc "Swiss Army knife of email handling"
   homepage "http://mailutils.org/"
-  url "https://ftpmirror.gnu.org/mailutils/mailutils-3.0.tar.gz"
-  mirror "https://ftp.gnu.org/gnu/mailutils/mailutils-3.0.tar.gz"
-  sha256 "41e5a1e9b1da1efd184b4cb3ed8e88bb3013ff09f9774b15a65253ff31db2f9f"
+  url "https://ftpmirror.gnu.org/mailutils/mailutils-3.1.1.tar.gz"
+  mirror "https://ftp.gnu.org/gnu/mailutils/mailutils-3.1.1.tar.gz"
+  sha256 "d237622ee1957e8e14cd15713bd8bad710bdb0e408be3de2db12db0b8437049b"
+  revision 1
 
   bottle do
-    sha256 "3a2d771c6ff402a0345e263f1ca24775cd8a3c153f69ee00006ac1eb3ee14cbc" => :sierra
-    sha256 "e43b4f89247eef6735f65cf474e31b2d4f6a21d95c8bdda843f2b8e91b08f345" => :el_capitan
-    sha256 "43af4b9eab94c5af57aa35e4d44312834ca66b14d456030233f6820a96d53621" => :yosemite
+    sha256 "5fffeefa72bf0af1f6b7d216e363a6723e7651eb0d409450c94f7baed9f882b0" => :sierra
+    sha256 "a57eb344e881e4c9938ea47b117bb2e59f6d1434e523c6e5e3a52262173c9836" => :el_capitan
+    sha256 "d789e0d108ced0095019cbaeb1d8b2ab1e2e667387f8b946a5f2d425e084be33" => :yosemite
   end
 
+  depends_on "libtool" => :run
   depends_on "gnutls"
   depends_on "gsasl"
   depends_on "readline"

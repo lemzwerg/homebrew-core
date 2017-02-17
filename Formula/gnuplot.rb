@@ -3,11 +3,13 @@ class Gnuplot < Formula
   homepage "http://www.gnuplot.info"
   url "https://downloads.sourceforge.net/project/gnuplot/gnuplot/5.0.5/gnuplot-5.0.5.tar.gz"
   sha256 "25f3e0bf192e01115c580f278c3725d7a569eb848786e12b455a3fda70312053"
+  revision 2
 
   bottle do
-    sha256 "248bea9c816f6da0c3723e3bd14a874fcfd6d0fe7f0283bc3b4704632f74af4c" => :sierra
-    sha256 "fa7ed60920684032ade79dd4334fd66f5675d7e36bdea07f20a4be551f82b5e6" => :el_capitan
-    sha256 "2efbe8de41120ff75e2572328db4eba6adc80519a4396b4c14ad68b415f45e3d" => :yosemite
+    rebuild 1
+    sha256 "a59e20d92f1f3791406ca9c38c1eba7b131b84deb6511d2ae8a598f8145987fe" => :sierra
+    sha256 "83629a50b7d5c36ed98508984e8ed91ca21a6e7e43540dbc5774c8756a919d3e" => :el_capitan
+    sha256 "05ee80125a10be3faa2150e2ce85d236525ed7a44e7ef839ceaaf0e8cd045ba8" => :yosemite
   end
 
   head do
@@ -24,12 +26,15 @@ class Gnuplot < Formula
   option "with-wxmac", "Build wxmac support. Need with-cairo to build wxt terminal"
   option "with-tex", "Build with LaTeX support"
   option "with-aquaterm", "Build with AquaTerm support"
+  option "without-gd", "Build without gd based terminals"
+  option "with-libcerf", "Build with libcerf support"
 
   deprecated_option "with-x" => "with-x11"
   deprecated_option "pdf" => "with-pdflib-lite"
   deprecated_option "wx" => "with-wxmac"
-  deprecated_option "qt" => "with-qt5"
-  deprecated_option "with-qt" => "with-qt5"
+  deprecated_option "qt" => "with-qt@5.7"
+  deprecated_option "with-qt" => "with-qt@5.7"
+  deprecated_option "with-qt5" => "with-qt@5.7"
   deprecated_option "cairo" => "with-cairo"
   deprecated_option "nolua" => "without-lua"
   deprecated_option "tests" => "with-test"
@@ -38,26 +43,27 @@ class Gnuplot < Formula
   deprecated_option "with-latex" => "with-tex"
 
   depends_on "pkg-config" => :build
-  depends_on "fontconfig"
-  depends_on "gd"
+  depends_on "gd" => :recommended
   depends_on "lua" => :recommended
-  depends_on "jpeg"
-  depends_on "libpng"
-  depends_on "libtiff"
   depends_on "readline"
-  depends_on "webp"
   depends_on "pango" if build.with?("cairo") || build.with?("wxmac")
   depends_on "pdflib-lite" => :optional
-  depends_on "qt5" => :optional
+  depends_on "qt@5.7" => :optional
   depends_on "wxmac" => :optional
   depends_on :tex => :optional
   depends_on :x11 => :optional
 
-  needs :cxx11 if build.with? "qt5"
+  needs :cxx11 if build.with? "qt@5.7"
+
+  resource "libcerf" do
+    url "http://apps.jcns.fz-juelich.de/src/libcerf/libcerf-1.5.tgz"
+    mirror "https://www.mirrorservice.org/sites/distfiles.macports.org/libcerf/libcerf-1.5.tgz"
+    sha256 "e36dc147e7fff81143074a21550c259b5aac1b99fc314fc0ae33294231ca5c86"
+  end
 
   def install
     # Qt5 requires c++11 (and the other backends do not care)
-    ENV.cxx11 if build.with? "qt5"
+    ENV.cxx11 if build.with? "qt@5.7"
 
     if build.with? "aquaterm"
       # Add "/Library/Frameworks" to the default framework search path, so that an
@@ -65,6 +71,15 @@ class Gnuplot < Formula
       # when building against an SDK (Nov 2013).
       ENV.prepend "CPPFLAGS", "-F/Library/Frameworks"
       ENV.prepend "LDFLAGS", "-F/Library/Frameworks"
+    end
+
+    if build.with? "libcerf"
+      # Build libcerf
+      resource("libcerf").stage do
+        system "./configure", "--prefix=#{buildpath}/libcerf", "--enable-static", "--disable-shared"
+        system "make", "install"
+      end
+      ENV.prepend "PKG_CONFIG_PATH", buildpath/"libcerf/lib/pkgconfig"
     end
 
     # Help configure find libraries
@@ -77,14 +92,18 @@ class Gnuplot < Formula
       --with-readline=#{Formula["readline"].opt_prefix}
     ]
 
+    args << "--without-libcerf" if build.without? "libcerf"
+
     args << "--with-pdf=#{pdflib}" if build.with? "pdflib-lite"
+
+    args << "--without-gd" if build.without? "gd"
 
     if build.without? "wxmac"
       args << "--disable-wxwidgets"
       args << "--without-cairo" if build.without? "cairo"
     end
 
-    if build.with? "qt5"
+    if build.with? "qt@5.7"
       args << "--with-qt"
     else
       args << "--with-qt=no"
@@ -106,7 +125,7 @@ class Gnuplot < Formula
 
     system "./prepare" if build.head?
     system "./configure", *args
-    ENV.j1 # or else emacs tries to edit the same file with two threads
+    ENV.deparallelize # or else emacs tries to edit the same file with two threads
     system "make"
     system "make", "check" if build.with?("test") || build.bottle?
     system "make", "install"
@@ -125,10 +144,10 @@ class Gnuplot < Formula
 
   test do
     system "#{bin}/gnuplot", "-e", <<-EOS.undent
-      set terminal png;
-      set output "#{testpath}/image.png";
+      set terminal dumb;
+      set output "#{testpath}/graph.txt";
       plot sin(x);
     EOS
-    File.exist? testpath/"image.png"
+    File.exist? testpath/"graph.txt"
   end
 end

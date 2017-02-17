@@ -2,16 +2,18 @@ class Netpbm < Formula
   desc "Image manipulation"
   homepage "http://netpbm.sourceforge.net"
   # Maintainers: Look at https://sourceforge.net/p/netpbm/code/HEAD/tree/
-  # for versions and matching revisions
-  url "http://svn.code.sf.net/p/netpbm/code/advanced", :revision => 2825
-  version "10.76"
+  # for stable versions and matching revisions.
+  url "http://svn.code.sf.net/p/netpbm/code/stable", :revision => 2885
+  version "10.73.07"
+  version_scheme 1
+
   head "http://svn.code.sf.net/p/netpbm/code/trunk"
 
   bottle do
     cellar :any
-    sha256 "8a2d966ab4668144f3f9ebaf69b170e9efa81ce399dc6d26977b953d7be2b44f" => :sierra
-    sha256 "a592a25f28c8f150f16e73e6c72c7fa5c91feccf2948c1fe2d9e3e558b793785" => :el_capitan
-    sha256 "17a4e01fbf68d771b2a862a6279d2e61d1f9e9a683ed4c03b16eb21214ecd7f7" => :yosemite
+    sha256 "6fbf190d0c7876dd811872d273d780fe1404672abb85aec666f44bcf3f643581" => :sierra
+    sha256 "e3551086519cfe08637b239c3e3939f3a9cfb416c7795f8d08ef1357551f922b" => :el_capitan
+    sha256 "fb5df9f31a1202bf9a25cabb48a3d67a35dabbaa645875e558c4a359da784fa9" => :yosemite
   end
 
   option :universal
@@ -55,7 +57,7 @@ class Netpbm < Formula
       # do man pages explicitly; otherwise a junk file is installed in man/web
       man1.install Dir["man/man1/*.1"]
       man5.install Dir["man/man5/*.5"]
-      lib.install Dir["link/*.a"]
+      lib.install Dir["link/*.a"], Dir["link/*.dylib"]
       (lib/"pkgconfig").install "pkgconfig_template" => "netpbm.pc"
     end
 

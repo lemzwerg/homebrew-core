@@ -5,15 +5,14 @@ class GitAnnex < Formula
 
   desc "Manage files with git without checking in file contents"
   homepage "https://git-annex.branchable.com/"
-  url "https://hackage.haskell.org/package/git-annex-6.20161118/git-annex-6.20161118.tar.gz"
-  sha256 "84d83b41ce671b29f7c718979bb06d2bb3e3a3f3a3536257f3c6a3da993e47ba"
+  url "https://hackage.haskell.org/package/git-annex-6.20170214/git-annex-6.20170214.tar.gz"
+  sha256 "d2f5a5bfa8077f417a8c0fee556571f498a9fbdabb99cdeed326df0a1f042e4b"
   head "git://git-annex.branchable.com/"
 
   bottle do
-    cellar :any
-    sha256 "745b04107b82f666fdbd85dbcaa3afc70318ddd64c4985f87f058e8fc1c9cbd1" => :sierra
-    sha256 "07aa063b2fe0ef5649f1e64beb7e9381ea10e733db553355f52119a7458ef576" => :el_capitan
-    sha256 "1befb8f4acd9a7aef61c181f38af9bf421188e924db5b521484f499124186742" => :yosemite
+    sha256 "88f25208d99ba1c1dffd2f950ca5ecb4b9a0074639d562a86752171970e3b6e4" => :sierra
+    sha256 "082f85684ae76efc8476e097f02893bfe9fd0c1882ab59f46edfa3c95f29a9ab" => :el_capitan
+    sha256 "7cfaecf355986c6701cc8629457f980844d74e02d6d5e1dbcbff10bd66a0f316" => :yosemite
   end
 
   option "with-git-union-merge", "Build the git-union-merge tool"
@@ -26,38 +25,15 @@ class GitAnnex < Formula
   depends_on "libmagic"
   depends_on "gnutls"
   depends_on "quvi"
-
-  resource "esqueleto-2.4.3" do
-    url "https://mirrors.ocf.berkeley.edu/debian/pool/main/h/haskell-esqueleto/haskell-esqueleto_2.4.3.orig.tar.gz"
-    mirror "https://mirrors.kernel.org/debian/pool/main/h/haskell-esqueleto/haskell-esqueleto_2.4.3.orig.tar.gz"
-    sha256 "bf555cfb40519ed1573f7bb90c65f693b9639dfa93fc2222230d3ded6e897434"
-  end
-
-  # Patch for esqueleto to be able to use persistent 2.6
-  # https://github.com/joeyh/git-annex/commit/6416ae9c09f54c062c05cc686ade35c2e08c1434
-  # https://github.com/haskell-infra/hackage-trustees/issues/84
-  # https://github.com/prowdsponsor/esqueleto/issues/137
-  resource "esqueleto-newer-persistent-patch" do
-    url "https://mirrors.ocf.berkeley.edu/debian/pool/main/h/haskell-esqueleto/haskell-esqueleto_2.4.3-5.debian.tar.xz"
-    mirror "https://mirrors.kernel.org/debian/pool/main/h/haskell-esqueleto/haskell-esqueleto_2.4.3-5.debian.tar.xz"
-    sha256 "b152307e6c8f5f79d070bcadcf05d32c52a205bd2bacc578686c2aa01491aff6"
-  end
+  depends_on "xdot" => :recommended
 
   def install
-    cabal_sandbox do
-      (buildpath/"esqueleto-2.4.3").install resource("esqueleto-2.4.3")
-      resource("esqueleto-newer-persistent-patch").stage do
-        system "patch", "-p1", "-i", Pathname.pwd/"patches/newer-persistent",
-                        "-d", buildpath/"esqueleto-2.4.3"
-      end
-      cabal_sandbox_add_source "esqueleto-2.4.3"
-      install_cabal_package :using => ["alex", "happy", "c2hs"], :flags => ["s3", "webapp"] do
-        # this can be made the default behavior again once git-union-merge builds properly when bottling
-        if build.with? "git-union-merge"
-          system "make", "git-union-merge", "PREFIX=#{prefix}"
-          bin.install "git-union-merge"
-          system "make", "git-union-merge.1", "PREFIX=#{prefix}"
-        end
+    install_cabal_package :using => ["alex", "happy", "c2hs"], :flags => ["s3", "webapp"] do
+      # this can be made the default behavior again once git-union-merge builds properly when bottling
+      if build.with? "git-union-merge"
+        system "make", "git-union-merge", "PREFIX=#{prefix}"
+        bin.install "git-union-merge"
+        system "make", "git-union-merge.1", "PREFIX=#{prefix}"
       end
     end
     bin.install_symlink "git-annex" => "git-annex-shell"

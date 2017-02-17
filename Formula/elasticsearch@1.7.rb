@@ -3,8 +3,11 @@ class ElasticsearchAT17 < Formula
   homepage "https://www.elastic.co/products/elasticsearch"
   url "https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.6.tar.gz"
   sha256 "78affc30353730ec245dad1f17de242a4ad12cf808eaa87dd878e1ca10ed77df"
+  revision 1
 
   bottle :unneeded
+
+  keg_only :versioned_formula
 
   depends_on :java => "1.7+"
 
@@ -85,7 +88,7 @@ class ElasticsearchAT17 < Formula
           <string>#{plist_name}</string>
           <key>ProgramArguments</key>
           <array>
-            <string>#{HOMEBREW_PREFIX}/bin/elasticsearch</string>
+            <string>#{opt_bin}/elasticsearch</string>
             <string>--config=#{prefix}/config/elasticsearch.yml</string>
           </array>
           <key>EnvironmentVariables</key>
@@ -98,9 +101,9 @@ class ElasticsearchAT17 < Formula
           <key>WorkingDirectory</key>
           <string>#{var}</string>
           <key>StandardErrorPath</key>
-          <string>#{var}/log/elasticsearch@1.7.log</string>
+          <string>#{var}/log/#{name}.log</string>
           <key>StandardOutPath</key>
-          <string>#{var}/log/elasticsearch@1.7.log</string>
+          <string>#{var}/log/#{name}.log</string>
         </dict>
       </plist>
     EOS

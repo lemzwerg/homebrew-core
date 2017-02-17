@@ -3,26 +3,26 @@ class Emscripten < Formula
   homepage "https://kripken.github.io/emscripten-site/"
 
   stable do
-    url "https://github.com/kripken/emscripten/archive/1.36.14.tar.gz"
-    sha256 "89febe6c56c36ded3a6323d40342196d961eb1a7878b32912a649734962cb5ee"
+    url "https://github.com/kripken/emscripten/archive/1.37.1.tar.gz"
+    sha256 "f553e7e5ab3611501b0478513f6d96f343027b04bd0317bb2c7239ebbfddf523"
 
     emscripten_tag = version.to_s
     resource "fastcomp" do
       url "https://github.com/kripken/emscripten-fastcomp/archive/#{emscripten_tag}.tar.gz"
-      sha256 "3fc361151790574c7dfe4466a32dcb505abc930cf48dd941463880924228a3d5"
+      sha256 "e73d8852d78aa466519d2fc4dc902a2069e0e7cc3cc0446bb0264133c7e9c5c9"
     end
 
     resource "fastcomp-clang" do
       url "https://github.com/kripken/emscripten-fastcomp-clang/archive/#{emscripten_tag}.tar.gz"
-      sha256 "d33574f378acde198a2407a88cfa2725d8853dee535f982ec5fac92b4180f3aa"
+      sha256 "d7c8761652eafca1eaec0484f6021c14a5e6fbfc922d0b2551e37be458e39c8d"
     end
   end
 
   bottle do
     cellar :any
-    sha256 "3ba028cdf213d7b16a5e3e02cdc56ee764b9c33ba766dc8b92f4fff1776c6a71" => :sierra
-    sha256 "677061138bcf255c8477cc0d7e7b5a28ef06a08fcf648caf4f94fe59c49bcfe3" => :el_capitan
-    sha256 "b6002584df9beb35ac3d64503fc936c2d666b302a5dd5a980a47efccfa8de760" => :yosemite
+    sha256 "dcffc8f923f474ed0d8ce48b67eafceeea3342903a950f76f43c130130e2683f" => :sierra
+    sha256 "4fdcb331fcc82c2c8721d04895f0d261db5dfc9728c92466bfeb8066dd3aa1af" => :el_capitan
+    sha256 "ec5ca32b012b0ff952d08872e2cf2bbb41c1e6011ab7173c6bf2c3028503e37f" => :yosemite
   end
 
   head do
@@ -89,7 +89,7 @@ class Emscripten < Formula
   def caveats; <<-EOS.undent
     Manually set LLVM_ROOT to
       #{opt_libexec}/llvm/bin
-    and uncomment BINARYEN_ROOT
+    and comment out BINARYEN_ROOT
     in ~/.emscripten after running `emcc` for the first time.
     EOS
   end

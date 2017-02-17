@@ -61,7 +61,7 @@ class Pypy < Formula
     ENV["PYPY_USESSION_DIR"] = buildpath
 
     python = "python"
-    if build.with?("bootstrap") && OS.mac? && MacOS.preferred_arch == :x86_64
+    if build.with?("bootstrap") && MacOS.prefer_64_bit?
       resource("bootstrap").stage buildpath/"bootstrap"
       python = buildpath/"bootstrap/bin/pypy"
     end
@@ -81,9 +81,9 @@ class Pypy < Formula
     end
 
     (libexec/"lib").install libexec/"bin/libpypy-c.dylib"
-    system "install_name_tool", "-change", "@rpath/libpypy-c.dylib",
-                                "#{libexec}/lib/libpypy-c.dylib",
-                                "#{libexec}/bin/pypy"
+    MachO::Tools.change_install_name("#{libexec}/bin/pypy",
+                                     "@rpath/libpypy-c.dylib",
+                                     "#{libexec}/lib/libpypy-c.dylib")
 
     # The PyPy binary install instructions suggest installing somewhere
     # (like /opt) and symlinking in binaries as needed. Specifically,
@@ -148,7 +148,7 @@ class Pypy < Formula
     To update setuptools and pip between pypy releases, run:
         pip_pypy install --upgrade pip setuptools
 
-    See: https://github.com/Homebrew/brew/blob/master/docs/Homebrew-and-Python.md
+    See: http://docs.brew.sh/Homebrew-and-Python.html
     EOS
   end
 

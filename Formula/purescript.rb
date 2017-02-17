@@ -5,25 +5,14 @@ class Purescript < Formula
 
   desc "Strongly typed programming language that compiles to JavaScript"
   homepage "http://www.purescript.org"
+  url "https://github.com/purescript/purescript/archive/v0.10.7.tar.gz"
+  sha256 "059c016dc4af550f1f39db55095488653795025d72023fdcbab366d0c4af704e"
   head "https://github.com/purescript/purescript.git"
 
-  stable do
-    url "https://github.com/purescript/purescript/archive/v0.10.2.tar.gz"
-    sha256 "4b5663e2a5ebb7a2e432f951d0a5d0ddfa08f18304827ec33f609d9b3c1c3fe7"
-
-    # Remove for > 0.10.2
-    # Upstream commit "Fix GHC 8.0.2 build"
-    patch do
-      url "https://github.com/purescript/purescript/commit/46f573a.patch"
-      sha256 "6a070c6890480613cf3876da34118aad9bb48c8cf5ca1f285adf69d4f9d99a1b"
-    end
-  end
-
   bottle do
-    rebuild 1
-    sha256 "9061f02205436efeedb0350cec40f81aeb1c714bf3be6ec1ffa2d23a9036cf7b" => :sierra
-    sha256 "3d20149072a5c931af2f8d7f7c909c354bcf6babceb786c5660775bdfe28341c" => :el_capitan
-    sha256 "549f565313ff57b8bf4b1b7ef7dd07771d3501b24945b25f1ff8bcad20a15b00" => :yosemite
+    sha256 "1cfbe96996e3e66500df1ae97f5701d8e10eec7fb3c95f4706ac947dbedd1863" => :sierra
+    sha256 "dbe6d2bbc294b0177736f537547b22886491814c2eeb7f911ce8b3d883e7fad8" => :el_capitan
+    sha256 "10a9d1cb56b8db272d770c5def376c50fc3ddca69be52a9d31da5cacba390f8e" => :yosemite
   end
 
   depends_on "ghc" => :build

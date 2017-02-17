@@ -2,15 +2,16 @@ class DockerMachineDriverXhyve < Formula
   desc "Docker Machine driver for xhyve"
   homepage "https://github.com/zchee/docker-machine-driver-xhyve"
   url "https://github.com/zchee/docker-machine-driver-xhyve.git",
-    :tag => "v0.3.0",
-    :revision => "b74c23dc15666ad6d5ccdd207b87a6c44bdd584d"
+    :tag => "v0.3.1",
+    :revision => "ab0aebaeba32c3a3ca3c201c1e02dc35dd862c99"
 
   head "https://github.com/zchee/docker-machine-driver-xhyve.git"
 
   bottle do
-    sha256 "f650f9a530c52b62d6aeaeca51453f2488155f9c3b9e7ee6fec8f1006f4bad3b" => :sierra
-    sha256 "4425bd727de66f57cc15f4c14d10cf764a1e968ac19022ead3f5144b3d859934" => :el_capitan
-    sha256 "6042fe21e3e6e6feb46273796d5cbe9ba307ea73e3e6c40135f23e5e820f411d" => :yosemite
+    rebuild 2
+    sha256 "2e654baa07d35b1058324e4f9f3826fa4ced2a0d354741c3000b654137f44819" => :sierra
+    sha256 "3a6a8810cd7600ab4f00f185f6e379c8e741a57d71159d0edf1c9a316a861c42" => :el_capitan
+    sha256 "66a1fd8dde1dac18630b7c808b0babfc13f4735a0e208dde8ab4ea12ceab29a6" => :yosemite
   end
 
   option "without-qcow2", "Do not support qcow2 disk image format"
@@ -51,6 +52,7 @@ class DockerMachineDriverXhyve < Formula
       go_ldflags = "-w -s -X 'github.com/zchee/docker-machine-driver-xhyve/xhyve.GitCommit=Homebrew#{git_hash}'"
       ENV["GO_LDFLAGS"] = go_ldflags
       ENV["GO_BUILD_TAGS"] = build_tags
+      ENV["LIBEV_FILE"] = "#{Formula["libev"].opt_lib}/libev.a"
       system "make", "lib9p"
       system "make", "build"
       bin.install "bin/docker-machine-driver-xhyve"
@@ -60,8 +62,8 @@ class DockerMachineDriverXhyve < Formula
   def caveats; <<-EOS.undent
     This driver requires superuser privileges to access the hypervisor. To
     enable, execute
-        sudo chown root:wheel $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve
-        sudo chmod u+s $(brew --prefix)/opt/docker-machine-driver-xhyve/bin/docker-machine-driver-xhyve
+        sudo chown root:wheel #{opt_prefix}/bin/docker-machine-driver-xhyve
+        sudo chmod u+s #{opt_prefix}/bin/docker-machine-driver-xhyve
     EOS
   end
 

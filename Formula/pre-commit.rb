@@ -3,14 +3,14 @@ class PreCommit < Formula
 
   desc "Framework for managing multi-language pre-commit hooks"
   homepage "http://pre-commit.com/"
-  url "https://github.com/pre-commit/pre-commit/archive/v0.9.3.tar.gz"
-  sha256 "5bf1c6a5d4364c272f6b73a6a364cd3d6afb96688bdf17b9839dc039d129e660"
+  url "https://github.com/pre-commit/pre-commit/archive/v0.13.1.tar.gz"
+  sha256 "07728299f15806780c028ccf8e66f36806a43a4271cc966ad98e02c0a3e609dc"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "a11c81a7dd7cc0ede5bf64e6e93e5a9d79b6855a6585360f4dc005872892905c" => :sierra
-    sha256 "ba9bda711435919b5b6d875e547270553572da1b3004a1daf8c0d975a0e5d3d7" => :el_capitan
-    sha256 "d365c509bccb23c47561f4684623909158e75bbbd3a4a86cf52deb9227270e71" => :yosemite
+    sha256 "ad763ec7d4d0be0173f0ac05fcf385ef586225485a161226e53a2a20edc282c3" => :sierra
+    sha256 "fe24ebfc6780fc28e9bd51e3f0a64457f32fce60c2013e332afe0508ad42b22f" => :el_capitan
+    sha256 "9e2d11ccad643a98ffe58130482e6b0661c9efc82f15d8767442ae4cdca97c52" => :yosemite
   end
 
   depends_on :python if MacOS.version <= :snow_leopard
@@ -31,13 +31,13 @@ class PreCommit < Formula
   end
 
   resource "jsonschema" do
-    url "https://files.pythonhosted.org/packages/58/0d/c816f5ea5adaf1293a1d81d32e4cdfdaf8496973aa5049786d7fdb14e7e7/jsonschema-2.5.1.tar.gz"
-    sha256 "36673ac378feed3daa5956276a829699056523d7961027911f064b52255ead41"
+    url "https://files.pythonhosted.org/packages/58/b9/171dbb07e18c6346090a37f03c7e74410a1a56123f847efed59af260a298/jsonschema-2.6.0.tar.gz"
+    sha256 "6ff5f3180870836cae40f06fa10419f557208175f13ad7bc26caa77beb1f6e02"
   end
 
   resource "nodeenv" do
-    url "https://files.pythonhosted.org/packages/fa/62/f3dc0d7b596f7187585520bca14c050909de88866e8f793338de907538cf/nodeenv-1.0.0.tar.gz"
-    sha256 "def2a6d927bef8d17c1776edbd5bbc8b7a5f0eee159af53b9924d559fc8d3202"
+    url "https://files.pythonhosted.org/packages/79/c1/c772f1e2beb5c67a1ce750a07e9ab790d44b9ff89cd9ff4356197ab68a8c/nodeenv-1.1.2.tar.gz"
+    sha256 "6e5e54b2520aff970a8a161750dedecc196b396b9436247859128e53ff7aa074"
   end
 
   resource "ordereddict" do
@@ -51,8 +51,8 @@ class PreCommit < Formula
   end
 
   resource "virtualenv" do
-    url "https://files.pythonhosted.org/packages/8b/2c/c0d3e47709d0458816167002e1aa3d64d03bdeb2a9d57c5bd18448fd24cd/virtualenv-15.0.3.tar.gz"
-    sha256 "6d9c760d3fc5fa0894b0f99b9de82a4647e1164f0b700a7f99055034bf548b1d"
+    url "https://files.pythonhosted.org/packages/d4/0c/9840c08189e030873387a73b90ada981885010dd9aea134d6de30cd24cb8/virtualenv-15.1.0.tar.gz"
+    sha256 "02f8102c2436bb03b3ee6dede1919d1dac8a427541652e5ec95171ec8adbc93a"
   end
 
   def install

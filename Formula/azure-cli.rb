@@ -3,16 +3,16 @@ require "language/node"
 class AzureCli < Formula
   desc "Official Azure CLI"
   homepage "https://github.com/azure/azure-xplat-cli"
-  url "https://github.com/Azure/azure-xplat-cli/archive/v0.10.7-November2016.tar.gz"
-  version "0.10.7"
-  sha256 "4015616bd3a95ec319db4e3e098bf7251120123528d34d1dcc985834057cf531"
+  url "https://github.com/Azure/azure-xplat-cli/archive/v0.10.9-February2017.tar.gz"
+  version "0.10.9"
+  sha256 "95daf39462bf455c844d573f7b0a5ac97a19fa6e9f02cdbd57c7e15e6f817aba"
   head "https://github.com/azure/azure-xplat-cli.git", :branch => "dev"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "c9230a0528af769a635bb36332b8f8840919b494d3b1f62791283f8fddfe2b52" => :sierra
-    sha256 "cb1dd8efa04bb98fcb761a1b9a68e10ec0f7e1e79ccb3722cd6f92d9d4e07937" => :el_capitan
-    sha256 "672dc427f88b4cd57bee9a54d0bc84b16479b97178018ea2ff8651ccea5765ad" => :yosemite
+    sha256 "8647ed163eb8f00d4aa477f0420dcd4d57ae4043568bc067d27fba2293191051" => :sierra
+    sha256 "4c6e63e72da60b23f9612b8282b1173106082050b6e4f63f84a525c5cc236395" => :el_capitan
+    sha256 "b1b5921132f84ff3c144d56a80b6102a8564a0b64fa65ad383c592b51cee9b7e" => :yosemite
   end
 
   depends_on "node"

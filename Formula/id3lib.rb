@@ -1,6 +1,6 @@
 class Id3lib < Formula
   desc "ID3 tag manipulation"
-  homepage "http://id3lib.sourceforge.net/"
+  homepage "https://id3lib.sourceforge.io/"
   revision 1
 
   stable do
@@ -53,11 +53,6 @@ class Id3lib < Formula
   patch do
     url "https://raw.githubusercontent.com/Homebrew/formula-patches/e223e971/id3lib/patch_id3lib_3.8.3_UTF16_writing_bug.diff"
     sha256 "71c79002d9485965a3a93e87ecbd7fed8f89f64340433b7ccd263d21385ac969"
-  end
-
-  fails_with :llvm do
-    build 2326
-    cause "Segfault during linking"
   end
 
   def install

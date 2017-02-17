@@ -1,21 +1,22 @@
 class Exim < Formula
   desc "Complete replacement for sendmail"
   homepage "https://exim.org"
-  url "http://ftp.exim.org/pub/exim/exim4/exim-4.87.tar.bz2"
-  mirror "https://www.mirrorservice.org/sites/ftp.exim.org/pub/exim/exim4/exim-4.87.tar.bz2"
-  sha256 "74691e0dff4d1b5d387e9c33c86f96a8f6d2adbc781c0dec9d2061a847b07dc9"
+  url "http://ftp.exim.org/pub/exim/exim4/exim-4.88.tar.bz2"
+  mirror "https://www.mirrorservice.org/sites/ftp.exim.org/pub/exim/exim4/exim-4.88.tar.bz2"
+  sha256 "119d5fd7e31fc224e84dfa458fe182f200856bae7adf852a8287c242161f8a2d"
+  revision 1
 
   bottle do
-    sha256 "ae1edaa9bf887ede5ed4b3617486b02b9e40ca693beacf6f6eee264be1d5de73" => :sierra
-    sha256 "55453f4af7c7d9c0484869ac923fc7ff4e49e866ec70cedff00cd12358466dd7" => :el_capitan
-    sha256 "033f2c0465b702ea98b89c74858be24026215c957504ab695c57daefd2c60d7e" => :yosemite
+    sha256 "9f30aa0e9a3bcf526f46cfb2a00e9b74f31a41285e7eb3f33c415481354932d6" => :sierra
+    sha256 "a267c527f5972746372c7fe0737b157ef30e4d16a3615da6f828fd3ee97be5d7" => :el_capitan
+    sha256 "7133e4f8b62324185d339d9601b72c4d8b3e749b7da2d76e165fa0594b0b85af" => :yosemite
   end
 
   deprecated_option "support-maildir" => "with-maildir"
   option "with-maildir", "Support delivery in Maildir format"
 
   depends_on "pcre"
-  depends_on "berkeley-db4"
+  depends_on "berkeley-db@4"
   depends_on "openssl"
 
   def install
@@ -40,7 +41,7 @@ class Exim < Formula
       s << "LOOKUP_LIBS=-L#{HOMEBREW_PREFIX}/lib\n"
     end
 
-    bdb4 = Formula["berkeley-db4"]
+    bdb4 = Formula["berkeley-db@4"]
 
     inreplace "OS/Makefile-Darwin" do |s|
       s.remove_make_var! %w[CC CFLAGS]
@@ -52,7 +53,7 @@ class Exim < Formula
     # The compile script ignores CPPFLAGS
     ENV.append "CFLAGS", ENV.cppflags
 
-    ENV.j1 # See: https://lists.exim.org/lurker/thread/20111109.083524.87c96d9b.en.html
+    ENV.deparallelize # See: https://lists.exim.org/lurker/thread/20111109.083524.87c96d9b.en.html
     system "make"
     system "make", "INSTALL_ARG=-no_chown", "install"
     man8.install "doc/exim.8"

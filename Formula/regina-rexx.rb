@@ -1,6 +1,6 @@
 class ReginaRexx < Formula
   desc "Regina REXX interpreter"
-  homepage "http://regina-rexx.sourceforge.net/"
+  homepage "https://regina-rexx.sourceforge.io/"
   url "https://downloads.sourceforge.net/project/regina-rexx/regina-rexx/3.9.1/Regina-REXX-3.9.1.tar.gz"
   sha256 "5d13df26987e27f25e7779a2efa87a5775213beeda449a9efac59b57a5d5f3ee"
 
@@ -13,7 +13,7 @@ class ReginaRexx < Formula
   end
 
   def install
-    ENV.j1 # No core usage for you, otherwise race condition = missing files.
+    ENV.deparallelize # No core usage for you, otherwise race condition = missing files.
     system "./configure", "--disable-debug",
                           "--prefix=#{prefix}"
     system "make", "install"

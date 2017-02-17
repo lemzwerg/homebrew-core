@@ -4,21 +4,19 @@ class Kibana < Formula
   desc "Analytics and search dashboard for Elasticsearch"
   homepage "https://www.elastic.co/products/kibana"
   url "https://github.com/elastic/kibana.git",
-      :tag => "v5.0.1",
-      :revision => "2ee15d7ceb10d52bef0e5ee58d3f9c5a238cb786"
-
+      :tag => "v5.2.1",
+      :revision => "03953ddae5c505842cc39d2df349b7e35f30ee5b"
   head "https://github.com/elastic/kibana.git"
 
   bottle do
-    rebuild 1
-    sha256 "9bf8ec904e360c79789437b60de46f07ee66d008fc13ca06f1def185118a50d0" => :sierra
-    sha256 "70f6065a8c68da91d1bf8e9c49625ab90cca2b46c29f251e0fec58eb5b386490" => :el_capitan
-    sha256 "17e98ff8c6b21e2b168d253334b93bac97c0f6af0a7f1d64e0b15ef6e180a790" => :yosemite
+    sha256 "190c3cfd9f2faa102c5760b0792ab9e8add7dd410fb4c5683006a12516e83150" => :sierra
+    sha256 "8e851b92e1878cf5f6de03a133b2b689ec773d449f0300340fe82e9d5eab1e8c" => :el_capitan
+    sha256 "c4260914193f719bcab3037ed008147dd631e2d905d81ce94b714bf0abcdee69" => :yosemite
   end
 
   resource "node" do
-    url "https://nodejs.org/dist/v7.1.0/node-v7.1.0.tar.xz" # N.B. includes vendored dependencies
-    sha256 "55ae831a2090e3af71b8f071dc5599922e5c752a2e40d77cbfd4a39d22cf4981"
+    url "https://nodejs.org/dist/v6.9.0/node-v6.9.0.tar.xz" # N.B. includes vendored dependencies
+    sha256 "656342ed8a84c95a36af902f309aeeca7103b16d61c02925bd37bd47d2194915"
   end
 
   def install
@@ -30,10 +28,8 @@ class Kibana < Formula
 
     # do not build packages for other platforms
     platforms = Set.new(["darwin-x64", "linux-x64", "linux-x86", "windows-x86"])
-    if OS.mac? && Hardware::CPU.is_64_bit?
+    if MacOS.prefer_64_bit?
       platform = "darwin-x64"
-    elsif OS.linux?
-      platform = Hardware::CPU.is_64_bit? ? "linux-x64" : "linux-x86"
     else
       raise "Installing Kibana via Homebrew is only supported on Darwin x86_64, Linux i386, Linux i686, and Linux x86_64"
     end
@@ -53,6 +49,7 @@ class Kibana < Formula
     prefix.install Dir["build/kibana-#{version}-#{platform.sub("x64", "x86_64")}/{bin,config,node_modules,optimize,package.json,src,webpackShims}"]
 
     inreplace "#{bin}/kibana", %r{/node/bin/node}, "/libexec/node/bin/node"
+    inreplace "#{bin}/kibana-plugin", %r{/node/bin/node}, "/libexec/node/bin/node"
 
     cd prefix do
       inreplace "config/kibana.yml", "/var/run/kibana.pid", var/"run/kibana.pid"

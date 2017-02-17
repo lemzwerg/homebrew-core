@@ -3,14 +3,14 @@ class Pdf2htmlex < Formula
   homepage "https://coolwanglu.github.io/pdf2htmlEX/"
   url "https://github.com/coolwanglu/pdf2htmlEX/archive/v0.14.6.tar.gz"
   sha256 "320ac2e1c2ea4a2972970f52809d90073ee00a6c42ef6d9833fb48436222f0e5"
-  revision 8
+  revision 10
 
   head "https://github.com/coolwanglu/pdf2htmlEX.git"
 
   bottle do
-    sha256 "333b73760cb9cf116edf5c1ad34ffd8871a20bcb6c28c73d323e123090f89dc9" => :sierra
-    sha256 "f6b45949e607e19ad88fa27aa2affc74159818285b3d145ca5006acf06a50380" => :el_capitan
-    sha256 "b2696e3375f55930558b3049a9cf12fbbf8fd8be274572b201f5d1c327ef6b48" => :yosemite
+    sha256 "92017c148cb879d5ce360a1c85f188361d8c52fad2d8d3dece2b2c88ba57441d" => :sierra
+    sha256 "70ffaa20785537e43ecd9a8989536b38644a71a831271aa0a7605e0210c9d709" => :el_capitan
+    sha256 "2bb953eb7e4b8c29c0b4af2f276571b904b42cb5fcab3e1aa36e9c08c3755e5b" => :yosemite
   end
 
   depends_on :macos => :lion
@@ -38,12 +38,6 @@ class Pdf2htmlex < Formula
   # See https://github.com/coolwanglu/pdf2htmlEX/wiki/Building
   resource "fontforge" do
     url "https://github.com/coolwanglu/fontforge.git", :branch => "pdf2htmlEX"
-  end
-
-  # And failures
-  fails_with :llvm do
-    build 2336
-    cause "Compiling cvexportdlg.c fails with error: initializer element is not constant"
   end
 
   def install

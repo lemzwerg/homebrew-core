@@ -1,7 +1,7 @@
 class Pypy3 < Formula
   desc "Implementation of Python 3 in Python"
   homepage "http://pypy.org/"
-  url "https://bitbucket.org/pypy/pypy/downloads/pypy3.3-v5.5.0-alpha-src.tar.bz2"
+  url "https://dl.bintray.com/homebrew/mirror/pypy3-5.5.0.tar.bz2"
   sha256 "d5591c34d77253e9ed57d182b6f49585b95f7c09c3e121f0e8630e5a7e75ab5f"
 
   bottle do
@@ -57,7 +57,7 @@ class Pypy3 < Formula
     ENV["PYPY_USESSION_DIR"] = buildpath
 
     python = "python"
-    if build.with?("bootstrap") && OS.mac? && MacOS.preferred_arch == :x86_64
+    if build.with?("bootstrap") && MacOS.prefer_64_bit?
       resource("bootstrap").stage buildpath/"bootstrap"
       python = buildpath/"bootstrap/bin/pypy"
     end
@@ -79,8 +79,11 @@ class Pypy3 < Formula
 
     (libexec/"lib").install libexec/"bin/libpypy-c.dylib" => "libpypy3-c.dylib"
 
-    system "install_name_tool", "-change", "@rpath/libpypy-c.dylib", libexec/"lib/libpypy3-c.dylib", "#{libexec}/bin/pypy3.3"
-    system "install_name_tool", "-id", opt_libexec/"lib/libpypy3-c.dylib", libexec/"lib/libpypy3-c.dylib"
+    MachO::Tools.change_install_name("#{libexec}/bin/pypy3.3",
+                                     "@rpath/libpypy-c.dylib",
+                                     "#{libexec}/lib/libpypy3-c.dylib")
+    MachO::Tools.change_dylib_id("#{libexec}/lib/libpypy3-c.dylib",
+                                 "#{opt_libexec}/lib/libpypy3-c.dylib")
 
     (libexec/"lib-python").install "lib-python/3"
     libexec.install %w[include lib_pypy]
@@ -148,7 +151,7 @@ class Pypy3 < Formula
     To update pip and setuptools between pypy3 releases, run:
         pip_pypy3 install --upgrade pip setuptools
 
-    See: https://github.com/Homebrew/brew/blob/master/docs/Homebrew-and-Python.md
+    See: http://docs.brew.sh/Homebrew-and-Python.html
     EOS
   end
 

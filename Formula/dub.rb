@@ -1,34 +1,34 @@
 class Dub < Formula
   desc "Build tool for D projects"
-  homepage "https://code.dlang.org/about"
-  url "https://github.com/dlang/dub.git",
-      :tag => "v1.0.0",
-      :revision => "b59af2b8befb4fad4157d8c9cc86dba707b2fc87"
+  homepage "https://code.dlang.org/getting_started"
+  url "https://github.com/dlang/dub/archive/v1.2.0.tar.gz"
+  sha256 "836caddb30ad5972a453269b027f614d51b5fd2f751a0fe63cfeb0be7388a8e9"
+  version_scheme 1
 
-  head "https://github.com/dlang/dub.git", :shallow => false
+  head "https://github.com/dlang/dub.git"
 
   bottle do
-    sha256 "68fcb18d5b548c8e676809ab318354ebea47950b5a4a5ff8ff20cb05d9ae2a0e" => :sierra
-    sha256 "51a032793dc4671d6c12172ef29c38c98998dcd4b6aa501be2a5d35248b27244" => :el_capitan
-    sha256 "d438a6fde4094513dd9f5ea30a7aa672e7dc6b764033fd4405adfb37861e49ad" => :yosemite
-    sha256 "5bab5095000421e561fbf41268c615e079023b86a0d6d7ed00328ab52a7db906" => :mavericks
+    sha256 "f286985ce85ceb50e94011ce34b049ae4a5be725a53ca638ebb4e984ca3df8e9" => :sierra
+    sha256 "f286985ce85ceb50e94011ce34b049ae4a5be725a53ca638ebb4e984ca3df8e9" => :el_capitan
+    sha256 "c5321228092bf1ad8c22ac3c822cf06f92bb3a5dc4844b944929e0365a4bce65" => :yosemite
   end
 
   devel do
-    url "https://github.com/dlang/dub.git",
-        :tag => "v1.1.0-beta.1",
-        :revision => "1824d16056a680fcca52d3ce87fb43d3679ff3ee"
+    url "https://github.com/dlang/dub/archive/v1.2.1-beta.2.tar.gz"
+    sha256 "9074c1ba26992f3d3911ee718a34761d313018d0f2055b6f40ba42d0792e6110"
+    version "1.2.1-beta.2"
   end
 
-  depends_on "pkg-config" => :build
+  depends_on "pkg-config" => [:recommended, :run]
   depends_on "dmd" => :build
 
   def install
+    ENV["GITVER"] = version.to_s
     system "./build.sh"
     bin.install "bin/dub"
   end
 
   test do
-    system "#{bin}/dub; true"
+    assert_match version.to_s, shell_output("#{bin}/dub --version")
   end
 end

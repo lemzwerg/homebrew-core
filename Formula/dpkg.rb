@@ -1,14 +1,17 @@
 class Dpkg < Formula
   desc "Debian package management system"
   homepage "https://wiki.debian.org/Teams/Dpkg"
-  url "https://mirrors.ocf.berkeley.edu/debian/pool/main/d/dpkg/dpkg_1.18.14.tar.xz"
-  mirror "https://mirrorservice.org/sites/ftp.debian.org/debian/pool/main/d/dpkg/dpkg_1.18.14.tar.xz"
-  sha256 "1788e418526049097fb3d8f68d5a75053c19693ab1fa47a506a7ef80db454d5a"
+  # Please always keep the Homebrew mirror as the primary URL as the
+  # dpkg site removes tarballs regularly which means we get issues
+  # unnecessarily and older versions of the formula are broken.
+  url "https://dl.bintray.com/homebrew/mirror/dpkg-1.18.18.tar.xz"
+  mirror "https://mirrors.ocf.berkeley.edu/debian/pool/main/d/dpkg/dpkg_1.18.18.tar.xz"
+  sha256 "c88b61e3d4660500753142689e8ddbeff1c731f29549f3338e6975f655936ff5"
 
   bottle do
-    sha256 "c02d531b3bc8703b33cc273c9328965001dd633eb30b85a160cc80029c7433dd" => :sierra
-    sha256 "caed995e71a8391703fd4c7163166ed7b8c70c7c4c771331e4d07c63accd7854" => :el_capitan
-    sha256 "22f6cbc86d79f546e7e90010a391d183664b02c4bc9e537f202de66ae9ceb6a8" => :yosemite
+    sha256 "0cb724b24e6259a1b792d081fca589925809f841b271c57b3ca5bb9100299412" => :sierra
+    sha256 "a612146da7dffef7b2324726b07237e7af9ab67215f9b05ca4825adb4c5b6cb5" => :el_capitan
+    sha256 "990103f2fada3040e5056d492a331bb0ba4defb921d1f66abcd452851e3940ed" => :yosemite
   end
 
   depends_on "pkg-config" => :build
@@ -25,7 +28,7 @@ class Dpkg < Formula
     # Using an env and scripting is a solution less likely to break over time.
     # Both variables need to be set. One is compile-time, the other run-time.
     ENV["PERL_LIBDIR"] = libexec/"lib/perl5"
-    ENV.prepend_create_path "PERL5LIB", libexec+"lib/perl5"
+    ENV.prepend_create_path "PERL5LIB", libexec/"lib/perl5"
 
     system "./configure", "--disable-dependency-tracking",
                           "--disable-silent-rules",
@@ -33,7 +36,6 @@ class Dpkg < Formula
                           "--sysconfdir=#{etc}",
                           "--localstatedir=#{var}",
                           "--disable-dselect",
-                          "--disable-linker-optimisations",
                           "--disable-start-stop-daemon"
     system "make"
     system "make", "install"

@@ -1,8 +1,8 @@
 class Grails < Formula
   desc "Web application framework for the Groovy language"
   homepage "https://grails.org"
-  url "https://github.com/grails/grails-core/releases/download/v3.2.3/grails-3.2.3.zip"
-  sha256 "1770d6e16cbb9f8f4f41b00ebeaf0bb837343b99bab100fc2fc136e6c46e471b"
+  url "https://github.com/grails/grails-core/releases/download/v3.2.6/grails-3.2.6.zip"
+  sha256 "58d587b81dcafdea8185426c2960fe8ca01156c8d3abe775da44710f7b478d05"
 
   bottle :unneeded
 

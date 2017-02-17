@@ -1,15 +1,16 @@
 class CabalInstall < Formula
   desc "Command-line interface for Cabal and Hackage"
   homepage "https://www.haskell.org/cabal/"
-  url "https://hackage.haskell.org/package/cabal-install-1.24.0.1/cabal-install-1.24.0.1.tar.gz"
-  sha256 "09f5fd8a2aa7f9565800a711a133f8142d36d59b38f59da09c25045b83ee9ecc"
+  url "https://hackage.haskell.org/package/cabal-install-1.24.0.2/cabal-install-1.24.0.2.tar.gz"
+  sha256 "2ac8819238a0e57fff9c3c857e97b8705b1b5fef2e46cd2829e85d96e2a00fe0"
+  revision 3
   head "https://github.com/haskell/cabal.git", :branch => "1.24"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "6f92816c3fe71d682e60f9f99c07e433afea918cb336837285360a392c691f29" => :sierra
-    sha256 "06322e1984dd2ecbdadd192938ca3e077ced5ad7fc132875a3d0974d5510ceae" => :el_capitan
-    sha256 "5f2c2e13c80b41d3e088614cddc3e63ff286bb8e9aa31b282b74370671ecd342" => :yosemite
+    sha256 "d26d08a85d812cf89fd64e69b8ab3e28910c2d302ac661a9f572f6782bb06e80" => :sierra
+    sha256 "b537288f76b6d125eac1b2a1b0ef3b2140a60ca592fa5f5573bab1a9fcedef9a" => :el_capitan
+    sha256 "f58112b5b74e0056013daf2ac47b0f20393904557ff4f994ef5361e0ce3db343" => :yosemite
   end
 
   depends_on "ghc"
@@ -19,10 +20,6 @@ class CabalInstall < Formula
   def install
     cd "cabal-install" if build.head?
 
-    # Fix "'Distribution.Simple.Configure' does not export 'computeEffectiveProfiling'"
-    # Equivalent to upstream PR from 16 Nov 2016 https://github.com/haskell/cabal/pull/4117
-    inreplace "bootstrap.sh", 'CABAL_VER_REGEXP="1\.24\.[0-9]"',
-                              'CABAL_VER_REGEXP="1\.24\.[1-9]"'
     system "sh", "bootstrap.sh", "--sandbox"
     bin.install ".cabal-sandbox/bin/cabal"
     bash_completion.install "bash-completion/cabal"

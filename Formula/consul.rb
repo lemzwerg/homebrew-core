@@ -2,17 +2,17 @@ class Consul < Formula
   desc "Tool for service discovery, monitoring and configuration"
   homepage "https://www.consul.io"
   url "https://github.com/hashicorp/consul.git",
-      :tag => "v0.7.1",
-      :revision => "a9455cd4fc2809570ff1855c37d6ffc2449bd42f"
+      :tag => "v0.7.5",
+      :revision => "21f2d5ad0c02af6c4b32d8fd04f7c81e9b002d41"
 
   head "https://github.com/hashicorp/consul.git",
        :shallow => false
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "79f10c6083b5bcadf6a989ae4e870bd4e73f66a89af8b1e4f35d0c646f53fe50" => :sierra
-    sha256 "102dadb359f912705a619cb4f02c488d8df1ec9d7fc8d9188c9b0cce1daa5bc1" => :el_capitan
-    sha256 "f2d3a6a1c0a9585c4f71aabe225b1c8f0b1795eef7b6cee54e6e49b175499471" => :yosemite
+    sha256 "fed00cf7677f80ab9753be922249029003a921866c7ca07913d9458fcea0d52a" => :sierra
+    sha256 "2fde33678aef166eeb343ceba062daccd299a6b128f428f76b085f732aa97db7" => :el_capitan
+    sha256 "79fd7895a1bac4eae595f9ec2e91ac67e79ad46e9e4c019b1a2d94cf3f260215" => :yosemite
   end
 
   option "with-web-ui", "Installs the consul web ui"
@@ -20,8 +20,8 @@ class Consul < Formula
   depends_on "go" => :build
 
   resource "web-ui" do
-    url "https://releases.hashicorp.com/consul/0.7.1/consul_0.7.1_web_ui.zip"
-    sha256 "1b793c60e1af24cc470421d0411e13748f451b51d8a6ed5fcabc8d00bfb84264"
+    url "https://releases.hashicorp.com/consul/0.7.5/consul_0.7.5_web_ui.zip"
+    sha256 "a7803e7ba2872035a7e1db35c8a2186ad238bf0f90eb441ee4663a872b598af4"
   end
 
   def install
