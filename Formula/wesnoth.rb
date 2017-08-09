@@ -1,15 +1,15 @@
 class Wesnoth < Formula
   desc "Single- and multi-player turn-based strategy game"
-  homepage "http://www.wesnoth.org/"
-  url "https://downloads.sourceforge.net/project/wesnoth/wesnoth-1.12/wesnoth-1.12.4/wesnoth-1.12.4.tar.bz2"
-  sha256 "bf525060da4201f1e62f861ed021f13175766e074a8a490b995052453df51ea7"
-
+  homepage "https://www.wesnoth.org/"
+  url "https://downloads.sourceforge.net/project/wesnoth/wesnoth-1.12/wesnoth-1.12.6/wesnoth-1.12.6.tar.bz2"
+  sha256 "a50f384cead15f68f31cfa1a311e76a12098428702cb674d3521eb169eb92e4e"
+  revision 2
   head "https://github.com/wesnoth/wesnoth.git"
 
   bottle do
-    sha256 "f5152f725924178af6172de9dc712470195d4df061e1e17556a4610bdfa895ca" => :sierra
-    sha256 "ff711ce841b40bf9737ff9284edf505c4784aec3617dee3faae01ef85ddeea3b" => :el_capitan
-    sha256 "9808f9d078a039a3d95f2f1313c97de24036c6f5766181c7ccd07cb87916cd04" => :yosemite
+    sha256 "0eab287604f183bff52439b413879a630ca8ce62833131540bc147294c8ad457" => :sierra
+    sha256 "bd9f859488d70e12dbcae79d2aa28250f1cc6311808eb2cb13a372992a0ee639" => :el_capitan
+    sha256 "9bc94966a6746592913681f2665c35e8bb1c3c90d9d061505d4cf9cbfb4e9e26" => :yosemite
   end
 
   option "with-ccache", "Speeds recompilation, convenient for beta testers"
@@ -27,7 +27,7 @@ class Wesnoth < Formula
 
   depends_on "sdl"
   depends_on "sdl_image" # Must have png support
-  depends_on "sdl_mixer" => "with-libvorbis" # The music is in .ogg format
+  depends_on "sdl_mixer" # The music is in .ogg format
   depends_on "sdl_net"
   depends_on "sdl_ttf"
 

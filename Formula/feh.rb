@@ -1,13 +1,13 @@
 class Feh < Formula
   desc "X11 image viewer"
   homepage "https://feh.finalrewind.org/"
-  url "https://feh.finalrewind.org/feh-2.18.1.tar.bz2"
-  sha256 "4c3840285eaf7ad474547d12870430d0392efdce4cf897666aa1ab02612e65b2"
+  url "https://feh.finalrewind.org/feh-2.19.tar.bz2"
+  sha256 "cebe25d8393a07aa79a6b2f99beb133d8de0cbc00d46bccc4df276248cc9d0e9"
 
   bottle do
-    sha256 "c22edfd8e61da97c2f63cceb67a4452a98fe4a75aef65fc2b396ce83f9285998" => :sierra
-    sha256 "10b1b52be19171334116dfcab3384e180c10109891ee64c0536718fb2b870fe6" => :el_capitan
-    sha256 "668a4a8795060259d0e87e5de1180b2301441168da58ee93467459d47bdb3b78" => :yosemite
+    sha256 "858a26743f98e82c10f2c8acf417320118f7a66dd545f71b88a09ac9a90adcf1" => :sierra
+    sha256 "0dc600aee784261ae78b080042b460c8c3c3489101de2aee4eab8a130cdbae31" => :el_capitan
+    sha256 "29bd7a493ef6948e58540b8990bd37a70c0327130422a8f988660fd5bffbe2e0" => :yosemite
   end
 
   depends_on :x11

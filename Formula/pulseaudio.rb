@@ -1,14 +1,13 @@
 class Pulseaudio < Formula
   desc "Sound system for POSIX OSes"
   homepage "https://wiki.freedesktop.org/www/Software/PulseAudio/"
-  url "https://www.freedesktop.org/software/pulseaudio/releases/pulseaudio-10.0.tar.xz"
-  sha256 "a3186824de9f0d2095ded5d0d0db0405dc73133983c2fbb37291547e37462f57"
-  revision 2
+  url "https://www.freedesktop.org/software/pulseaudio/releases/pulseaudio-10.99.1.tar.xz"
+  sha256 "c9791844569d8d0adb468c183d0d9fb6ac12b9db34a4a078a7773c8bac993f32"
 
   bottle do
-    sha256 "dd04c95709c64a4ea74cfa929d0dc2ddc6fd9473df163bf7e72310baa22b1653" => :sierra
-    sha256 "22eb7493320be8bf4c41ed227149d045eaffb8c132df9b8ad8b7b69ed3e085ce" => :el_capitan
-    sha256 "657b7acd39bbc8ccd790fed5396ff3b5de08667f039cabe7481cc259ddb6f005" => :yosemite
+    sha256 "5f1dbafa53bd5cc117e08d8c1c6207fcbb42865e3e8d202742cb9dc03971c6cb" => :sierra
+    sha256 "4a84b0cfa38aa689c2e542e235a64d15cd8d5dd447eb4f7b03a6a11985e0d3dc" => :el_capitan
+    sha256 "fc358d4cfc3b4d3a0e7822d09909cbe133842aced9e8eb10c64133f52d7f9770" => :yosemite
   end
 
   head do
@@ -70,7 +69,28 @@ class Pulseaudio < Formula
     system "make", "install"
   end
 
+  plist_options :manual => "pulseaudio"
+
+  def plist; <<-EOS.undent
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+    <plist version="1.0">
+    <dict>
+      <key>Label</key>
+      <string>#{plist_name}</string>
+      <key>ProgramArguments</key>
+      <array>
+        <string>#{opt_bin}/pulseaudio</string>
+        <string>--start</string>
+      </array>
+      <key>RunAtLoad</key>
+      <true/>
+    </dict>
+    </plist>
+    EOS
+  end
+
   test do
-    system bin/"pulseaudio", "--dump-modules"
+    assert_match "module-sine", shell_output("#{bin}/pulseaudio --dump-modules")
   end
 end

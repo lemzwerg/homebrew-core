@@ -1,17 +1,27 @@
+require "language/node"
+
 class Heroku < Formula
-  desc "Everything you need to get started with Heroku"
+  desc "Command-line client for the cloud PaaS"
   homepage "https://cli.heroku.com"
-  url "https://cli-assets.heroku.com/branches/stable/5.6.11-3b6a56e/heroku-v5.6.11-3b6a56e-darwin-amd64.tar.xz"
-  version "5.6.11-3b6a56e"
-  sha256 "a69969374ca559f0f1e76905ef6ae856280d2cce859e7cd68357c201ef96a99d"
+  url "https://registry.npmjs.org/heroku-cli/-/heroku-cli-6.13.10.tgz"
+  sha256 "0ad0cfd7d827bca4589a864787c1fb103a41aa71699ba5de0d01ddd86f89d278"
+  head "https://github.com/heroku/cli.git"
 
-  bottle :unneeded
+  bottle do
+    cellar :any_skip_relocation
+    sha256 "0365059200d8d25e037d70bf1d40fe8a95185a4e4e25e7c183e6eec6d6dbafb1" => :sierra
+    sha256 "a64da507fd31df86235552a8aea22e5e652292261e49ab1be94aeca846a00029" => :el_capitan
+    sha256 "64df1ee30c0bec07800a0ab7d148880fd866b5876264e3ab57d3084bf4936849" => :yosemite
+  end
 
-  depends_on :arch => :x86_64
+  depends_on "node"
 
   def install
-    libexec.install Dir["*"]
-    bin.install_symlink libexec/"bin/heroku"
+    inreplace "bin/run.js", "npm update -g heroku-cli", "brew upgrade heroku"
+    inreplace "bin/run", "node \"$DIR/run.js\"",
+                         "#{Formula["node"].opt_bin}/node \"$DIR/run.js\""
+    system "npm", "install", *Language::Node.std_npm_install_args(libexec)
+    bin.install_symlink Dir["#{libexec}/bin/*"]
   end
 
   test do

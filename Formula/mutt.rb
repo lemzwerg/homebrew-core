@@ -10,14 +10,14 @@
 class Mutt < Formula
   desc "Mongrel of mail user agents (part elm, pine, mush, mh, etc.)"
   homepage "http://www.mutt.org/"
-  url "https://bitbucket.org/mutt/mutt/downloads/mutt-1.7.2.tar.gz"
-  mirror "ftp://ftp.mutt.org/pub/mutt/mutt-1.7.2.tar.gz"
-  sha256 "1553501687cd22d5b8aaee4dc5a7d9dcf6cc61d7956f6aabaadd252d10cd5ff9"
+  url "https://bitbucket.org/mutt/mutt/downloads/mutt-1.8.3.tar.gz"
+  mirror "ftp://ftp.mutt.org/pub/mutt/mutt-1.8.3.tar.gz"
+  sha256 "9b81746d67ffeca5ea44f60893b70dc93c86d4bc10187d4dd360185e4d42ed42"
 
   bottle do
-    sha256 "1657ad34c085ac8db3ce49f415423ca57d479417e3f6128064dc85a68a18248f" => :sierra
-    sha256 "b91545069060c8971aae46bd6add177e8a257d5865e895f7f3ef3d59dc2a6e4c" => :el_capitan
-    sha256 "eef88ff9b9cf11901d39198d732d315b127addb37ef1d6ffe8fe88473f4752bf" => :yosemite
+    sha256 "f06ca16de5f58c6d0f520f3de8a5c90592b2a49038f5467b2918232a3cc03723" => :sierra
+    sha256 "7f4c787cf932e62ac869f5cd30184f77d1ed0b72d91997d20ceb2f1cba41de8e" => :el_capitan
+    sha256 "c112e913e38e65f8f9aa773d1035d478d57390910844f2f376087d3692f07185" => :yosemite
   end
 
   head do

@@ -1,14 +1,15 @@
 class Infer < Formula
   desc "Static analyzer for Java, C and Objective-C"
   homepage "http://fbinfer.com/"
-  url "https://github.com/facebook/infer/releases/download/v0.9.5/infer-osx-v0.9.5.tar.xz"
-  sha256 "43d6c68d4e41057be8188877872544bf7c0e6a53a122be64efe06f3f3b772f47"
+  url "https://github.com/facebook/infer/releases/download/v0.12.0/infer-osx-v0.12.0.tar.xz"
+  sha256 "3b97bcabf85af8feb8d6fd0b8622fe2b4fbf27fa215fab61e3a660b5435b6d21"
+  revision 1
 
   bottle do
-    cellar :any_skip_relocation
-    sha256 "f253e9237dd1f06b67a7b8dff589f4da456b54cb6f5969edb8d2f6a45ea69230" => :sierra
-    sha256 "ad2f9f51200ba72b028e4afa6951677a0fe6145b88546816762ad7510e9bf982" => :el_capitan
-    sha256 "3d892ed670cb48536043ed270d7c0b5284cdd8907d40e5f0310b0b92e33760ab" => :yosemite
+    cellar :any
+    sha256 "16da98afd4312582d219eaf62d6619567ee1df367d5b6b4e8e4e667e9b7908a2" => :sierra
+    sha256 "a3de914afe3ffc5e65f46fc10516607d7a4614f5a2d476d47fd053cd662f43e4" => :el_capitan
+    sha256 "8e97022052281a1e5681e9855a1d4cfe456c906897b20f10e0ef3b3e55d27443" => :yosemite
   end
 
   option "without-clang", "Build without C/Objective-C analyzer"
@@ -19,6 +20,7 @@ class Infer < Formula
   depends_on "libtool" => :build
   depends_on "ocaml" => :build
   depends_on "opam" => :build
+  depends_on "pkg-config" => :build
 
   def install
     if build.without?("clang") && build.without?("java")
@@ -35,7 +37,7 @@ class Infer < Formula
     # builds in its own parallelization logic to mitigate that.
     ENV.deparallelize
 
-    ENV["INFER_CONFIGURE_OPTS"] = "--prefix=#{prefix} --disable-ocaml-annot --disable-ocaml-binannot"
+    ENV["INFER_CONFIGURE_OPTS"] = "--prefix=#{prefix} --disable-ocaml-binannot"
 
     target_platform = if build.without?("clang")
       "java"
@@ -78,8 +80,8 @@ class Infer < Formula
       }
     EOS
 
-    shell_output("#{bin}/infer --fail-on-bug -- clang FailingTest.c", 2)
-    shell_output("#{bin}/infer --fail-on-bug -- clang PassingTest.c", 0)
+    shell_output("#{bin}/infer --fail-on-issue -- clang -c FailingTest.c", 2)
+    shell_output("#{bin}/infer --fail-on-issue -- clang -c PassingTest.c", 0)
 
     (testpath/"FailingTest.java").write <<-EOS.undent
       class FailingTest {
@@ -115,7 +117,7 @@ class Infer < Formula
       }
     EOS
 
-    shell_output("#{bin}/infer --fail-on-bug -- javac FailingTest.java", 2)
-    shell_output("#{bin}/infer --fail-on-bug -- javac PassingTest.java", 0)
+    shell_output("#{bin}/infer --fail-on-issue -- javac FailingTest.java", 2)
+    shell_output("#{bin}/infer --fail-on-issue -- javac PassingTest.java", 0)
   end
 end

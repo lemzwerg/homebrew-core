@@ -39,18 +39,16 @@ class Timidity < Formula
     formats << "speex" if build.with? "speex"
     formats << "ao" if build.with? "libao"
 
-    if formats.any?
-      args << "--enable-audio=" + formats.join(",")
-    end
+    args << "--enable-audio=" + formats.join(",") if formats.any?
 
     system "./configure", *args
     system "make", "install"
 
     if build.with? "freepats"
       (share/"freepats").install resource("freepats")
-      (share/"timidity").install_symlink share/"freepats/Tone_000",
-                                         share/"freepats/Drum_000",
-                                         share/"freepats/freepats.cfg" => "timidity.cfg"
+      pkgshare.install_symlink share/"freepats/Tone_000",
+                               share/"freepats/Drum_000",
+                               share/"freepats/freepats.cfg" => "timidity.cfg"
     end
   end
 

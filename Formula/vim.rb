@@ -1,24 +1,23 @@
 class Vim < Formula
-  desc "Vi \"workalike\" with many additional features"
-  homepage "http://www.vim.org/"
-  url "https://github.com/vim/vim/archive/v8.0.0329.tar.gz"
-  sha256 "6fbe0ec1228f951ba598b48ac8033f41ca4934cc34689a6008685e7c26477ae2"
+  desc "Vi 'workalike' with many additional features"
+  homepage "https://vim.sourceforge.io/"
+  url "https://github.com/vim/vim/archive/v8.0.0893.tar.gz"
+  sha256 "aadfa73607e7595ea355f73fa6671f58782c6c12c31e510c26e192174347afdc"
   head "https://github.com/vim/vim.git"
 
   bottle do
-    sha256 "ef4b80ad95b28268b66321e353da8706ba5aed518566165801e78174aa9a3cd8" => :sierra
-    sha256 "e341710c853636f0c32a6e986bb4f0df90b5af8eb052f0a03bf21602f068f30c" => :el_capitan
-    sha256 "e6459e6220559c0f9aa8f7dd3f9af4b73b3f4f26eae73038d5ee22160dfb00e3" => :yosemite
+    sha256 "3a4f96b6edcdd825dd191e4a38fc0a820343c4920432743bed238e2bd58510b7" => :sierra
+    sha256 "6be64c7be7994512d39e4f8f59a536829fb56493b173bd52e7167ca557f71495" => :el_capitan
+    sha256 "ba391ff882be845ee4f413b45aabc9d76d7dadfe947ed3d57f99224e17037eed" => :yosemite
   end
 
-  deprecated_option "disable-nls" => "without-nls"
   deprecated_option "override-system-vi" => "with-override-system-vi"
 
   option "with-override-system-vi", "Override system vi"
-  option "without-nls", "Build vim without National Language Support (translated messages, keymaps)"
+  option "with-gettext", "Build vim with National Language Support (translated messages, keymaps)"
   option "with-client-server", "Enable client/server mode"
 
-  LANGUAGES_OPTIONAL = %w[lua mzscheme python3 tcl].freeze
+  LANGUAGES_OPTIONAL = %w[lua python3 tcl].freeze
   LANGUAGES_DEFAULT  = %w[perl python ruby].freeze
 
   if MacOS.version >= :mavericks
@@ -42,6 +41,7 @@ class Vim < Formula
   depends_on "lua" => :optional
   depends_on "luajit" => :optional
   depends_on :x11 if build.with? "client-server"
+  depends_on "gettext" => :optional
 
   conflicts_with "ex-vi",
     :because => "vim and ex-vi both install bin/ex and bin/view"
@@ -49,7 +49,6 @@ class Vim < Formula
   def install
     # https://github.com/Homebrew/homebrew-core/pull/1046
     ENV.delete("SDKROOT")
-    ENV["LUA_PREFIX"] = HOMEBREW_PREFIX if build.with?("lua") || build.with?("luajit")
 
     # vim doesn't require any Python package, unset PYTHONPATH.
     ENV.delete("PYTHONPATH")
@@ -73,7 +72,7 @@ class Vim < Formula
       opts -= %w[--enable-pythoninterp]
     end
 
-    opts << "--disable-nls" if build.without? "nls"
+    opts << "--disable-nls" if build.without? "gettext"
     opts << "--enable-gui=no"
 
     if build.with? "client-server"
@@ -82,13 +81,18 @@ class Vim < Formula
       opts << "--without-x"
     end
 
-    if build.with? "lua"
+    if build.with?("lua") || build.with?("luajit")
+      ENV["LUA_PREFIX"] = HOMEBREW_PREFIX
       opts << "--enable-luainterp"
-    end
+      opts << "--with-luajit" if build.with? "luajit"
 
-    if build.with? "luajit"
-      opts << "--with-luajit"
-      opts << "--enable-luainterp"
+      if build.with?("lua") && build.with?("luajit")
+        onoe <<-EOS.undent
+          Vim will not link against both Luajit & Lua simultaneously.
+          Proceeding with Lua.
+        EOS
+        opts -= %w[--with-luajit]
+      end
     end
 
     # We specify HOMEBREW_PREFIX as the prefix to make vim look in the
@@ -102,6 +106,7 @@ class Vim < Formula
                           "--enable-multibyte",
                           "--with-tlib=ncurses",
                           "--enable-cscope",
+                          "--enable-terminal",
                           "--with-compiledby=Homebrew",
                           *opts
     system "make"
@@ -116,13 +121,23 @@ class Vim < Formula
   end
 
   test do
-    if build.with? "python"
+    if build.with? "python3"
+      (testpath/"commands.vim").write <<-EOS.undent
+        :python3 import vim; vim.current.buffer[0] = 'hello python3'
+        :wq
+      EOS
+      system bin/"vim", "-T", "dumb", "-s", "commands.vim", "test.txt"
+      assert_equal "hello python3", File.read("test.txt").chomp
+    elsif build.with? "python"
       (testpath/"commands.vim").write <<-EOS.undent
         :python import vim; vim.current.buffer[0] = 'hello world'
         :wq
       EOS
       system bin/"vim", "-T", "dumb", "-s", "commands.vim", "test.txt"
-      assert_equal (testpath/"test.txt").read, "hello world\n"
+      assert_equal "hello world", File.read("test.txt").chomp
+    end
+    if build.with? "gettext"
+      assert_match "+gettext", shell_output("#{bin}/vim --version")
     end
   end
 end

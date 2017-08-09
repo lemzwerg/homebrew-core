@@ -7,19 +7,21 @@ class Agda < Formula
   homepage "http://wiki.portal.chalmers.se/agda/"
 
   stable do
-    url "https://hackage.haskell.org/package/Agda-2.5.2/Agda-2.5.2.tar.gz"
-    sha256 "d812cec3bf7f03c4b27248572475c7e060154102771a8434cc11ba89f5691439"
+    url "https://github.com/agda/agda.git",
+        :revision => "e3f598313ceac6de8903f9e5693efb30435691fc"
+    version "2.5.3-alpha1"
 
     resource "stdlib" do
-      url "https://github.com/agda/agda-stdlib/archive/v0.13.tar.gz"
-      sha256 "e7cffc2b8b168c3584b6d1e760d2b49850835444e4777caa69eb29b3677ef8bb"
+      url "https://github.com/agda/agda-stdlib.git",
+          :revision => "c47a1516aaf40892f97b14e3fd1f2bd0c628cadc"
+      version "2.5.3-alpha1"
     end
   end
 
   bottle do
-    sha256 "4de53fe05b8d9fc11d9e5955165a957c3c6bfcbf45dc28afba1c8fff80f5cece" => :sierra
-    sha256 "33acce2fc1b974f8d2438844402676b96de01034d120036cb8a3a429ee9fa095" => :el_capitan
-    sha256 "5061c16954c5af7f38e51fe07e9e2eb9923be90c62ba6e699102936da81a329a" => :yosemite
+    sha256 "8aedcb6085eca1dbe613b8474417c70ac268d004c7c24282a79c93a403d9e0a9" => :sierra
+    sha256 "d72aade4bfc553c1b63e071b96310f7a326b1d58045a481f15b37dca76d75480" => :el_capitan
+    sha256 "ad4e56ac7514318493a5e3da7062e0443c3beb21d428dd4a42ae409b31e07851" => :yosemite
   end
 
   head do
@@ -31,6 +33,7 @@ class Agda < Formula
   end
 
   deprecated_option "without-malonzo" => "without-ghc"
+  deprecated_option "without-ghc@8.0" => "without-ghc"
 
   option "without-stdlib", "Don't install the Agda standard library"
   option "without-ghc", "Disable the GHC backend"

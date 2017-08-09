@@ -3,14 +3,14 @@ class Fobis < Formula
 
   desc "KISS build tool for automaticaly building modern Fortran projects."
   homepage "https://github.com/szaghi/FoBiS"
-  url "https://files.pythonhosted.org/packages/54/8e/aa0421da748d5338a2b7fd03919ff31ad3be683975893da610282260a935/FoBiS.py-2.2.2.tar.gz"
-  sha256 "a3f28cf8504f9d44cca13a8d367afb8426bca5c90d98533363361ff7fa97c6d3"
+  url "https://files.pythonhosted.org/packages/ac/b8/fd3b12a7d9c2c6d9ff424c90f3dcab9b4dae6087c749cbfb26d53b49e623/FoBiS.py-2.2.6.tar.gz"
+  sha256 "323e3fcca796c0360467c7384c7a16976ccad2238318fb100b9f794c7aab8fb1"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "ce0880480a3f04767e96b078019c447497b7091471e24e02485c870ee61288e6" => :sierra
-    sha256 "064fd4d11c051573402e9bc309952dc2fa5b89b42aef7185658bafd46b66a2aa" => :el_capitan
-    sha256 "342731cf6aa3d5d7a8ba227dfbc99c45b7e6ce1d6856f83928b9fdee3dc4ad13" => :yosemite
+    sha256 "37a3c02cb9d8a928966c727549da65ade8766dd89cce5265546a7e1c98897ee1" => :sierra
+    sha256 "7a5b5af4de72333de97f7da680274d658b76ca5ce944d01a433f18aa12845768" => :el_capitan
+    sha256 "eb52d32bbe4ab86a4986c14ca841dd132966eb0a4dd733eab32bea23196f8c45" => :yosemite
   end
 
   option "without-pygooglechart", "Disable support for coverage charts generated with pygooglechart"
@@ -25,8 +25,8 @@ class Fobis < Formula
   end
 
   resource "graphviz" do
-    url "https://files.pythonhosted.org/packages/01/98/8dec899491e4ac01a6fc8269e3b6dffd35421321b6858e21672489678fa8/graphviz-0.5.2.zip"
-    sha256 "60ea67b383e3feb71fd0cb3137c02f8c4a76935996cf06a9e77d6150a90d034a"
+    url "https://files.pythonhosted.org/packages/da/84/0e997520323d6b01124eb01c68d5c101814d0aab53083cd62bd75a90f70b/graphviz-0.8.zip"
+    sha256 "889c720d9955b804d56a8e842621558cbb5cbbdd93cbdf55862371311646e344"
   end
 
   def install

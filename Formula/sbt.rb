@@ -1,13 +1,13 @@
 class Sbt < Formula
   desc "Build tool for Scala projects"
   homepage "http://www.scala-sbt.org"
-  url "https://dl.bintray.com/sbt/native-packages/sbt/0.13.13/sbt-0.13.13.tgz"
-  sha256 "40d03d21a260c5a6a43f8349298f41c9d047f97972057d9d915afd8945faf979"
+  url "https://dl.bintray.com/homebrew/mirror/sbt-0.13.16"
+  mirror "https://cocl.us/sbt01316tgz"
+  sha256 "22729580a581e966259267eda4d937a2aecad86848f8a82fcc716dcae8dc760c"
 
   devel do
-    url "https://dl.bintray.com/sbt/native-packages/sbt/1.0.0-M4/sbt-1.0.0-M4.tgz"
-    sha256 "8cb2eaabcbfeceeb65023311b08c980feff80552b22524213c71857ced2f8de7"
-    version "1.0.0-M4"
+    url "https://github.com/sbt/sbt/releases/download/v1.0.0-RC2/sbt-1.0.0-RC2.tgz"
+    sha256 "4e446c49a473d9ae5001e6ec847c06b76e3d27f34d680ae7bd258709547630d7"
   end
 
   bottle :unneeded
@@ -20,9 +20,7 @@ class Sbt < Formula
       s.gsub! "/etc/sbt/sbtopts", "#{etc}/sbtopts"
     end
 
-    inreplace "bin/sbt-launch-lib.bash", "${sbt_home}/bin/sbt-launch.jar", "#{libexec}/sbt-launch.jar"
-
-    libexec.install "bin/sbt", "bin/sbt-launch-lib.bash", "bin/sbt-launch.jar"
+    libexec.install "bin", "lib"
     etc.install "conf/sbtopts"
 
     (bin/"sbt").write <<-EOS.undent
@@ -31,7 +29,7 @@ class Sbt < Formula
         echo "Use of ~/.sbtconfig is deprecated, please migrate global settings to #{etc}/sbtopts" >&2
         . "$HOME/.sbtconfig"
       fi
-      exec "#{libexec}/sbt" "$@"
+      exec "#{libexec}/bin/sbt" "$@"
     EOS
   end
 
@@ -39,7 +37,7 @@ class Sbt < Formula
     You can use $SBT_OPTS to pass additional JVM options to SBT:
        SBT_OPTS="-XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256M"
 
-    This formula is now using the standard lightbend sbt launcher script.
+    This formula uses the standard Lightbend sbt launcher script.
     Project specific options should be placed in .sbtopts in the root of your project.
     Global settings should be placed in #{etc}/sbtopts
     EOS
@@ -48,7 +46,6 @@ class Sbt < Formula
   test do
     ENV["_JAVA_OPTIONS"] = "-Dsbt.log.noformat=true"
     ENV.java_cache
-    output = shell_output("#{bin}/sbt sbt-version")
-    assert_match "[info] #{version}", output
+    assert_match "[info] #{version}", shell_output("#{bin}/sbt sbtVersion")
   end
 end

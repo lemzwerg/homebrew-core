@@ -1,13 +1,13 @@
 class Nghttp2 < Formula
   desc "HTTP/2 C Library"
   homepage "https://nghttp2.org/"
-  url "https://github.com/nghttp2/nghttp2/releases/download/v1.19.0/nghttp2-1.19.0.tar.xz"
-  sha256 "4e0c503522b0b7cb9bf83150fc867fe18155a09f0027b4e9c8b815cca4416739"
+  url "https://github.com/nghttp2/nghttp2/releases/download/v1.24.0/nghttp2-1.24.0.tar.xz"
+  sha256 "0d443cd2f45593aa42e93163cb46a03cb4a28703712a8dd8cc9102d454727316"
 
   bottle do
-    sha256 "8ead350cc5b39a23c8c04d22baf810d311b193ce9f3cd1eb2808539f2d81dec4" => :sierra
-    sha256 "d4ff5fe7aa4a878552250b14e97d7336d2066d51f262ec5ae99c967d0970ab55" => :el_capitan
-    sha256 "96a15d89b9072b338c1a074f1c095f7f98e6bbf4f7453c4e7fe3f68131e0897d" => :yosemite
+    sha256 "a8bd9045a3a955c9f404f503dd180b0d13233568a76e1f1669e7907853465b7e" => :sierra
+    sha256 "f2b810b25eec725f58b9b4724f5dd90f792fc733e35da2b8846e0ae39e6e6a49" => :el_capitan
+    sha256 "9250318468dae2c1ead682e55c5158536c864719bab8c9fda679529fd0f4cb3d" => :yosemite
   end
 
   head do
@@ -19,11 +19,10 @@ class Nghttp2 < Formula
   end
 
   option "with-examples", "Compile and install example programs"
-  option "without-docs", "Don't build man pages"
   option "with-python3", "Build python3 bindings"
 
   depends_on :python3 => :optional
-  depends_on "sphinx-doc" => :build if build.with? "docs"
+  depends_on "sphinx-doc" => :build
   depends_on "libxml2" if MacOS.version <= :lion
   depends_on "pkg-config" => :build
   depends_on "cunit" => :build

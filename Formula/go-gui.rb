@@ -1,11 +1,11 @@
 class GoGui < Formula
   desc "GUI for playing Go over Go Text Protocol"
-  homepage "http://gogui.sourceforge.net"
+  homepage "https://gogui.sourceforge.io/"
   url "https://downloads.sourceforge.net/project/gogui/gogui/1.4.9/gogui-1.4.9.zip"
   sha256 "32684b756ab5b6bf9412c035594eddfd1be9250de12d348c3501850857b86662"
 
   head do
-    url "git://git.code.sf.net/p/gogui/code"
+    url "https://git.code.sf.net/p/gogui/code.git"
 
     depends_on "docbook" => :build
     depends_on "docbook-xsl" => :build
@@ -15,7 +15,7 @@ class GoGui < Formula
   depends_on :java => "1.6"
 
   resource "quaqua" do
-    url "http://www.randelshofer.ch/quaqua/files/quaqua-5.4.1.nested.zip"
+    url "https://www.randelshofer.ch/quaqua/files/quaqua-5.4.1.nested.zip"
     sha256 "a01ce8bcce6e81941ca928468e728e76e0773957c685c349474ee04f3be677d6"
   end
 

@@ -1,35 +1,38 @@
 class RomTools < Formula
   desc "Tools for Multiple Arcade Machine Emulator"
   homepage "http://mamedev.org/"
-  url "https://github.com/mamedev/mame/archive/mame0179.tar.gz"
-  version "0.179"
-  sha256 "d1616ef32b884c3e7913378ebf5282b6f846f895f419eb92a9068770581e081b"
+  url "https://github.com/mamedev/mame/archive/mame0188.tar.gz"
+  version "0.188"
+  sha256 "d3e55ec783fde39124bdb867ded9eadfcf769697d6c3d933444a29a785d6c99b"
   head "https://github.com/mamedev/mame.git"
 
   bottle do
     cellar :any
-    sha256 "635950c0d3bb67baaa4dc9df87232e927816d5efaf868a87e503e5fb9c554f7f" => :sierra
-    sha256 "96cf7d3c333e7a2ce30408efaa12d0ee3fcd400fb6590aaf3050535b40691ebf" => :el_capitan
-    sha256 "42fd6a62c98c8b9e5f7e11d4b9f83fa1af4325f13c7506f27a076f2e22e3f70f" => :yosemite
+    sha256 "6bdf74269db8db8c8227aaa334c90e549801c2a55b358bf50c9edcc95bc90a6f" => :sierra
+    sha256 "cec6487d6dff7ffde0556b0dcf878e8d7c83ec21c27aaad227282e79d2cc9482" => :el_capitan
+    sha256 "c1fd34cf92b18573fbf4e585e3dc040ed3dcc1c82d5c4eb40986877bd6261d88" => :yosemite
   end
 
   depends_on :python => :build if MacOS.version <= :snow_leopard
   depends_on "pkg-config" => :build
   depends_on "sdl2"
+  depends_on "expat"
   depends_on "flac"
   depends_on "portmidi"
+  depends_on "utf8proc"
 
   def install
-    inreplace "scripts/src/main.lua", /(targetsuffix) "\w+"/, '\1 ""'
     inreplace "scripts/src/osd/sdl.lua", "--static", ""
-    system "make", "TARGET=ldplayer", "TOOLS=1",
+    system "make", "TOOLS=1",
                    "PTR64=#{MacOS.prefer_64_bit? ? 1 : 0}", # for old Macs
                    "USE_LIBSDL=1",
+                   "USE_SYSTEM_LIB_EXPAT=1",
                    "USE_SYSTEM_LIB_ZLIB=1",
                    "USE_SYSTEM_LIB_FLAC=1",
-                   "USE_SYSTEM_LIB_PORTMIDI=1"
+                   "USE_SYSTEM_LIB_PORTMIDI=1",
+                   "USE_SYSTEM_LIB_UTF8PROC=1"
     bin.install %w[
-      aueffectutil castool chdman floptool imgtool jedutil ldplayer ldresample
+      aueffectutil castool chdman floptool imgtool jedutil ldresample
       ldverify nltool nlwav pngcmp regrep romcmp src2html srcclean unidasm
     ]
     bin.install "split" => "rom-split"
@@ -44,7 +47,6 @@ class RomTools < Formula
     system "#{bin}/floptool"
     system "#{bin}/imgtool", "listformats"
     system "#{bin}/jedutil", "-viewlist"
-    system "#{bin}/ldplayer", "-help"
     assert_match "linear equation", shell_output("#{bin}/ldresample 2>&1", 1)
     assert_match "avifile.avi", shell_output("#{bin}/ldverify 2>&1", 1)
     system "#{bin}/nltool", "--help"

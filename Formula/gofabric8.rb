@@ -1,14 +1,14 @@
 class Gofabric8 < Formula
   desc "CLI for fabric8 running on Kubernetes or OpenShift"
   homepage "https://github.com/fabric8io/gofabric8/"
-  url "https://github.com/fabric8io/gofabric8/archive/v0.4.115.tar.gz"
-  sha256 "b9628dd37e4ad29c5c733cfab3b967b9b27647fa55b904beb9795c7a8ef2cb9e"
+  url "https://github.com/fabric8io/gofabric8/archive/v0.4.143.tar.gz"
+  sha256 "545616df1bdac5aa2039830d224fdeb5b6eda69f01340de251400412f84c8399"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "efff31855d234d066415c328eea8283e3981cf5a5e2ffce0fd397a46a6f02a71" => :sierra
-    sha256 "086cce8d51f4f848b38cc0cad2cef76b9f7361d230860f6653e7e10bb15a3591" => :el_capitan
-    sha256 "ce3f15851ccde3aa46ecfe7483510bc9fc679d71800cc8c55724483be0b38d87" => :yosemite
+    sha256 "a924948aa65c49ca1086fad42a1cbf79045b15adedb7bea2e38db88d81e5195b" => :sierra
+    sha256 "0228b1db0d3ea955a8beb6db8ffde445599443d7779488ad6e5c428b6b87c3d5" => :el_capitan
+    sha256 "7feca3364c5669a48bae32a4b7b94b339868867b09721bd3bcacd93a66f2818e" => :yosemite
   end
 
   depends_on "go" => :build
@@ -19,6 +19,7 @@ class Gofabric8 < Formula
     dir.install buildpath.children
 
     cd dir do
+      system "make", "templates"
       system "make", "install", "REV=homebrew"
       prefix.install_metafiles
     end

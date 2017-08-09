@@ -1,16 +1,16 @@
 class Filebeat < Formula
   desc "File harvester to ship log files to Elasticsearch or Logstash"
   homepage "https://www.elastic.co/products/beats/filebeat"
-  url "https://github.com/elastic/beats/archive/v5.2.1.tar.gz"
-  sha256 "8cd082583c9762314c3a15c8847a8b155733e04db328a8f759a0bf7acc17ec7d"
+  url "https://github.com/elastic/beats/archive/v5.5.1.tar.gz"
+  sha256 "b6c85901b1feb0e184dd56d9012ccda10bf62566ddfbe3d9790c771b73db3a46"
 
   head "https://github.com/elastic/beats.git"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "b084a5cf2ed8e1cf7e1ac5bff80dbba0e156a0304acaf6fc7cdf4518a4e2bfce" => :sierra
-    sha256 "346c824b4d4e2e27480b4268a0ad50075659bde6fdc5374556dd3ee5d554cfab" => :el_capitan
-    sha256 "aebac06c6cdc6b12065ae7a57ace44bddce5e6a71c1ae461e1ac4cbc8b0fbb00" => :yosemite
+    sha256 "1f93032a00185167df3d27c363fd7fd11558a56c922b1bd76e174044984af3e4" => :sierra
+    sha256 "84b48aef5745312f307bf620429fc27277c0336ca50b3006b01372ac541cce5c" => :el_capitan
+    sha256 "646d1a08e85fe724f82fc7bcf5d536dd08c8d66fa71a954ed71519effedda144" => :yosemite
   end
 
   depends_on "go" => :build

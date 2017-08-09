@@ -1,24 +1,17 @@
 class Fio < Formula
   desc "I/O benchmark and stress test"
   homepage "http://freecode.com/projects/fio"
-  url "https://github.com/axboe/fio/archive/fio-2.17.tar.gz"
-  sha256 "4d31ce145cc2d21e91aaf08bb4d14cca942ad6572131cba687906983478ce6e5"
-  head "git://git.kernel.dk/fio.git"
+  url "https://github.com/axboe/fio/archive/fio-2.99.tar.gz"
+  sha256 "daa8c48b94890faf4c419d957c73a55e16a26b5b3f60fc97306f823b97c9d20d"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "08c04dceee78e15833417c2672940f83334cf8a5f552f28802f7d117e1ae7c5c" => :sierra
-    sha256 "34eb8a018808964010f9b626a81c268b3e704e4c3e02f9c75b4e2f8428173a31" => :el_capitan
-    sha256 "fcf155cd769b1328c40423c7081d34b37d585bc918d0d8590500c25aebf0b59c" => :yosemite
+    sha256 "57032a96c608995957c7936f6eb34af53988eb896baafbaee1e4a5527d82d8df" => :sierra
+    sha256 "8e487bd8fdd8d9f4c300fd22983d6b1922ab108f2ae6bf31c56978ddd0d83464" => :el_capitan
+    sha256 "e569ca45cdf8e66351232b44bf5814be2dfeb0cb0ee3367cfa685f6e04136536" => :yosemite
   end
 
   def install
-    # Fixes "dyld: lazy symbol binding failed: Symbol not found: _clock_gettime"
-    # Reported 4 February 2017 https://github.com/axboe/fio/issues/305
-    if MacOS.version == "10.11" && MacOS::Xcode.installed? && MacOS::Xcode.version >= "8.0"
-      inreplace "configure", "return clock_gettime(0, NULL);", "return foo();"
-    end
-
     system "./configure"
     # fio's CFLAGS passes vital stuff around, and crushing it will break the build
     system "make", "prefix=#{prefix}",

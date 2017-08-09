@@ -1,19 +1,19 @@
 class Ncmpcpp < Formula
   desc "Ncurses-based client for the Music Player Daemon"
   homepage "https://rybczak.net/ncmpcpp/"
-  url "https://ncmpcpp.rybczak.net/stable/ncmpcpp-0.7.7.tar.bz2"
-  sha256 "b7bcbec83b1f88cc7b21f196b10be09a27b430566c59f402df170163464d01ef"
+  url "https://rybczak.net/ncmpcpp/stable/ncmpcpp-0.8.tar.bz2"
+  sha256 "2f0f2a1c0816119430880be6932e5eb356b7875dfa140e2453a5a802909f465a"
   revision 1
 
   bottle do
     cellar :any
-    sha256 "3595e188d8fb6bab50d8e4f086f6eb6b7e28eb2fb69c6eb11c50ff90956e8327" => :sierra
-    sha256 "598500607763ae05abb5689ff72655d5156d0d176db8eeb0d3797d1f5e160a99" => :el_capitan
-    sha256 "4d6ac3b7a0efc84797b776cf07f3478f109d6e1f4d8b8ae31770812c38cc5e70" => :yosemite
+    sha256 "b056ad2b66b085b8a37d9c5bba9b158f5f5e6f690eb8c0df8bac5bdbed5771a8" => :sierra
+    sha256 "19d3dd9cdde730f6d58fa9ac9f34088d9bfb46b7e18718827d19096dc74618d9" => :el_capitan
+    sha256 "b8aeee92d79daaade83d545163a83ced6580ff267df5bdf386602777e5a966ee" => :yosemite
   end
 
   head do
-    url "git://repo.or.cz/ncmpcpp.git"
+    url "https://github.com/arybczak/ncmpcpp.git"
 
     depends_on "autoconf" => :build
     depends_on "automake" => :build
@@ -29,17 +29,12 @@ class Ncmpcpp < Formula
   option "with-clock", "Compile with optional clock tab"
 
   depends_on "pkg-config" => :build
+  depends_on "boost"
   depends_on "libmpdclient"
+  depends_on "ncurses"
   depends_on "readline"
+  depends_on "taglib"
   depends_on "fftw" if build.with? "visualizer"
-
-  if MacOS.version < :mavericks
-    depends_on "boost" => "c++11"
-    depends_on "taglib" => "c++11"
-  else
-    depends_on "boost"
-    depends_on "taglib"
-  end
 
   needs :cxx11
 
@@ -61,12 +56,9 @@ class Ncmpcpp < Formula
     args << "--enable-visualizer" if build.with? "visualizer"
     args << "--enable-clock" if build.with? "clock"
 
-    if build.head?
-      # Also runs configure
-      system "./autogen.sh", *args
-    else
-      system "./configure", *args
-    end
+    system "./autogen.sh" if build.head?
+    system "./configure", *args
+    system "make"
     system "make", "install"
   end
 

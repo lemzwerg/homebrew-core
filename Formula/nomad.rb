@@ -1,15 +1,15 @@
 class Nomad < Formula
   desc "Distributed, Highly Available, Datacenter-Aware Scheduler"
   homepage "https://www.nomadproject.io"
-  url "https://github.com/hashicorp/nomad/archive/v0.5.4.tar.gz"
-  sha256 "5571ee16b24dc4f13971cb3dfaecc67ad5e9db6efb644a409e79187a95564276"
+  url "https://github.com/hashicorp/nomad/archive/v0.6.0.tar.gz"
+  sha256 "3fe383e896cf5e4cef32e3fec36171c8fc77c37c2faa6974070a89a2bed4efb9"
   head "https://github.com/hashicorp/nomad.git"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "1521d32caba2445e65bb48971d88f1bbb69130b3ae0957cc2a4797145447ab38" => :sierra
-    sha256 "8cc14873c8bba26a31503f34676ccda41e3903753d832905abfce930f8181421" => :el_capitan
-    sha256 "03d6c9508ad5438189c8391fec416b2136790e3b3fb0a3e19d1d4b4deab7f9e1" => :yosemite
+    sha256 "8dfa53c318c8f7ab80748e5298d0cb81b1fb5da7ca8b5d46d512f3860ec0349d" => :sierra
+    sha256 "d2189dbd11da53eb65fef9c42fe24f4780b7ef72d7a23f1929a97bc852c62b61" => :el_capitan
+    sha256 "858cc0c453b5e87dd5af834816408f445b5075ca25bd305b5190acc46df79c16" => :yosemite
   end
 
   option "with-dynamic", "Build dynamic binary with CGO_ENABLED=1"

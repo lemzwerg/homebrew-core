@@ -1,16 +1,17 @@
 class Fstar < Formula
-  desc "Language with a type system for program verification"
+  desc "ML-like language aimed at program verification"
   homepage "https://www.fstar-lang.org/"
   url "https://github.com/FStarLang/FStar.git",
       :tag => "v0.9.4.0",
       :revision => "2137ca0fbc56f04e202f715202c85a24b36c3b29"
+  revision 2
   head "https://github.com/FStarLang/FStar.git"
 
   bottle do
     cellar :any
-    sha256 "c0e12f89c58c63d456c194206243b1c2b9cbea1857afe7f2fd31fa3b709c2797" => :sierra
-    sha256 "632b24047df19cc9568fe46c3e5041cfc0c0858f3139aaa7c3bc9905a55f87df" => :el_capitan
-    sha256 "97c2b2db56554822f03293d74099db6f20386d512287295a5d16b8ed265a2899" => :yosemite
+    sha256 "dbd43955ad872d0c7217f9d7f2c0140ca6114a162ac41b73c6dba50f7637c0ce" => :sierra
+    sha256 "55f4d2b1397c5087574f6103c4849b7167c9d094ae8293d59a59be674c3dd93a" => :el_capitan
+    sha256 "d24224b03bbb333691295e99e3322a2a5b4729d97d3d3aeac82beafab7af5274" => :yosemite
   end
 
   depends_on "opam" => :build
@@ -28,25 +29,36 @@ class Fstar < Formula
                                            "$(DATE_EXEC) '+%Y-%m-%dT%H:%M:%S%z'"
 
     system "opam", "init", "--no-setup"
+    inreplace "opamroot/compilers/4.04.2/4.04.2/4.04.2.comp",
+      '["./configure"', '["./configure" "-no-graph"' # avoid X11
+
+    # remove when the OPAM deps have OCaml 4.05.0 compatible versions
+    system "opam", "switch", "4.04.2"
 
     if build.stable?
-      system "opam", "install", "batteries=2.5.3", "zarith=1.4.1", "yojson=1.3.3", "pprint=20140424"
+      system "opam", "config", "exec", "opam", "install", "batteries=2.5.3",
+             "zarith=1.4.1", "yojson=1.3.3", "pprint=20140424"
     else
-      system "opam", "install", "batteries", "zarith", "yojson", "pprint"
+      system "opam", "config", "exec", "opam", "install", "batteries", "zarith",
+             "yojson", "pprint"
     end
 
     system "opam", "config", "exec", "--", "make", "-C", "src", "boot-ocaml"
 
-    bin.install "bin/fstar.exe"
+    (libexec/"bin").install "bin/fstar.exe"
+    (bin/"fstar.exe").write <<-EOS.undent
+      #!/bin/sh
+      #{libexec}/bin/fstar.exe --fstar_home #{prefix} "$@"
+    EOS
 
-    (libexec/"stdlib").install Dir["ulib/*"]
+    (libexec/"ulib").install Dir["ulib/*"]
     (libexec/"contrib").install Dir["ucontrib/*"]
     (libexec/"examples").install Dir["examples/*"]
     (libexec/"tutorial").install Dir["doc/tutorial/*"]
     (libexec/"src").install Dir["src/*"]
     prefix.install "LICENSE-fsharp.txt"
 
-    prefix.install_symlink libexec/"stdlib"
+    prefix.install_symlink libexec/"ulib"
     prefix.install_symlink libexec/"contrib"
     prefix.install_symlink libexec/"examples"
     prefix.install_symlink libexec/"tutorial"
@@ -69,12 +81,6 @@ class Fstar < Formula
 
   test do
     system "#{bin}/fstar.exe",
-    "--include", "#{prefix}/examples/unit-tests",
-    "--admit_fsi", "FStar.Set",
-    "FStar.Set.fsi", "FStar.Heap.fst",
-    "FStar.ST.fst", "FStar.All.fst",
-    "FStar.List.fst", "FStar.String.fst",
-    "FStar.Int32.fst", "unit1.fst",
-    "unit2.fst", "testset.fst"
+    "#{prefix}/examples/hello/hello.fst"
   end
 end

@@ -14,21 +14,18 @@ class Liblo < Formula
   end
 
   head do
-    url "git://liblo.git.sourceforge.net/gitroot/liblo/liblo"
+    url "https://git.code.sf.net/p/liblo/git.git"
 
     depends_on "autoconf" => :build
     depends_on "automake" => :build
     depends_on "libtool" => :build
   end
 
-  option :universal
   option "with-ipv6", "Compile with support for ipv6"
 
   deprecated_option "enable-ipv6" => "with-ipv6"
 
   def install
-    ENV.universal_binary if build.universal?
-
     args = %W[
       --disable-debug
       --disable-dependency-tracking

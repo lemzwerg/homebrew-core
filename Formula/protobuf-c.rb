@@ -1,14 +1,13 @@
 class ProtobufC < Formula
   desc "Protocol buffers library"
   homepage "https://github.com/protobuf-c/protobuf-c"
-  url "https://github.com/protobuf-c/protobuf-c/releases/download/v1.2.1/protobuf-c-1.2.1.tar.gz"
-  sha256 "846eb4846f19598affdc349d817a8c4c0c68fd940303e6934725c889f16f00bd"
-  revision 3
+  url "https://github.com/protobuf-c/protobuf-c/releases/download/v1.3.0/protobuf-c-1.3.0.tar.gz"
+  sha256 "5dc9ad7a9b889cf7c8ff6bf72215f1874a90260f60ad4f88acf21bb15d2752a1"
 
   bottle do
-    sha256 "d38d06b1bc9886aaa0a5c684d5225f45d2cc6e9f1fff293bbcc49138b153065e" => :sierra
-    sha256 "38460cedf85754bd7c8955fc773f55b60c497cbe190dd27930aafef676526118" => :el_capitan
-    sha256 "1cf4e7b63dfb94ec7afaa793120be76fb63e9856559b38d231db8ff6e52ab534" => :yosemite
+    sha256 "e5f44ef7b504b7744ec4bc51f194e49861885cf0c0278f16386d216c80390ef5" => :sierra
+    sha256 "c3484962cab3d35bad7632379958566cad1318e7a03180950852089227316372" => :el_capitan
+    sha256 "b747524137691a433e44fb7ab5015cdb73425c70e5fd07be2d40b9601abfd6d4" => :yosemite
   end
 
   depends_on "pkg-config" => :build

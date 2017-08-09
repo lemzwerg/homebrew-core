@@ -1,14 +1,15 @@
 class Pioneer < Formula
   desc "Game of lonely space adventure"
-  homepage "http://pioneerspacesim.net/"
-  url "https://github.com/pioneerspacesim/pioneer/archive/20161129.tar.gz"
-  sha256 "1c6fcc9a16da2c6d664ab88764718b94d7fdf5016bc5b4f97d7b00f8eccd9336"
+  homepage "https://pioneerspacesim.net/"
+  url "https://github.com/pioneerspacesim/pioneer/archive/20170415.tar.gz"
+  sha256 "dfbcfb63686fa3b7a16a4bac34de81adb02eeaf23593b3e63cca906bf4dbef67"
+  revision 1
   head "https://github.com/pioneerspacesim/pioneer.git"
 
   bottle do
-    sha256 "1ee88d6947ab3bb20898fce0e686a4c807ab0d97b8955b0437929a90aedbcc57" => :sierra
-    sha256 "c9ad6ca3693934d10998d6186518b8fa8b137335a2093a6f4b3769e9e3f66c78" => :el_capitan
-    sha256 "f3f80872e3e47925679a1583df1526efcfb74a51649d55b571b3237d84cc00a6" => :yosemite
+    sha256 "7d0009340d6fed7255d2708e0f65f8890fceece4e308bd0bb9ff70e23febe5e2" => :sierra
+    sha256 "44034738f7049109724ca1bbcc17d4d14c870990166fdb509f9bb461b9053730" => :el_capitan
+    sha256 "a5005f151f46a0e2baf596ca5c14e89d7c36a6fbd814d8cde4a0b5a389232323" => :yosemite
   end
 
   depends_on "autoconf" => :build
@@ -28,6 +29,11 @@ class Pioneer < Formula
   def install
     ENV.cxx11
     ENV["PIONEER_DATA_DIR"] = "#{pkgshare}/data"
+
+    # Upstream issue "assimp 4.0.0 support"
+    # Reported 19 Jul 2017 https://github.com/pioneerspacesim/pioneer/issues/4054
+    inreplace "configure.ac", "aiGetVersionMinor() >= 2",
+                              "aiGetVersionMinor() >= 0"
 
     # Remove as soon as possible
     # https://github.com/pioneerspacesim/pioneer/issues/3839

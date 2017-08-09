@@ -3,16 +3,16 @@ require "language/node"
 class AzureCli < Formula
   desc "Official Azure CLI"
   homepage "https://github.com/azure/azure-xplat-cli"
-  url "https://github.com/Azure/azure-xplat-cli/archive/v0.10.9-February2017.tar.gz"
-  version "0.10.9"
-  sha256 "95daf39462bf455c844d573f7b0a5ac97a19fa6e9f02cdbd57c7e15e6f817aba"
+  url "https://github.com/Azure/azure-xplat-cli/archive/v0.10.14-June2017.tar.gz"
+  version "0.10.14"
+  sha256 "3a74f8007a53c625c939be21703183130ebc086462674ba66c9c5988f24d3dc4"
   head "https://github.com/azure/azure-xplat-cli.git", :branch => "dev"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "8647ed163eb8f00d4aa477f0420dcd4d57ae4043568bc067d27fba2293191051" => :sierra
-    sha256 "4c6e63e72da60b23f9612b8282b1173106082050b6e4f63f84a525c5cc236395" => :el_capitan
-    sha256 "b1b5921132f84ff3c144d56a80b6102a8564a0b64fa65ad383c592b51cee9b7e" => :yosemite
+    sha256 "5da09ce76738480b12c23090359685475fdf26b81d741f794b8e1d94860c9268" => :sierra
+    sha256 "dcd04f095c2e28b3fb97a987ed76f91fe38fb19b46856242cd55816b955181f0" => :el_capitan
+    sha256 "91676bc0e163c0de09cb16c83a4121596f6054d2706397c8a4bfeec40c58b43e" => :yosemite
   end
 
   depends_on "node"
@@ -20,6 +20,7 @@ class AzureCli < Formula
 
   def install
     rm_rf "bin/windows"
+
     system "npm", "install", *Language::Node.std_npm_install_args(libexec)
     bin.install_symlink Dir["#{libexec}/bin/*"]
     (bash_completion/"azure").write Utils.popen_read("#{bin}/azure --completion")

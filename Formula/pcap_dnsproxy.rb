@@ -1,28 +1,28 @@
 class PcapDnsproxy < Formula
   desc "Powerful DNS proxy designed to anti DNS spoofing"
   homepage "https://github.com/chengr28/Pcap_DNSProxy"
-  url "https://github.com/chengr28/Pcap_DNSProxy/archive/v0.4.7.8.tar.gz"
-  sha256 "57af22d8688cd23e74e5eee0b716ea0c8e68671d3be34ef993df7b8303aa73d0"
+  url "https://github.com/chengr28/Pcap_DNSProxy/archive/v0.4.9.0.tar.gz"
+  sha256 "4c7854874d7c06b5fcbdb8cb22f58eedb124721670c042eb7676d76987e97b34"
   head "https://github.com/chengr28/Pcap_DNSProxy.git"
 
   bottle do
-    cellar :any_skip_relocation
-    rebuild 1
-    sha256 "64c03c2dc934b28302f9166aa601b8b7207ab64d58e48cbcf783c252ac8a0826" => :sierra
-    sha256 "39e0d718b01b3543da42e669ab66cbc99619298ce4d050610c4e0e3da039bdb0" => :el_capitan
-    sha256 "c5838936aed4df35a34abd7e472454e8b13c0b11ecf4410a69bff6907ab0c7b2" => :yosemite
+    sha256 "645cf86c499459e461357fe0a4d41cc451aa35b9b61dfc956bf525aa0b7814b6" => :sierra
+    sha256 "819294a6e3ec1cb7b5738bec6b1d39178707deb5be3ab87bbeda6dbbbf68c545" => :el_capitan
   end
 
-  depends_on :macos => :yosemite
+  depends_on :macos => :el_capitan
   depends_on :xcode => :build
   depends_on "libsodium"
+  depends_on "openssl@1.1"
 
   def install
-    (buildpath/"Source/LibSodium").install_symlink Formula["libsodium"].opt_lib/"libsodium.a" => "LibSodium_Mac.a"
+    (buildpath/"Source/Dependency/LibSodium").install_symlink Formula["libsodium"].opt_lib/"libsodium.a" => "LibSodium_macOS.a"
+    (buildpath/"Source/Dependency/OpenSSL").install_symlink Formula["openssl@1.1"].opt_lib/"libssl.a" => "LibSSL_macOS.a"
+    (buildpath/"Source/Dependency/OpenSSL").install_symlink Formula["openssl@1.1"].opt_lib/"libcrypto.a" => "LibCrypto_macOS.a"
     xcodebuild "-project", "./Source/Pcap_DNSProxy.xcodeproj", "-target", "Pcap_DNSProxy", "-configuration", "Release", "SYMROOT=build"
     bin.install "Source/build/Release/Pcap_DNSProxy"
-    (etc/"pcap_DNSproxy").install Dir["Source/ExampleConfig/*.{ini,txt}"]
-    prefix.install "Source/ExampleConfig/pcap_dnsproxy.service.plist"
+    (etc/"pcap_DNSproxy").install Dir["Source/Auxiliary/ExampleConfig/*.{ini,txt}"]
+    prefix.install "Source/Auxiliary/ExampleConfig/pcap_dnsproxy.service.plist"
   end
 
   plist_options :startup => true, :manual => "sudo #{HOMEBREW_PREFIX}/opt/pcap_dnsproxy/bin/Pcap_DNSProxy -c #{HOMEBREW_PREFIX}/etc/pcap_DNSproxy/"

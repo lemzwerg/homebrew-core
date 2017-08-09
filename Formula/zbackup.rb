@@ -3,13 +3,13 @@ class Zbackup < Formula
   homepage "http://zbackup.org"
   url "https://github.com/zbackup/zbackup/archive/1.4.4.tar.gz"
   sha256 "efccccd2a045da91576c591968374379da1dc4ca2e3dec4d3f8f12628fa29a85"
-  revision 3
+  revision 4
 
   bottle do
     cellar :any
-    sha256 "5a1078d12ceee6bc9577c865cbf9bd5f1ac6aa681649af79014edf25da4f73f4" => :sierra
-    sha256 "d579f8a6851f07491723ba5f0f6fbf28f23cc4d4da64a2dc2f7b5ef4b7589b9e" => :el_capitan
-    sha256 "aa06cf46a4fc4c970e968478995258542b1d5252dede792a4b563baa52ce24d4" => :yosemite
+    sha256 "6c0851da2b016b37a4ee95a6d181590382eda2c491a2a230ef37b2eb07ed57b8" => :sierra
+    sha256 "22c5b291a3daac5ed9959c18fa0a3152e44388dc78bd9c1ec417aea853444ae4" => :el_capitan
+    sha256 "8917c9b6f38a75b164b1daac0269da5e6fbfb0ba7f33b758f1224126c0642560" => :yosemite
   end
 
   depends_on "cmake" => :build
@@ -20,13 +20,13 @@ class Zbackup < Formula
 
   # These fixes are upstream and can be removed in version 1.5+
   patch do
-    url "https://github.com/zbackup/zbackup/commit/7e6adda6b1df9c7b955fc06be28fe6ed7d8125a2.diff"
-    sha256 "564c494b02be7b159b21f1cfcc963df29350061e050e66b7b3d96ed829552351"
+    url "https://github.com/zbackup/zbackup/commit/7e6adda6b1df9c7b955fc06be28fe6ed7d8125a2.diff?full_index=1"
+    sha256 "b33b3693fff6fa89b40a02c8c14f73e2e270e2c5e5f0e27ccb038b0d2fb304d4"
   end
 
   patch do
-    url "https://github.com/zbackup/zbackup/commit/f4ff7bd8ec63b924a49acbf3a4f9cf194148ce18.diff"
-    sha256 "47f760aa03a0a1550f05e30b1fa127afa1eda5a802d0d6edd9be07f3762008fb"
+    url "https://github.com/zbackup/zbackup/commit/f4ff7bd8ec63b924a49acbf3a4f9cf194148ce18.diff?full_index=1"
+    sha256 "060491c216a145d34a8fd3385b138630718579404e1a2ec2adea284a52699672"
   end
 
   def install

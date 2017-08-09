@@ -4,26 +4,25 @@ class ImagemagickAT6 < Formula
   # Please always keep the Homebrew mirror as the primary URL as the
   # ImageMagick site removes tarballs regularly which means we get issues
   # unnecessarily and older versions of the formula are broken.
-  url "https://dl.bintray.com/homebrew/mirror/imagemagick%406-6.9.7-8.tar.xz"
-  mirror "https://www.imagemagick.org/download/ImageMagick-6.9.7-8.tar.xz"
-  sha256 "6276d92726240c2ced8f6db7d348e0ac13daddfe36b9f6d9b4afb3c9043ed8d2"
+  url "https://dl.bintray.com/homebrew/mirror/imagemagick%406-6.9.9-5.tar.xz"
+  mirror "https://www.imagemagick.org/download/ImageMagick-6.9.9-5.tar.xz"
+  sha256 "aa6444ece8d29b87fb4f25e997cd0b4fb48774206cea9490c6028babdee7d056"
+  revision 1
 
   bottle do
-    sha256 "c600b14ce8069cdd518145453bdd9db29ea474cf870c3e65e148549ace975f30" => :sierra
-    sha256 "368c04aa9c3be6b964daf8880c7a884cd4bee2a562b9e7da9cf9674cf6ed0f38" => :el_capitan
-    sha256 "e3063fd887dcc8f4c1c9002baa8733a8e9d4203d36102de446cf5ba8a2869def" => :yosemite
+    rebuild 1
+    sha256 "fc56723e889cd32eab9317e0c1282a4077db3f25e03c0d0d19eda63d3fb626d4" => :sierra
+    sha256 "30081785d14ba060bc310689922d039be47c66e646373e3568598efb7f5c71d4" => :el_capitan
+    sha256 "4b1171e4c1a6eb79d367e3f577e67765a4b4a11e3a4018475eeb3e73bc2f5b32" => :yosemite
   end
 
-  keg_only "Older version of imagemagick"
+  keg_only :versioned_formula
 
   option "with-fftw", "Compile with FFTW support"
   option "with-hdri", "Compile with HDRI support"
   option "with-opencl", "Compile with OpenCL support"
   option "with-openmp", "Compile with OpenMP support"
   option "with-perl", "Compile with PerlMagick"
-  option "with-quantum-depth-8", "Compile with a quantum depth of 8 bit"
-  option "with-quantum-depth-16", "Compile with a quantum depth of 16 bit"
-  option "with-quantum-depth-32", "Compile with a quantum depth of 32 bit"
   option "without-magick-plus-plus", "disable build/install of Magick++"
   option "without-modules", "Disable support for dynamically loadable modules"
   option "without-threads", "Disable threads support"
@@ -112,15 +111,6 @@ class ImagemagickAT6 < Formula
     args << "--with-fontconfig=yes" if build.with? "fontconfig"
     args << "--with-freetype=yes" if build.with? "freetype"
     args << "--enable-zero-configuration" if build.with? "zero-configuration"
-
-    if build.with? "quantum-depth-32"
-      quantum_depth = 32
-    elsif build.with?("quantum-depth-16") || build.with?("perl")
-      quantum_depth = 16
-    elsif build.with? "quantum-depth-8"
-      quantum_depth = 8
-    end
-    args << "--with-quantum-depth=#{quantum_depth}" if quantum_depth
 
     # versioned stuff in main tree is pointless for us
     inreplace "configure", "${PACKAGE_NAME}-${PACKAGE_VERSION}", "${PACKAGE_NAME}"

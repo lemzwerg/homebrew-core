@@ -1,16 +1,16 @@
 class Libqalculate < Formula
   desc "Library for Qalculate! program"
-  homepage "https://qalculate.sourceforge.io/"
-  url "https://downloads.sourceforge.net/project/qalculate/libqalculate/libqalculate-0.9.7/libqalculate-0.9.7.tar.gz"
-  sha256 "9a6d97ce3339d104358294242c3ecd5e312446721e93499ff70acc1604607955"
-  revision 1
+  homepage "https://qalculate.github.io/"
+  url "https://github.com/Qalculate/libqalculate/releases/download/v1.0.0a/libqalculate-1.0.0.tar.gz"
+  sha256 "7cc5a67356374d7f4fb20619dc4dd7976bbe9ae8d5bc3a40b44c46264de9549b"
 
   bottle do
-    sha256 "8e6dfe4e45213d687961fbc44b77e6900233f7bc9e44449c391cf512a8ab73f6" => :sierra
-    sha256 "369f1490d60045930bbe3d7b62a6e07233aa2589817e6de4c96bcccbb86b0404" => :el_capitan
-    sha256 "4b6de765ce80651675e070e1fb2793cc730b05bf9ba5f6bd5f4ec97476441407" => :yosemite
+    sha256 "cfef7cbb714bef3f00d317a92fd45f2e4d1356e7f6f3a2a852beefbeb83f52c6" => :sierra
+    sha256 "dc29c0ab4993ff54d6b53a142547147622646fba99dc5aa5aac5475aeb4c77e7" => :el_capitan
+    sha256 "abdd1944a9d09bafa153abcc704ec63f91fbd264ecb6e744279636a5d7cac93d" => :yosemite
   end
 
+  depends_on "intltool" => :build
   depends_on "pkg-config" => :build
   depends_on "cln"
   depends_on "glib"
@@ -19,11 +19,9 @@ class Libqalculate < Formula
   depends_on "readline"
   depends_on "wget"
 
-  # Patches against version 0.9.7, should not be needed in the future
-  patch :DATA
-
   def install
-    system "./configure", "--disable-debug", "--disable-dependency-tracking",
+    system "./configure", "--disable-dependency-tracking",
+                          "--disable-silent-rules",
                           "--prefix=#{prefix}"
     system "make", "install"
   end
@@ -32,31 +30,3 @@ class Libqalculate < Formula
     system "#{bin}/qalc", "-nocurrencies", "(2+2)/4 hours to minutes"
   end
 end
-
-__END__
-diff -ur a/src/defs2doc.cc b/src/defs2doc.cc
---- a/src/defs2doc.cc 2009-12-02 14:24:28.000000000 -0600
-+++ b/src/defs2doc.cc 2012-01-10 18:47:50.000000000 -0600
-@@ -16,7 +16,9 @@
- #include <time.h>
- #include <pthread.h>
- #include <dirent.h>
-+#if !defined(__APPLE__)
- #include <malloc.h>
-+#endif
- #include <stdio.h>
- #include <vector>
- #include <glib.h>
-diff -ur a/src/qalc.cc b/src/qalc.cc
---- a/src/qalc.cc 2010-01-05 09:17:29.000000000 -0600
-+++ b/src/qalc.cc 2012-01-10 18:47:42.000000000 -0600
-@@ -16,7 +16,9 @@
- #include <time.h>
- #include <pthread.h>
- #include <dirent.h>
-+#if !defined(__APPLE__)
- #include <malloc.h>
-+#endif
- #include <stdio.h>
- #include <vector>
- #include <glib.h>

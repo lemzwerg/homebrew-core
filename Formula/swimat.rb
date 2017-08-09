@@ -1,14 +1,14 @@
 class Swimat < Formula
-  desc "Command Line Tool to help format Swift code"
+  desc "Command-line tool to help format Swift code"
   homepage "https://github.com/Jintin/Swimat"
-  url "https://github.com/Jintin/Swimat/archive/v1.2.1.tar.gz"
-  sha256 "ef2f0fe83ca779698679a1a110ebc6ae9c5a457805b6647af79db32cfed0a018"
+  url "https://github.com/Jintin/Swimat/archive/v1.3.5.tar.gz"
+  sha256 "c5c9db2c577889699b48040dbd6cbb0850cf14e946b43760e890728ba8473e86"
   head "https://github.com/Jintin/Swimat.git"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "afb03ff97abd634eb8d5650fdba20cbdc874b68e40542c2a6c0082afd8a97de1" => :sierra
-    sha256 "b21a2dd90ed13653dd53ddf07c1cb1ee50ac8efa61a42603bf47fc5266614732" => :el_capitan
+    sha256 "ba55464babba7e8c0998523dcbef81442f22942f7dc70456522fb81b436a3c96" => :sierra
+    sha256 "8032f970d92bad803b1aea9a0088de52c4636a08905241e84aa9804b565bf9b1" => :el_capitan
   end
 
   depends_on :xcode => "8.0"

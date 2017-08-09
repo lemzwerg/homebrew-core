@@ -1,19 +1,13 @@
 class MobileShell < Formula
   desc "Remote terminal application"
   homepage "https://mosh.org"
-  url "https://mosh.org/mosh-1.2.6.tar.gz"
-  sha256 "7e82b7fbfcc698c70f5843bb960dadb8e7bd7ac1d4d2151c9d979372ea850e85"
-  revision 4
+  url "https://mosh.org/mosh-1.3.2.tar.gz"
+  sha256 "da600573dfa827d88ce114e0fed30210689381bbdcff543c931e4d6a2e851216"
 
   bottle do
-    sha256 "f170b43d61fc6e9d1c38bbf4815ef7339415807ebfa560fdb5f3d8f23aeaf57c" => :sierra
-    sha256 "426d82ec12f5bcde93aaf1f5a90a357e6a1c9f78dcb21894635e26e54d5f6192" => :el_capitan
-    sha256 "fd01f23a2bdedf3cf182fea9737fa44a4cf1b3b39a6b522d6f7dd8c8f5c89336" => :yosemite
-  end
-
-  devel do
-    url "https://github.com/mobile-shell/mosh/releases/download/mosh-1.3.0-rc2/mosh-1.3.0-rc2.tar.gz"
-    sha256 "8b6bff33c469ccea0438877c68774a6b2ded6fccd99b1db180222da82f0654ae"
+    sha256 "d1aa59fa052c0b919bd5d7e7a3fcbf3d225ae7bb8b237e52b1b73d4f8ff1bf1c" => :sierra
+    sha256 "ddad65e6e6f7646279a3b08a28127f5b8583e2006676a6578a1bb2fc40daa084" => :el_capitan
+    sha256 "160d1d3cd11d2367444d2c8a41cb7979ce18926b1831df6d4ad54379a28248d5" => :yosemite
   end
 
   head do
@@ -29,7 +23,6 @@ class MobileShell < Formula
 
   depends_on "pkg-config" => :build
   depends_on "protobuf"
-  depends_on :perl => "5.14" if MacOS.version <= :mountain_lion
   depends_on "tmux" => :build if build.with?("test") || build.bottle?
 
   def install

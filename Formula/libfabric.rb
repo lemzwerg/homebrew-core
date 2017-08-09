@@ -1,23 +1,14 @@
 class Libfabric < Formula
   desc "OpenFabrics libfabric"
   homepage "https://ofiwg.github.io/libfabric/"
+  url "https://github.com/ofiwg/libfabric/releases/download/v1.4.2/libfabric-1.4.2.tar.bz2"
+  sha256 "5d027d7e4e34cb62508803e51d6bd2f477932ad68948996429df2bfff37ca2a5"
   head "https://github.com/ofiwg/libfabric.git"
 
-  stable do
-    url "https://github.com/ofiwg/libfabric/releases/download/v1.4.0/libfabric-1.4.0.tar.bz2"
-    sha256 "e9f449a137d2f1713ffc970f80a9a8c1fd2970f74f1d118941eafd4b2021bc94"
-
-    # Upstream commit from 19 Nov 2016 "core: remove use of clock_gettime(3)"
-    patch do
-      url "https://github.com/ofiwg/libfabric/commit/0b0c889.patch"
-      sha256 "9ed89d80a2edccc84d157e7fa41159e461e8ebefd717db99123b2323df9ae0aa"
-    end
-  end
-
   bottle do
-    sha256 "91db7ba6edb2403f887680ce9ddb5119bd3e41e0a39a8c4bf7b926c05fad87c4" => :sierra
-    sha256 "af0db4773b9ecdacc665747faaaf30e5b7be52f0e7c892196a21a42755d5d2b6" => :el_capitan
-    sha256 "9c79ea7f17ce4286abf11c6bdd2c2639bf72ce1588f32f63b611458097f725a7" => :yosemite
+    sha256 "315ae9c4dbd25decbd986727818a7783ef20345c38d7181fea5f73280c39dde6" => :sierra
+    sha256 "a558f70ca027a71bfca91e4be73bceba31988e83e9e8ec979be4c2866226640b" => :el_capitan
+    sha256 "b3860291617118a4fe639ff910ddc42a91773e3150a9ede7ddb015eb8525aaf4" => :yosemite
   end
 
   depends_on "autoconf" => :build

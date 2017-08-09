@@ -1,13 +1,14 @@
 class Strongswan < Formula
   desc "VPN based on IPsec"
   homepage "https://www.strongswan.org"
-  url "https://download.strongswan.org/strongswan-5.5.1.tar.bz2"
-  sha256 "720b301991f77bdedd8d551a956f52e2d11686a0ec18e832094f86cf2b842ab7"
+  url "https://download.strongswan.org/strongswan-5.5.3.tar.bz2"
+  sha256 "c5ea54b199174708de11af9b8f4ecf28b5b0743d4bc0e380e741f25b28c0f8d4"
+  revision 1
 
   bottle do
-    sha256 "0f0f1a5af2f6d4cf1578d6cdb61dc26e7f9bea5746f212ab2778c44ac55c40cd" => :sierra
-    sha256 "9e3c233002b8c28b65858f0a708dd08ec721ce8f0b467413a71b084e63fbd279" => :el_capitan
-    sha256 "dc17f090c6f41cfda863b8b310d6d0b7921766cc058eea85c8350799295e4b2a" => :yosemite
+    sha256 "f7bb70f605b43ee8ba2f5c69d8ac12f3fb5482d065e809f1d4e41b190a2f3961" => :sierra
+    sha256 "66493584f56c0a4434c96b9694e73fbd65c6cceb75c43a990bab8ba8115dc6fb" => :el_capitan
+    sha256 "6cf78eb774355dd7e0ddd5b7025619a09296f62415201c5bfd6e02c5aca10999" => :yosemite
   end
 
   head do
@@ -37,6 +38,7 @@ class Strongswan < Formula
       --enable-charon
       --enable-cmd
       --enable-constraints
+      --enable-curve25519
       --enable-eap-gtc
       --enable-eap-identity
       --enable-eap-md5

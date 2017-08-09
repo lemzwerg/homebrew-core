@@ -3,53 +3,29 @@ class Dmd < Formula
   homepage "https://dlang.org/"
 
   stable do
-    url "https://github.com/dlang/dmd/archive/v2.073.0.tar.gz"
-    sha256 "61483ea2c395341d05e65ce7e08a978cceff33ed3818f9ffa009a2f2da6929d5"
+    url "https://github.com/dlang/dmd/archive/v2.075.0.tar.gz"
+    sha256 "9c18019485eb65a11cb60645701fa0a35aa7f910f5a399a897fa8297c14c3df6"
 
     resource "druntime" do
-      url "https://github.com/dlang/druntime/archive/v2.073.0.tar.gz"
-      sha256 "542adeac69b93c728a3760273d8d50ec43bf609736c526a58976b3822d5aa883"
+      url "https://github.com/dlang/druntime/archive/v2.075.0.tar.gz"
+      sha256 "a64e5fa94d7b367b3e9d08b03c460c10de5dcced3418bbadeb53707a0a8d2bfd"
     end
 
     resource "phobos" do
-      url "https://github.com/dlang/phobos/archive/v2.073.0.tar.gz"
-      sha256 "2a0176039fcfcd6c05eff5f471e7659c2d368a8b2cd7f7de323d49d3d8b45782"
+      url "https://github.com/dlang/phobos/archive/v2.075.0.tar.gz"
+      sha256 "0d93d3d47be24995a1b1e97f0e04e7625d9e8b567e8c4a70d675af077f368f48"
     end
 
     resource "tools" do
-      url "https://github.com/dlang/tools/archive/v2.073.0.tar.gz"
-      sha256 "fbc04a5521eac7a25d9f210a44d9ae9b6843466ae4560f9dafe29d65771c2e06"
+      url "https://github.com/dlang/tools/archive/v2.075.0.tar.gz"
+      sha256 "2fb12e20fa62b3d3ffda60d2b1bed53485d7312c02d0ed10e4178f8859eb27dc"
     end
   end
 
   bottle do
-    sha256 "59ea4775ead963332333068e070b4456df008c36bc31cd8600c8caac310d72fa" => :sierra
-    sha256 "dabf9f179337f76b82ac2940fa1de106141d3e8a1e11f331658c998fc03f714d" => :el_capitan
-    sha256 "6cf60c26e372805784388702ebdc87457a3c86da5e3b5d69a5f3b84e08579c72" => :yosemite
-  end
-
-  devel do
-    url "https://github.com/dlang/dmd/archive/v2.073.1-b2.tar.gz"
-    sha256 "59e26c9055e5d517301a9edd65073794dc654b9cd8f4343af56e7e9114360a48"
-    version "2.073.1-b2"
-
-    resource "druntime" do
-      url "https://github.com/dlang/druntime/archive/v2.073.1-b2.tar.gz"
-      sha256 "4fedf37be7e8fb05b97d0624116b0be080e554b099bacb18f96998770767afc9"
-      version "2.073.1-b2"
-    end
-
-    resource "phobos" do
-      url "https://github.com/dlang/phobos/archive/v2.073.1-b2.tar.gz"
-      sha256 "89a6d7f3540f9b149f7bb5dc97bab9a6365fbf9a6ab41d3b91a8b861c2e31c67"
-      version "2.073.1-b2"
-    end
-
-    resource "tools" do
-      url "https://github.com/dlang/tools/archive/v2.073.1-b2.tar.gz"
-      sha256 "eab3d84db53a96092455cc59e98e076fd7f2d95054ab0202e32873e985660791"
-      version "2.073.1-b2"
-    end
+    sha256 "b1724eb67a864dd6a804cf823085087d15313c0db0310d49bb2f1cb3b743b033" => :sierra
+    sha256 "61a2eb09ffcfe61c8aea379a21291ef79d184725f49664e54f6f2cb3a087d167" => :el_capitan
+    sha256 "ebed6a8c951e6530286a3f5d9d3396ab42d62341d65df7a072986f9b5fb12007" => :yosemite
   end
 
   head do
@@ -77,32 +53,58 @@ class Dmd < Formula
     prefix.install "samples"
     man.install Dir["docs/man/*"]
 
-    # A proper dmd.conf is required for later build steps:
-    conf = buildpath/"dmd.conf"
-    # Can't use opt_include or opt_lib here because dmd won't have been
-    # linked into opt by the time this build runs:
-    conf.write <<-EOS.undent
-        [Environment]
-        DFLAGS=-I#{include}/dlang/dmd -L-L#{lib}
-        EOS
-    etc.install conf
-    install_new_dmd_conf
+    if build.head?
+      make_args.unshift "DMD_DIR=#{buildpath}", "DRUNTIME_PATH=#{buildpath}/druntime", "PHOBOS_PATH=#{buildpath}/phobos"
+      (buildpath/"druntime").install resource("druntime")
+      (buildpath/"phobos").install resource("phobos")
+      system "make", "-C", "druntime", *make_args
+      system "make", "-C", "phobos", "VERSION=#{buildpath}/VERSION", *make_args
 
-    make_args.unshift "DMD=#{bin}/dmd"
+      resource("tools").stage do
+        inreplace "posix.mak", "install: $(TOOLS) $(CURL_TOOLS)", "install: $(TOOLS) $(ROOT)/dustmite"
+        system "make", "install", *make_args
+      end
 
-    (buildpath/"druntime").install resource("druntime")
-    (buildpath/"phobos").install resource("phobos")
+      (include/"dlang/dmd").install Dir["druntime/import/*"]
+      cp_r ["phobos/std", "phobos/etc"], include/"dlang/dmd"
+      lib.install Dir["druntime/lib/*", "phobos/**/libphobos2.a"]
 
-    system "make", "-C", "druntime", *make_args
-    system "make", "-C", "phobos", "VERSION=#{buildpath}/VERSION", *make_args
+      conf = buildpath/"dmd.conf"
+      # Can't use opt_include or opt_lib here because dmd won't have been
+      # linked into opt by the time this build runs:
+      conf.write <<-EOS.undent
+          [Environment]
+          DFLAGS=-I#{include}/dlang/dmd -L-L#{lib}
+          EOS
+      etc.install conf
+    else
+      # A proper dmd.conf is required for later build steps:
+      conf = buildpath/"dmd.conf"
+      # Can't use opt_include or opt_lib here because dmd won't have been
+      # linked into opt by the time this build runs:
+      conf.write <<-EOS.undent
+          [Environment]
+          DFLAGS=-I#{include}/dlang/dmd -L-L#{lib}
+          EOS
+      etc.install conf
+      install_new_dmd_conf
 
-    (include/"dlang/dmd").install Dir["druntime/import/*"]
-    cp_r ["phobos/std", "phobos/etc"], include/"dlang/dmd"
-    lib.install Dir["druntime/lib/*", "phobos/**/libphobos2.a"]
+      make_args.unshift "DMD=#{bin}/dmd"
 
-    resource("tools").stage do
-      inreplace "posix.mak", "install: $(TOOLS) $(CURL_TOOLS)", "install: $(TOOLS) $(ROOT)/dustmite"
-      system "make", "install", *make_args
+      (buildpath/"druntime").install resource("druntime")
+      (buildpath/"phobos").install resource("phobos")
+
+      system "make", "-C", "druntime", *make_args
+      system "make", "-C", "phobos", "VERSION=#{buildpath}/VERSION", *make_args
+
+      (include/"dlang/dmd").install Dir["druntime/import/*"]
+      cp_r ["phobos/std", "phobos/etc"], include/"dlang/dmd"
+      lib.install Dir["druntime/lib/*", "phobos/**/libphobos2.a"]
+
+      resource("tools").stage do
+        inreplace "posix.mak", "install: $(TOOLS) $(CURL_TOOLS)", "install: $(TOOLS) $(ROOT)/dustmite"
+        system "make", "install", *make_args
+      end
     end
   end
 

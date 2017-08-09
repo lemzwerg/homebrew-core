@@ -1,14 +1,15 @@
 class Hugo < Formula
   desc "Configurable static site generator"
   homepage "https://gohugo.io/"
-  url "https://github.com/spf13/hugo/archive/v0.18.1.tar.gz"
-  sha256 "29db2524a3042f507162164ec3ce9071277a7608547f4ea4f739d63cac4b39e4"
-  head "https://github.com/spf13/hugo.git"
+  url "https://github.com/gohugoio/hugo/archive/v0.26.tar.gz"
+  sha256 "1e76b6f5f0281d845c2189f7f3ae065a3ec38e32c560f4b573188878998f9c68"
+  head "https://github.com/gohugoio/hugo.git"
 
   bottle do
-    sha256 "867119475450105e8cbc7b7d7f5f0457de2361ae13f9b13cbef4f570652790d9" => :sierra
-    sha256 "7ee882458f979268c8175d52bd9c8fa8f3d3439e31e265f09de23f35b0ed6500" => :el_capitan
-    sha256 "d5dcfea463c4dfe7010e3acfacbafb42f190f33b7f4265e5fc78b71c93a8d96c" => :yosemite
+    cellar :any_skip_relocation
+    sha256 "350b844e036d9edab0e172eb031f96400a5e59df48e4a522c8748c5665a8e6cc" => :sierra
+    sha256 "3f197a9b11ed9989a08d08c4b819344824d5b765adaf0b96e7086f08e4f9e59e" => :el_capitan
+    sha256 "cd8253571c5339369fef4649fc9d98beb7781db68703b13cf2a0621e119d0f6e" => :yosemite
   end
 
   depends_on "go" => :build
@@ -16,8 +17,8 @@ class Hugo < Formula
 
   def install
     ENV["GOPATH"] = buildpath
-    (buildpath/"src/github.com/spf13/hugo").install buildpath.children
-    cd "src/github.com/spf13/hugo" do
+    (buildpath/"src/github.com/gohugoio/hugo").install buildpath.children
+    cd "src/github.com/gohugoio/hugo" do
       system "govendor", "sync"
       system "go", "build", "-o", bin/"hugo", "main.go"
 

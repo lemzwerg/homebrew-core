@@ -1,27 +1,20 @@
 class Emacs < Formula
   desc "GNU Emacs text editor"
   homepage "https://www.gnu.org/software/emacs/"
-  url "https://ftpmirror.gnu.org/emacs/emacs-25.1.tar.xz"
-  mirror "https://ftp.gnu.org/gnu/emacs/emacs-25.1.tar.xz"
-  sha256 "19f2798ee3bc26c95dca3303e7ab141e7ad65d6ea2b6945eeba4dbea7df48f33"
+  url "https://ftp.gnu.org/gnu/emacs/emacs-25.2.tar.xz"
+  mirror "https://ftpmirror.gnu.org/emacs/emacs-25.2.tar.xz"
+  sha256 "59b55194c9979987c5e9f1a1a4ab5406714e80ffcfd415cc6b9222413bc073fa"
 
   bottle do
-    rebuild 4
-    sha256 "c80ef281b85fb8a8bd65a84676056ea41d7bb2954d5c82193eef2acea2ade856" => :sierra
-    sha256 "5498bd9f8e027d8a77a8939d3468123313a57e67c3f08ad4d4f72bd1a95b3cbb" => :el_capitan
-    sha256 "8fa2c1f493b9dc831a017055b5de26b426925895c6400b24a3755e4db8b0ffa2" => :yosemite
-  end
-
-  devel do
-    url "https://alpha.gnu.org/gnu/emacs/pretest/emacs-25.2-rc1.tar.xz"
-    sha256 "a94e8e190992627c9b7ef5683d267663bb4c9c2880ef5093988ba42cf8aeae2b"
+    sha256 "b759bd107cb9b227349cb82ddbc3924ffbe8767429db426b980247fd7958b3a5" => :sierra
+    sha256 "5456aa6ba7e2e9391abca982b1647b0ba97dd6c77378decb123f8e825620c03a" => :el_capitan
+    sha256 "cffac5cdce7aa321adb820300f54e747f7beae99f030d419c825427770c10888" => :yosemite
   end
 
   head do
     url "https://github.com/emacs-mirror/emacs.git"
 
     depends_on "autoconf" => :build
-    depends_on "automake" => :build
     depends_on "gnu-sed" => :build
     depends_on "texinfo" => :build
   end
@@ -34,12 +27,15 @@ class Emacs < Formula
   deprecated_option "cocoa" => "with-cocoa"
   deprecated_option "keep-ctags" => "with-ctags"
   deprecated_option "with-d-bus" => "with-dbus"
+  deprecated_option "imagemagick" => "imagemagick@6"
 
   depends_on "pkg-config" => :build
   depends_on "dbus" => :optional
   depends_on "gnutls" => :optional
   depends_on "librsvg" => :optional
-  depends_on "imagemagick" => :optional
+  # Emacs does not support ImageMagick 7:
+  # Reported on 2017-03-04: https://debbugs.gnu.org/cgi/bugreport.cgi?bug=25967
+  depends_on "imagemagick@6" => :optional
   depends_on "mailutils" => :optional
 
   def install
@@ -70,7 +66,15 @@ class Emacs < Formula
       args << "--without-gnutls"
     end
 
-    args << "--with-imagemagick" if build.with? "imagemagick"
+    # Note that if ./configure is passed --with-imagemagick but can't find the
+    # library it does not fail but imagemagick support will not be available.
+    # See: https://debbugs.gnu.org/cgi/bugreport.cgi?bug=24455
+    if build.with? "imagemagick@6"
+      args << "--with-imagemagick"
+    else
+      args << "--without-imagemagick"
+    end
+
     args << "--with-modules" if build.with? "modules"
     args << "--with-rsvg" if build.with? "librsvg"
     args << "--without-pop" if build.with? "mailutils"

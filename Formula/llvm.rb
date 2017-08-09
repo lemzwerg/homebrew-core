@@ -19,111 +19,109 @@ end
 
 class Llvm < Formula
   desc "Next-gen compiler infrastructure"
-  homepage "http://llvm.org/"
+  homepage "https://llvm.org/"
 
   stable do
-    url "http://llvm.org/releases/3.9.1/llvm-3.9.1.src.tar.xz"
-    sha256 "1fd90354b9cf19232e8f168faf2220e79be555df3aa743242700879e8fd329ee"
+    url "https://llvm.org/releases/4.0.1/llvm-4.0.1.src.tar.xz"
+    sha256 "da783db1f82d516791179fe103c71706046561f7972b18f0049242dee6712b51"
 
     resource "clang" do
-      url "http://llvm.org/releases/3.9.1/cfe-3.9.1.src.tar.xz"
-      sha256 "e6c4cebb96dee827fa0470af313dff265af391cb6da8d429842ef208c8f25e63"
+      url "https://llvm.org/releases/4.0.1/cfe-4.0.1.src.tar.xz"
+      sha256 "61738a735852c23c3bdbe52d035488cdb2083013f384d67c1ba36fabebd8769b"
     end
 
     resource "clang-extra-tools" do
-      url "http://llvm.org/releases/3.9.1/clang-tools-extra-3.9.1.src.tar.xz"
-      sha256 "29a5b65bdeff7767782d4427c7c64d54c3a8684bc6b217b74a70e575e4813635"
+      url "https://llvm.org/releases/4.0.1/clang-tools-extra-4.0.1.src.tar.xz"
+      sha256 "35d1e64efc108076acbe7392566a52c35df9ec19778eb9eb12245fc7d8b915b6"
     end
 
     resource "compiler-rt" do
-      url "http://llvm.org/releases/3.9.1/compiler-rt-3.9.1.src.tar.xz"
-      sha256 "d30967b1a5fa51a2503474aacc913e69fd05ae862d37bf310088955bdb13ec99"
+      url "https://llvm.org/releases/4.0.1/compiler-rt-4.0.1.src.tar.xz"
+      sha256 "a3c87794334887b93b7a766c507244a7cdcce1d48b2e9249fc9a94f2c3beb440"
     end
 
     # Only required to build & run Compiler-RT tests on macOS, optional otherwise.
-    # http://clang.llvm.org/get_started.html
+    # https://clang.llvm.org/get_started.html
     resource "libcxx" do
-      url "http://llvm.org/releases/3.9.1/libcxx-3.9.1.src.tar.xz"
-      sha256 "25e615e428f60e651ed09ffd79e563864e3f4bc69a9e93ee41505c419d1a7461"
+      url "https://llvm.org/releases/4.0.1/libcxx-4.0.1.src.tar.xz"
+      sha256 "520a1171f272c9ff82f324d5d89accadcec9bc9f3c78de11f5575cdb99accc4c"
     end
 
     resource "libunwind" do
-      url "http://llvm.org/releases/3.9.1/libunwind-3.9.1.src.tar.xz"
-      sha256 "0b0bc73264d7ab77d384f8a7498729e3c4da8ffee00e1c85ad02a2f85e91f0e6"
+      url "https://llvm.org/releases/4.0.1/libunwind-4.0.1.src.tar.xz"
+      sha256 "3b072e33b764b4f9b5172698e080886d1f4d606531ab227772a7fc08d6a92555"
     end
 
     resource "lld" do
-      url "http://llvm.org/releases/3.9.1/lld-3.9.1.src.tar.xz"
-      sha256 "48e128fabb2ddaee64ecb8935f7ac315b6e68106bc48aeaf655d179c65d87f34"
+      url "https://llvm.org/releases/4.0.1/lld-4.0.1.src.tar.xz"
+      sha256 "63ce10e533276ca353941ce5ab5cc8e8dcd99dbdd9c4fa49f344a212f29d36ed"
     end
 
     resource "lldb" do
-      url "http://llvm.org/releases/3.9.1/lldb-3.9.1.src.tar.xz"
-      sha256 "7e3311b2a1f80f4d3426e09f9459d079cab4d698258667e50a46dccbaaa460fc"
+      url "https://llvm.org/releases/4.0.1/lldb-4.0.1.src.tar.xz"
+      sha256 "8432d2dfd86044a0fc21713e0b5c1d98e1d8aad863cf67562879f47f841ac47b"
     end
 
     resource "openmp" do
-      url "http://llvm.org/releases/3.9.1/openmp-3.9.1.src.tar.xz"
-      sha256 "d23b324e422c0d5f3d64bae5f550ff1132c37a070e43c7ca93991676c86c7766"
+      url "https://llvm.org/releases/4.0.1/openmp-4.0.1.src.tar.xz"
+      sha256 "ec693b170e0600daa7b372240a06e66341ace790d89eaf4a843e8d56d5f4ada4"
     end
 
     resource "polly" do
-      url "http://llvm.org/releases/3.9.1/polly-3.9.1.src.tar.xz"
-      sha256 "9ba5e61fc7bf8c7435f64e2629e0810c9b1d1b03aa5b5605b780d0e177b4cb46"
+      url "https://llvm.org/releases/4.0.1/polly-4.0.1.src.tar.xz"
+      sha256 "b443bb9617d776a7d05970e5818aa49aa2adfb2670047be8e9f242f58e84f01a"
     end
   end
 
   bottle do
     cellar :any
-    rebuild 1
-    sha256 "ecbe016ff3f1bab84cfeda7f0282b27ee362275a56ad61930ab7fad54d01ba0b" => :sierra
-    sha256 "120469cdd56a8c3c80fbbe62020b2d99c825a3f2a766b39c7361a048b0ff4bdb" => :el_capitan
-    sha256 "b56f5ed9f5d693654b6400ab85e1540712e8d2f354c3d2fa1cea63687bfc51a0" => :yosemite
+    sha256 "eb15bdba8ca720b89fa5548ad56a51834bbc48e1eb9fda6773027a138fc29f19" => :sierra
+    sha256 "1b4145b60413913b34cc533fa2cf22f0226469529771bfa8ad3e8a4d77ba65b6" => :el_capitan
+    sha256 "34c163e3e65dce3c6d82905cbf9220e92854ff50825d13402047534ef62beb66" => :yosemite
   end
 
   head do
-    url "http://llvm.org/git/llvm.git"
+    url "https://llvm.org/git/llvm.git"
 
     resource "clang" do
-      url "http://llvm.org/git/clang.git"
+      url "https://llvm.org/git/clang.git"
     end
 
     resource "clang-extra-tools" do
-      url "http://llvm.org/git/clang-tools-extra.git"
+      url "https://llvm.org/git/clang-tools-extra.git"
     end
 
     resource "compiler-rt" do
-      url "http://llvm.org/git/compiler-rt.git"
+      url "https://llvm.org/git/compiler-rt.git"
     end
 
     resource "libcxx" do
-      url "http://llvm.org/git/libcxx.git"
+      url "https://llvm.org/git/libcxx.git"
     end
 
     resource "libunwind" do
-      url "http://llvm.org/git/libunwind.git"
+      url "https://llvm.org/git/libunwind.git"
     end
 
     resource "lld" do
-      url "http://llvm.org/git/lld.git"
+      url "https://llvm.org/git/lld.git"
     end
 
     resource "lldb" do
-      url "http://llvm.org/git/lldb.git"
+      url "https://llvm.org/git/lldb.git"
     end
 
     resource "openmp" do
-      url "http://llvm.org/git/openmp.git"
+      url "https://llvm.org/git/openmp.git"
     end
 
     resource "polly" do
-      url "http://llvm.org/git/polly.git"
+      url "https://llvm.org/git/polly.git"
     end
   end
 
   keg_only :provided_by_osx
 
-  option :universal
   option "without-compiler-rt", "Do not build Clang runtime support libraries for code sanitizers, builtins, and profiling"
   option "without-libcxx", "Do not build libc++ standard library"
   option "with-toolchain", "Build with Toolchain to facilitate overriding system compiler"
@@ -132,8 +130,11 @@ class Llvm < Formula
   option "with-shared-libs", "Build shared instead of static libraries"
   option "without-libffi", "Do not use libffi to call external functions"
 
-  depends_on "libffi" => :recommended # http://llvm.org/docs/GettingStarted.html#requirement
-  depends_on "graphviz" => :optional # for the 'dot' tool (lldb)
+  # https://llvm.org/docs/GettingStarted.html#requirement
+  depends_on "libffi" => :recommended
+
+  # for the 'dot' tool (lldb)
+  depends_on "graphviz" => :optional
 
   depends_on "ocaml" => :optional
   if build.with? "ocaml"
@@ -242,13 +243,9 @@ class Llvm < Formula
       args << "-DFFI_LIBRARY_DIR=#{Formula["libffi"].opt_lib}"
     end
 
-    if build.universal?
-      ENV.permit_arch_flags
-      args << "-DCMAKE_OSX_ARCHITECTURES=#{Hardware::CPU.universal_archs.as_cmake_arch_flags}"
-    end
-
     mktemp do
       if build.with? "ocaml"
+        args << "-DLLVM_OCAML_INSTALL_PATH=#{lib}/ocaml"
         ENV["OPAMYES"] = "1"
         ENV["OPAMROOT"] = Pathname.pwd/"opamroot"
         (Pathname.pwd/"opamroot").mkpath
@@ -275,19 +272,12 @@ class Llvm < Formula
   end
 
   def caveats
-    s = <<-EOS.undent
-      LLVM executables are installed in #{opt_bin}.
-      Extra tools are installed in #{opt_pkgshare}.
-    EOS
-
     if build_libcxx?
-      s += <<-EOS.undent
+      <<-EOS.undent
         To use the bundled libc++ please add the following LDFLAGS:
           LDFLAGS="-L#{opt_lib} -Wl,-rpath,#{opt_lib}"
       EOS
     end
-
-    s
   end
 
   test do

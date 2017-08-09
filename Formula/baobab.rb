@@ -1,19 +1,20 @@
 class Baobab < Formula
   desc "Gnome disk usage analyzer"
   homepage "https://wiki.gnome.org/Apps/Baobab"
-  url "https://download.gnome.org/sources/baobab/3.22/baobab-3.22.1.tar.xz"
-  sha256 "5bebcb1797888503d75c9985404e534940c211ffc37e5c7de09eed058dfc97ff"
+  url "https://download.gnome.org/sources/baobab/3.24/baobab-3.24.0.tar.xz"
+  sha256 "5980e96df9f3d1751a969869ec07bc184ae3ad667d5a3eb06cf1297091fdfc3f"
 
   bottle do
-    sha256 "de3c9c770606c2e3bc883c78bd9dcffd286a64f5882845bbc0758ff3c3735977" => :sierra
-    sha256 "c91340e2c91856f881cf60daa1701e9dfce4b59d153df90ceefb16f4ca49530d" => :el_capitan
-    sha256 "1d50a95ac3721eb492c40bfe108e8c3daebd313108536446d6eb6e65710417ae" => :yosemite
+    rebuild 1
+    sha256 "47ad8ce652e9ae5fada91d176d0305996da569ba6f3a7e6830ea8cce8209b525" => :sierra
+    sha256 "775bcde9520f07382a7267008b744e9451a433f90832c5b2b6a8d1f8b3c72af4" => :el_capitan
+    sha256 "c95601529262447892bd3bcf09ccd37e3c1b5692edf97557346b6a2de93563f8" => :yosemite
   end
 
   depends_on "pkg-config" => :build
   depends_on "intltool" => :build
   depends_on "itstool" => :build
-  depends_on "libxml2" => ["with-python", :build]
+  depends_on "libxml2" => :build
   depends_on :python => :build if MacOS.version <= :snow_leopard
   depends_on "vala" => :build
   depends_on "gtk+3"

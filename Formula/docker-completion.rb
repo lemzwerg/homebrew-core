@@ -1,9 +1,10 @@
 class DockerCompletion < Formula
   desc "Bash, Zsh and Fish completion for Docker"
   homepage "https://github.com/docker/docker"
-  url "https://github.com/docker/docker/archive/v1.13.1.tar.gz"
-  sha256 "2730e7cc15492de8f1d6f9510c64620fc9004c8afc1410bf3ebac9fc3f9f83c6"
-  head "https://github.com/docker/docker"
+  url "https://github.com/moby/moby/archive/v17.05.0-ce.tar.gz"
+  version "17.05.0"
+  sha256 "4716df117d867b82ddab2e82395cd40aa3d0925a689eedcec8919729e4c9f121"
+  head "https://github.com/docker/docker.git"
 
   bottle :unneeded
 

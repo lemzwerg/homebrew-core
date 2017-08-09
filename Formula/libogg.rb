@@ -1,7 +1,7 @@
 class Libogg < Formula
   desc "Ogg Bitstream Library"
   homepage "https://www.xiph.org/ogg/"
-  url "http://downloads.xiph.org/releases/ogg/libogg-1.3.2.tar.gz"
+  url "https://downloads.xiph.org/releases/ogg/libogg-1.3.2.tar.gz"
   sha256 "e19ee34711d7af328cb26287f4137e70630e7261b17cbe3cd41011d73a654692"
 
   bottle do
@@ -15,18 +15,14 @@ class Libogg < Formula
   end
 
   head do
-    url "https://svn.xiph.org/trunk/ogg"
+    url "https://git.xiph.org/ogg.git"
 
     depends_on "autoconf" => :build
     depends_on "automake" => :build
     depends_on "libtool" => :build
   end
 
-  option :universal
-
   def install
-    ENV.universal_binary if build.universal?
-
     system "./autogen.sh" if build.head?
     system "./configure", "--disable-dependency-tracking",
                           "--prefix=#{prefix}"

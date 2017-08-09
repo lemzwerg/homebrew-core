@@ -3,42 +3,42 @@ class Thefuck < Formula
 
   desc "Programatically correct mistyped console commands"
   homepage "https://github.com/nvbn/thefuck"
-  url "https://files.pythonhosted.org/packages/92/dc/c03623252b8a165257ba6bbcf3c87117c92807c27ab42cf933018d97722e/thefuck-3.14.tar.gz"
-  sha256 "0d00217a3b90af50d7c88806cf560b0ac59071c115df4c2a67800f6ea1f1be4d"
+  url "https://files.pythonhosted.org/packages/dd/a9/3aea08d8794e1fe4768fbc61aa7841674493e8dc097d4957fb825b4f12c8/thefuck-3.19.tar.gz"
+  sha256 "9848c966c6d8bfbc51892393b13f7548e3d3646afb1d0f13c0abb681113a56c0"
   head "https://github.com/nvbn/thefuck.git"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "a473ec93df2fbf0fa1b9c8184637c28e37ec9940a2cc5354f59226d589c81c10" => :sierra
-    sha256 "2f9b5b834521ae38756d3743912402ad6d2d5d64794fd8b4d65a0aff86fcf121" => :el_capitan
-    sha256 "8f25c473e9a8f4481280a4301b409f127b9a8ba9ce53de7328ab6506c0eb2d0d" => :yosemite
+    sha256 "030b7a59600199e30f6b6c28c89e062e0ab82d029eabf8684324ddd392fe5e71" => :sierra
+    sha256 "70470bcbee983de8fd0f627923b558d6a14df5ba191520f99e05919db326df84" => :el_capitan
+    sha256 "d52acf5de25a3637ba4ce2db78efc932e5da8b5296c9fc9ebcb4577f831b40fe" => :yosemite
   end
 
   depends_on :python if MacOS.version <= :snow_leopard
 
   resource "colorama" do
-    url "https://files.pythonhosted.org/packages/f0/d0/21c6449df0ca9da74859edc40208b3a57df9aca7323118c913e58d442030/colorama-0.3.7.tar.gz"
-    sha256 "e043c8d32527607223652021ff648fbb394d5e19cba9f1a698670b338c9d782b"
+    url "https://files.pythonhosted.org/packages/e6/76/257b53926889e2835355d74fec73d82662100135293e17d382e2b74d1669/colorama-0.3.9.tar.gz"
+    sha256 "48eb22f4f8461b1df5734a074b57042430fb06e1d61bd1e11b078c0fe6d7a1f1"
   end
 
   resource "decorator" do
-    url "https://files.pythonhosted.org/packages/13/8a/4eed41e338e8dcc13ca41c94b142d4d20c0de684ee5065523fee406ce76f/decorator-4.0.10.tar.gz"
-    sha256 "9c6e98edcb33499881b86ede07d9968c81ab7c769e28e9af24075f0a5379f070"
+    url "https://files.pythonhosted.org/packages/bb/e0/f6e41e9091e130bf16d4437dabbac3993908e4d6485ecbc985ef1352db94/decorator-4.1.2.tar.gz"
+    sha256 "7cb64d38cb8002971710c8899fbdfb859a23a364b7c99dab19d1f719c2ba16b5"
   end
 
   resource "pathlib2" do
-    url "https://files.pythonhosted.org/packages/7e/29/8f106fbb7e00db38dd94512041fe17ac368f0738f369fd24ed0c2e9137e3/pathlib2-2.2.0.tar.gz"
-    sha256 "a34e82120e503ebeee9e4c4f6a6f199b117a58819d18ed0c7f8cc944d435086b"
+    url "https://files.pythonhosted.org/packages/a1/14/df0deb867c2733f7d857523c10942b3d6612a1b222502fdffa9439943dfb/pathlib2-2.3.0.tar.gz"
+    sha256 "d32550b75a818b289bd4c1f96b60c89957811da205afcceab75bc8b4857ea5b3"
   end
 
   resource "psutil" do
-    url "https://files.pythonhosted.org/packages/d9/c8/8c7a2ab8ec108ba9ab9a4762c5a0d67c283d41b13b5ce46be81fdcae3656/psutil-5.0.1.tar.gz"
-    sha256 "9d8b7f8353a2b2eb6eb7271d42ec99d0d264a9338a37be46424d56b4e473b39e"
+    url "https://files.pythonhosted.org/packages/57/93/47a2e3befaf194ccc3d05ffbcba2cdcdd22a231100ef7e4cf63f085c900b/psutil-5.2.2.tar.gz"
+    sha256 "44746540c0fab5b95401520d29eb9ffe84b3b4a235bd1d1971cbe36e1f38dd13"
   end
 
   resource "scandir" do
-    url "https://files.pythonhosted.org/packages/95/40/ddbcd295ee58d5c1126645890bcf87853e4075547308884e4f8ada27f195/scandir-1.4.tar.gz"
-    sha256 "ada8d3ddc82fd168b3f46feb393d37c722ed0553a10a3ce5426ddc5ec17d597a"
+    url "https://files.pythonhosted.org/packages/bd/f4/3143e0289faf0883228017dbc6387a66d0b468df646645e29e1eb89ea10e/scandir-1.5.tar.gz"
+    sha256 "c2612d1a487d80fb4701b4a91ca1b8f8a695b1ae820570815e85e8c8b23f1283"
   end
 
   resource "six" do
@@ -66,7 +66,7 @@ class Thefuck < Formula
     assert_match "The Fuck #{version} using Python", output
 
     output = shell_output("#{bin}/thefuck --alias")
-    assert_match /.+TF_ALIAS.+thefuck.+/, output
+    assert_match "TF_ALIAS=fuck", output
 
     output = shell_output("#{bin}/thefuck git branchh")
     assert_equal "git branch", output.chomp

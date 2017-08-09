@@ -3,12 +3,13 @@ class Gource < Formula
   homepage "https://github.com/acaudwell/Gource"
   url "https://github.com/acaudwell/Gource/releases/download/gource-0.44/gource-0.44.tar.gz"
   sha256 "2604ca4442305ffdc5bb1a7bac07e223d59c846f93567be067e8dfe2f42f097c"
+  revision 1
 
   bottle do
-    sha256 "b5cd5eb88c4f72c95672a82f28c540ce52e80ea491aee023640acc3fc5585139" => :sierra
-    sha256 "5870be68c62621907fb0f3f04dfc0f93cf9c99f12d715e36a85cbd8fcd6abd0e" => :el_capitan
-    sha256 "35ce40b076a186bceadd909edc82ce007d83372ed65832c473ea91174dd077b7" => :yosemite
-    sha256 "1f33484c86e75e1be2ba4447f19c98645f5483119c4dba101e76213b425746ab" => :mavericks
+    rebuild 1
+    sha256 "cd48c29bd09e248e4886ac537ca0b3e8323ab57335f559f68e14c9f23c0bb26e" => :sierra
+    sha256 "5be79198dd89d0839956997e2847ef077dc89a250742356fb9ec2d7ae0c1e0f2" => :el_capitan
+    sha256 "b992780e3865e5a34d2f480343c09c1869c32f00416a214308f9f028c42f61a0" => :yosemite
   end
 
   head do
@@ -25,7 +26,6 @@ class Gource < Formula
   depends_on "glm" => :build
   depends_on "freetype"
   depends_on "glew"
-  depends_on "jpeg"
   depends_on "libpng"
   depends_on "pcre"
   depends_on "sdl2"

@@ -15,13 +15,11 @@ class Icu4c < Formula
     sha256 "7ce8fa8fba5ba285bfb0278d2e73c01e8d2ff3115a5ad762255cacde6ffeecfb" => :yosemite
   end
 
-  keg_only :provided_by_osx, "macOS provides libicucore.dylib (but nothing else)."
+  keg_only :provided_by_osx, "macOS provides libicucore.dylib (but nothing else)"
 
-  option :universal
   option :cxx11
 
   def install
-    ENV.universal_binary if build.universal?
     ENV.cxx11 if build.cxx11?
 
     args = %W[--prefix=#{prefix} --disable-samples --disable-tests --enable-static]

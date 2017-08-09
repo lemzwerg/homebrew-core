@@ -1,31 +1,30 @@
 class Notmuch < Formula
   desc "Thread-based email index, search, and tagging"
   homepage "https://notmuchmail.org"
-  url "https://notmuchmail.org/releases/notmuch-0.23.5.tar.gz"
-  sha256 "c62694b3c5f04db48ed3bbf37a801ea2a03439826c6be318e23b34de749ac267"
+  url "https://notmuchmail.org/releases/notmuch-0.25.tar.gz"
+  sha256 "65d28d1f783d02629039f7d15d9a2bada147a7d3809f86fe8d13861b0f6ae60b"
+  revision 1
+  head "git://notmuchmail.org/git/notmuch"
 
   bottle do
     cellar :any
-    sha256 "86e86206746b46e81832c9e5690cfe25c88b8c58305f443ac752a275f228eb48" => :sierra
-    sha256 "2ea1ca92250f5e7c659fb1f5e4dc376466d723cd9c98c65713d69b721602c4fe" => :el_capitan
-    sha256 "02a47efc1509cf68d3f95326dc635bbf30d160e167574890cf6e8d01846bdd90" => :yosemite
+    sha256 "e1e33e5b0eb0014ab8818c000f130a6a607cb0a7afe238b89e8d1856e783b29e" => :sierra
+    sha256 "9fcf28d4231dc5d8677a92e1d606276bb1432a8772494f2aea7763794e09b6a0" => :el_capitan
+    sha256 "273a87181ae3ed06ffc8d3f90462913d3b23f509b53a4a9cf5c8e0ac01be8d92" => :yosemite
   end
 
   option "without-python", "Build without python support"
 
   depends_on "pkg-config" => :build
+  depends_on "libgpg-error" => :build
+  depends_on "glib"
   depends_on "gmime"
   depends_on "talloc"
   depends_on "xapian"
+  depends_on "zlib"
   depends_on :emacs => ["24.1", :optional]
   depends_on :python3 => :optional
   depends_on :ruby => ["1.9", :optional]
-
-  # Requires zlib >= 1.2.10
-  resource "zlib" do
-    url "http://zlib.net/zlib-1.2.10.tar.gz"
-    sha256 "8d7e9f698ce48787b6e1c67e6bff79e487303e66077e25cb9784ac8835978017"
-  end
 
   # Fix SIP issue with python bindings
   # A more comprehensive patch has been submitted upstream
@@ -33,12 +32,6 @@ class Notmuch < Formula
   patch :DATA
 
   def install
-    resource("zlib").stage do
-      system "./configure", "--prefix=#{buildpath}/zlib", "--static"
-      system "make", "install"
-      ENV.append_path "PKG_CONFIG_PATH", "#{buildpath}/zlib/lib/pkgconfig"
-    end
-
     args = %W[--prefix=#{prefix}]
 
     if build.with? "emacs"

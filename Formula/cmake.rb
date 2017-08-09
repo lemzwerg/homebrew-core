@@ -1,20 +1,15 @@
 class Cmake < Formula
   desc "Cross-platform make"
   homepage "https://www.cmake.org/"
-  url "https://cmake.org/files/v3.7/cmake-3.7.2.tar.gz"
-  sha256 "dc1246c4e6d168ea4d6e042cfba577c1acd65feea27e56f5ff37df920c30cae0"
+  url "https://cmake.org/files/v3.9/cmake-3.9.0.tar.gz"
+  sha256 "167701525183dbb722b9ffe69fb525aa2b81798cf12f5ce1c020c93394dfae0f"
   head "https://cmake.org/cmake.git"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "ebc6de5933ad96a3ccc3764559dd489a7c02588c1485849c540893f28c9a4ae5" => :sierra
-    sha256 "d5ba6ead168e5524c10e8409a22d69ed5983b1799e916332b6f27827bf58118b" => :el_capitan
-    sha256 "1881ea166e4c7182d357f25c640d564f1e8d342ed658e6c43d95639bb2d60a07" => :yosemite
-  end
-
-  devel do
-    url "https://cmake.org/files/v3.8/cmake-3.8.0-rc1.tar.gz"
-    sha256 "320a4820d34e1733f14f9ddf0fdd0de90354516260a056246afb0f670afa4d94"
+    sha256 "68ed117510bef5ea6c3e092ae223ff799e7d4c99c84277ced5bc6efe67a6ddf9" => :sierra
+    sha256 "748752c700ae1aa4d7a50e185ee70fe228a78178042f7874efac743b29c2adf0" => :el_capitan
+    sha256 "21c760a9342abee55734e0c581d903ee48043b62d2aa4cfbd8ac6ae944f060ff" => :yosemite
   end
 
   option "without-docs", "Don't build man pages"
@@ -36,14 +31,8 @@ class Cmake < Formula
       --mandir=/share/man
       --system-zlib
       --system-bzip2
+      --system-curl
     ]
-
-    # https://github.com/Homebrew/legacy-homebrew/issues/45989
-    if MacOS.version <= :lion
-      args << "--no-system-curl"
-    else
-      args << "--system-curl"
-    end
 
     if build.with? "docs"
       # There is an existing issue around macOS & Python locale setting

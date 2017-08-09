@@ -1,15 +1,16 @@
 class Gmic < Formula
   desc "Full-Featured Open-Source Framework for Image Processing"
   homepage "https://gmic.eu/"
-  url "https://gmic.eu/files/source/gmic_1.7.9.1.tar.gz"
-  sha256 "152f100eb139a5f6e5b3d1e43aaed34f2b3786f72f52724ebde5e5ccea2c7133"
+  url "https://gmic.eu/files/source/gmic_2.0.2.tar.gz"
+  sha256 "7da9f08d62a9d23fc8badbc7c819cf76f4a9ce3db763710268fdcb80d83ecfc6"
+  revision 1
   head "https://github.com/dtschump/gmic.git"
 
   bottle do
     cellar :any
-    sha256 "a29a1d45e967f14ee748f041169e4dedce7444f3a33fced4e1983d601aaabe51" => :sierra
-    sha256 "7142932838ea10b26c94a11ab8ba3992f8773fe787836ceac06cf10e35e92a47" => :el_capitan
-    sha256 "34a3c667311ce14c54843b37b3a2846ee86958d818da0d660e8b33adb430eb48" => :yosemite
+    sha256 "0d01c756161cf7c34c7060fa504cec81f0d6d0862ed631b1e981b10a12b6f684" => :sierra
+    sha256 "d10d5d6c2e9e4a409c866647e8657d78d2c347af7c4457e73c05ef5d3fe0f016" => :el_capitan
+    sha256 "00c1064833f27be4b82f70f4e2c5668aa40e6a410db8139b65aa0973899f7395" => :yosemite
   end
 
   depends_on "cmake" => :build
@@ -22,6 +23,7 @@ class Gmic < Formula
   depends_on "openexr" => :optional
 
   def install
+    cp "resources/CMakeLists.txt", buildpath
     args = std_cmake_args
     args << "-DENABLE_X=OFF"
     args << "-DENABLE_JPEG=OFF" if build.without? "jpeg"

@@ -1,7 +1,7 @@
 class Libcdr < Formula
   desc "C++ library to parse the file format of CorelDRAW documents"
   homepage "https://wiki.documentfoundation.org/DLP/Libraries/libcdr"
-  url "http://dev-www.libreoffice.org/src/libcdr/libcdr-0.1.3.tar.xz"
+  url "https://dev-www.libreoffice.org/src/libcdr/libcdr-0.1.3.tar.xz"
   sha256 "66e28e502abef7f6f494ce03de037d532f5e7888cfdee62c01203c8325b33f22"
   revision 2
 
@@ -39,7 +39,7 @@ class Libcdr < Formula
     system ENV.cxx, "test.cpp", "-o", "test",
                                 "-I#{Formula["librevenge"].include}/librevenge-0.0",
                                 "-I#{include}/libcdr-0.1",
-                                "-lcdr-0.1"
+                                "-L#{lib}", "-lcdr-0.1"
     system "./test"
   end
 end

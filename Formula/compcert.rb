@@ -1,26 +1,22 @@
 class Compcert < Formula
   desc "Formally verified C compiler"
   homepage "http://compcert.inria.fr"
-  url "http://compcert.inria.fr/release/compcert-2.7.1.tgz"
-  sha256 "446199fb66c1e6e47eb464f2549d847298f3d7dcce9be6718da2a75c5dd00bee"
-  revision 1
+  url "http://compcert.inria.fr/release/compcert-3.0.1.tgz"
+  sha256 "09c7dc18c681231c6e83a963b283b66a9352a9611c9695f4b0c4b7df8c90f935"
+  revision 3
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "b250bb227cc2c4b186a13d0140ab2a9a56c640f714c8ab65ac74ae00bded3ddf" => :sierra
-    sha256 "05979ef2cd32f7dd1e860e32a7dbc4338f193a358326dbf0720c4fe992849ce1" => :el_capitan
-    sha256 "d1b1c7c3ea3edf4e9f40b9c30d3d3bc4786e927dd8659928c697c0eb673c33c7" => :yosemite
+    sha256 "10abf0396376729d32382adc206bd13d7f71af849cddec635fbce820c3f4e173" => :sierra
+    sha256 "4c5caad496117d59d28fc017e3bd871fa0a4e76874896437dbdd0db95c85c952" => :el_capitan
+    sha256 "14e895a8427d4b5720ae4d12e90406c2446cd0adfcd2046dfafb2148008c80ea" => :yosemite
   end
 
+  option "with-config-x86_64", "Build Compcert with ./configure 'x86_64'"
+
+  depends_on "coq" => :build
   depends_on "menhir" => :build
   depends_on "ocaml" => :build
-  depends_on "opam" => :build
-
-  # remove for > 2.7.1; allow Coq version 8.5pl3
-  patch do
-    url "https://github.com/AbsInt/CompCert/commit/a8f87aa.patch"
-    sha256 "fb1b35503ae106a28b276521579fcf862772615414dca3ae3fabc4ed736ab5de"
-  end
 
   def install
     ENV.permit_arch_flags
@@ -29,19 +25,16 @@ class Compcert < Formula
     # creates problems since Xcode's gcc does not support CFI,
     # but superenv will trick it into using clang which does. This
     # causes problems with the compcert compiler at runtime.
-    inreplace "configure", "${toolprefix}gcc", "${toolprefix}#{ENV.cc}"
+    inreplace "configure" do |s|
+      s.gsub! "${toolprefix}gcc", "${toolprefix}#{ENV.cc}"
+      s.gsub! "  8.6)", "  8.6.1)"
+    end
 
-    ENV["OPAMYES"] = "1"
-    ENV["OPAMROOT"] = Pathname.pwd/"opamroot"
-    (Pathname.pwd/"opamroot").mkpath
-    system "opam", "init", "--no-setup"
-    system "opam", "install", "coq=8.5.3"
-    system "opam", "config", "exec", "--",
-           "./configure", "-prefix", prefix, "ia32-macosx"
-    system "opam", "config", "exec", "--",
-           "make", "all"
-    system "opam", "config", "exec", "--",
-           "make", "install"
+    args = ["-prefix", prefix]
+    args << (build.with?("config-x86_64") ? "x86_64-macosx" : "ia32-macosx")
+    system "./configure", *args
+    system "make", "all"
+    system "make", "install"
   end
 
   test do

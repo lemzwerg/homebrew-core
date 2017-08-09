@@ -1,14 +1,16 @@
 class Gegl < Formula
   desc "Graph based image processing framework"
   homepage "http://www.gegl.org/"
-  url "https://download.gimp.org/pub/gegl/0.3/gegl-0.3.10.tar.bz2"
-  mirror "https://mirrors.kernel.org/debian/pool/main/g/gegl/gegl_0.3.10.orig.tar.bz2"
-  sha256 "26b4d6d0a8edb358ca2fbc097f9f97eec9d74e0ffe42f89fa1aff201728023d9"
+  url "https://download.gimp.org/pub/gegl/0.3/gegl-0.3.18.tar.bz2"
+  mirror "https://mirrors.kernel.org/debian/pool/main/g/gegl/gegl_0.3.18.orig.tar.bz2"
+  sha256 "d7858ef26ede136d14e3de188a9e9c0de7707061a9fb96d7d615fab4958491fb"
+  revision 1
 
   bottle do
-    sha256 "bbd227d4b5387e4a2531ba9f832230ea1101c0bc28d8dacabdc230f5c1f60b3a" => :sierra
-    sha256 "1f66b826e5c277f955fc1d57ea0d742c362e7b1f7ba89622807f34c83c449574" => :el_capitan
-    sha256 "c034ab5704fc55d27fd07fb8576ed3478a595c44809eadf226f35751c949696d" => :yosemite
+    rebuild 1
+    sha256 "2587f67b9dff8185a123a38bfedb88484743542b13d8a172e068cd271468e5f3" => :sierra
+    sha256 "ac5564d4d9e766d29f8ddf6f239514d5810053991687c101b4763fa3059dba79" => :el_capitan
+    sha256 "e67459da4011ebec45e50a93447eff5d505959ca6fd4394347dac27bec6471e7" => :yosemite
   end
 
   head do
@@ -19,8 +21,6 @@ class Gegl < Formula
     depends_on "autoconf" => :build
     depends_on "libtool" => :build
   end
-
-  option :universal
 
   depends_on "intltool" => :build
   depends_on "pkg-config" => :build
@@ -37,23 +37,11 @@ class Gegl < Formula
   depends_on "sdl" => :optional
 
   def install
-    argv = %W[
-      --disable-debug
-      --disable-dependency-tracking
-      --prefix=#{prefix}
-      --disable-docs
-    ]
-
-    if build.universal?
-      ENV.universal_binary
-      # ffmpeg's formula is currently not universal-enabled
-      argv << "--without-libavformat"
-
-      opoo "Compilation may fail at gegl-cpuaccel.c using gcc for a universal build" if ENV.compiler == :gcc
-    end
-
     system "./autogen.sh" if build.head?
-    system "./configure", *argv
+    system "./configure", "--disable-debug",
+                          "--disable-dependency-tracking",
+                          "--prefix=#{prefix}",
+                          "--disable-docs"
     system "make", "install"
   end
 

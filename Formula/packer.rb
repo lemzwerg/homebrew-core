@@ -3,17 +3,18 @@ require "language/go"
 class Packer < Formula
   desc "Tool for creating identical machine images for multiple platforms"
   homepage "https://packer.io"
-  url "https://github.com/mitchellh/packer.git",
-      :tag => "v0.12.2",
-      :revision => "f25949eb2dd5cafb8661048ef4a97b68e7186e8b"
+  url "https://github.com/hashicorp/packer.git",
+      :tag => "v1.0.3",
+      :revision => "c0ddb4a044551f3c967ca36f612a33ce13e215f0"
+  head "https://github.com/hashicorp/packer.git"
 
   bottle do
-    sha256 "ed99cef7cc09a7523287c87ade35abdc07116ed2c240076a2b592adcfe402c8a" => :sierra
-    sha256 "f175b7824326e1e24691b74726a6c40531e2aeaab27924fe6d569defc2f27811" => :el_capitan
-    sha256 "6522cd3014af1f425fea7e21b0e74fd6cc49b092ed9ae2d0e48d43e9912927eb" => :yosemite
+    cellar :any_skip_relocation
+    sha256 "6b7dd6df7d2020553dba03db75f6c86395fa9fe602b92225447a8f0a3edc54d9" => :sierra
+    sha256 "af1f5afce107799415e68f4f0ab45201bb3527e9b14bc1cec14df3708679cc76" => :el_capitan
+    sha256 "71c62e8d113432c28072b106ed29db91d2510c35a5dd240c702565f54d53393d" => :yosemite
   end
 
-  depends_on :hg => :build
   depends_on "go" => :build
   depends_on "govendor" => :build
 
@@ -27,11 +28,6 @@ class Packer < Formula
         :revision => "87b45ffd0e9581375c491fef3d32130bb15c5bd7"
   end
 
-  go_resource "golang.org/x/tools" do
-    url "https://go.googlesource.com/tools.git",
-        :revision => "fcfba28e23c7bbd8474b355ca7d6a9d88afcca00"
-  end
-
   def install
     ENV["XC_OS"] = "darwin"
     ENV["XC_ARCH"] = MacOS.prefer_64_bit? ? "amd64" : "386"
@@ -40,7 +36,7 @@ class Packer < Formula
     # doesn't need to be installed permanently.
     ENV.append_path "PATH", buildpath
 
-    packerpath = buildpath/"src/github.com/mitchellh/packer"
+    packerpath = buildpath/"src/github.com/hashicorp/packer"
     packerpath.install Dir["{*,.git}"]
     Language::Go.stage_deps resources, buildpath/"src"
 
@@ -49,12 +45,7 @@ class Packer < Formula
       buildpath.install "gox"
     end
 
-    cd "src/golang.org/x/tools/cmd/stringer" do
-      system "go", "build"
-      buildpath.install "stringer"
-    end
-
-    cd "src/github.com/mitchellh/packer" do
+    cd packerpath do
       # We handle this step above. Don't repeat it.
       inreplace "Makefile" do |s|
         s.gsub! "go get github.com/mitchellh/gox", ""
@@ -63,7 +54,11 @@ class Packer < Formula
       end
 
       (buildpath/"bin").mkpath
-      system "make", "releasebin"
+      if build.head?
+        system "make", "bin"
+      else
+        system "make", "releasebin"
+      end
       bin.install buildpath/"bin/packer"
       zsh_completion.install "contrib/zsh-completion/_packer"
       prefix.install_metafiles

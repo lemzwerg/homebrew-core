@@ -1,8 +1,8 @@
 class Linkerd < Formula
   desc "Drop-in RPC proxy designed for microservices"
   homepage "https://linkerd.io/"
-  url "https://github.com/BuoyantIO/linkerd/releases/download/0.8.5/linkerd-0.8.5.tgz"
-  sha256 "88331ffcc1011f5a604c1cbeb8a76c748841c171865dd4d6ab355aaf4258872e"
+  url "https://github.com/linkerd/linkerd/releases/download/1.1.2/linkerd-1.1.2.tgz"
+  sha256 "f21d449f3df14602468d98171a26f1dc94d8ee7d108715b7f1caa44b8ea14a37"
 
   bottle :unneeded
 
@@ -68,7 +68,7 @@ class Linkerd < Formula
       exec "#{bin}/linkerd #{pkgshare}/default.yaml"
     end
 
-    sleep 5
+    sleep 10
 
     begin
       assert_match /It works!/, shell_output("curl -s -H 'Host: web' http://localhost:4140")

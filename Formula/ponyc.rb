@@ -1,18 +1,18 @@
 class Ponyc < Formula
   desc "Object-oriented, actor-model, capabilities-secure programming language"
-  homepage "http://www.ponylang.org"
-  url "https://github.com/ponylang/ponyc/archive/0.10.0.tar.gz"
-  sha256 "694ae862d5c30978921097e64df68e6431a12224aeea632a37c9d333e5710749"
+  homepage "https://www.ponylang.org/"
+  url "https://github.com/ponylang/ponyc/archive/0.17.0.tar.gz"
+  sha256 "a67be46b40600bceb5c550539d4edd9861f7d2366b12e0331d4b6d17924a7efb"
 
   bottle do
     cellar :any
-    sha256 "fbebe46e066f54949e3f9c4ffec2558701176832f6a20e17a01382235b8b0ed2" => :sierra
-    sha256 "65cdcce76a06a45427cf52a94e698761a3a3b567b19e666a8f430f7011972cee" => :el_capitan
-    sha256 "1dd21947ea374eb05b3a06d405c3bffceedf5673b108f49069aeaab12bf83673" => :yosemite
+    sha256 "925f930d19b4b99fd5b654cacebd9f49136a9a15e71d77908d3f9b8cae2614a8" => :sierra
+    sha256 "b9cbc94c1ebe650d2330d32623077c29acca9d3cd37ba598f3b7ae487a8cbbe3" => :el_capitan
+    sha256 "408694bb9a2c3afcfd401e3278da74c3d618562f5bef5b30e3aaee5d2e848397" => :yosemite
   end
 
   depends_on :macos => :yosemite
-  depends_on "llvm"
+  depends_on "llvm@3.9"
   depends_on "libressl"
   depends_on "pcre2"
   needs :cxx11
@@ -28,7 +28,7 @@ class Ponyc < Formula
 
   def install
     ENV.cxx11
-    ENV["LLVM_CONFIG"]="#{Formula["llvm"].opt_bin}/llvm-config"
+    ENV["LLVM_CONFIG"] = "#{Formula["llvm@3.9"].opt_bin}/llvm-config"
     system "make", "config=release", "destdir=#{prefix}", "install", "verbose=1"
   end
 

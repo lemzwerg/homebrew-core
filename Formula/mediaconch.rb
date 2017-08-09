@@ -1,23 +1,21 @@
 class Mediaconch < Formula
   desc "Conformance checker and technical metadata reporter"
   homepage "https://mediaarea.net/MediaConch"
-  url "https://mediaarea.net/download/binary/mediaconch/17.01.1/MediaConch_CLI_17.01.1_GNU_FromSource.tar.bz2"
-  version "17.01.1"
-  sha256 "a935084cd3fcd066de23e33a88a33cf36f447c88335f7518854495f5b8651f75"
+  url "https://mediaarea.net/download/binary/mediaconch/17.06/MediaConch_CLI_17.06_GNU_FromSource.tar.bz2"
+  version "17.06"
+  sha256 "96297513e1cb2ee12e87ff3488ac60f98d0f67a5a36a67b91314a8ec12620158"
 
   bottle do
     cellar :any
-    sha256 "acd3a31aff1c8059e20517f4eb5e55b4be7fabba8b4bc9843405aea06369cec9" => :sierra
-    sha256 "1389e6a7f3ae2419034e3c2c2a6d052353944ae8a7d40c722793e435f92cfcd0" => :el_capitan
-    sha256 "ff1cf0d9c216c5326d55296a26d307364a56b7e81760abbe5d14a5f4d9b3b471" => :yosemite
+    sha256 "f6d2467c8ff9a5137fd789a2386547f2f041bf8e7d4459d7a88a194502bbd5ac" => :sierra
+    sha256 "7e36a877ad54bd09aec2b1a17f3d92ad7a1962e79233a39ffd1f60bee63a7150" => :el_capitan
+    sha256 "ae9ec9729e0b203a4257bddfdeb7d886ff1d03c0cf4a5e425efaa9651f8245c3" => :yosemite
   end
 
   depends_on "pkg-config" => :build
   depends_on "jansson"
   depends_on "libevent"
   depends_on "sqlite"
-  # fails to build against Leopard's older libcurl
-  depends_on "curl" if MacOS.version < :snow_leopard
 
   def install
     cd "ZenLib/Project/GNU/Library" do

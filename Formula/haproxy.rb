@@ -1,14 +1,14 @@
 class Haproxy < Formula
   desc "Reliable, high performance TCP/HTTP load balancer"
-  homepage "http://www.haproxy.org/"
-  url "http://www.haproxy.org/download/1.7/src/haproxy-1.7.2.tar.gz"
-  sha256 "f95b40f52a4d61feaae363c9b15bf411c16fe8f61fddb297c7afcca0072e4b2f"
+  homepage "https://www.haproxy.org/"
+  url "https://www.haproxy.org/download/1.7/src/haproxy-1.7.8.tar.gz"
+  sha256 "ec90153ccedd20ad4015d3eaf76b502ff1f61b431d54c22b8457b5784a9ae142"
 
   bottle do
     cellar :any
-    sha256 "c9978b6fa1153a4b5d2873b2c0f738be53654ba30b133c4d3eb648f025fc54a3" => :sierra
-    sha256 "eb2e9f8b44983b54a993f6abae639bb3d3e12f69c7ae81298fc0870bc7feeb02" => :el_capitan
-    sha256 "ef89607a0342812850a845ccce1abcf055d08b1566d60aba04475a5098924b03" => :yosemite
+    sha256 "2e4b69f2c842fb72c2df5d164d1cff3b62b6ad3df5e4270a6c83d81ee504a5cb" => :sierra
+    sha256 "63424edee76156916c80bce2492f0b2b8f74c5dbc7b5a3d0feb3c970ba8b52e0" => :el_capitan
+    sha256 "7b79f966fc3bfbe1e4a10d4fcb1ff0d2fa28610b128b50141ef0af56e3753d90" => :yosemite
   end
 
   depends_on "openssl"

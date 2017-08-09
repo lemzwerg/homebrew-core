@@ -1,8 +1,8 @@
 class Cromwell < Formula
   desc "Workflow Execution Engine using Workflow Description Language"
   homepage "https://github.com/broadinstitute/cromwell"
-  url "https://github.com/broadinstitute/cromwell/releases/download/24/cromwell-24.jar"
-  sha256 "4a31a7c42097b62c95bab4d774b7296d3aca5faaed06310e77872aac9b3815d9"
+  url "https://github.com/broadinstitute/cromwell/releases/download/28.2/cromwell-28_2.jar"
+  sha256 "d575ec83d2950bb2e6524b132cebb83f012c6adec5ff8dc44eeb191acca28f1d"
 
   head do
     url "https://github.com/broadinstitute/cromwell.git"
@@ -18,11 +18,10 @@ class Cromwell < Formula
     if build.head?
       system "sbt", "assembly"
       libexec.install Dir["target/scala-*/cromwell-*.jar"][0]
-      bin.write_jar_script Dir[libexec/"cromwell-*.jar"][0], "cromwell"
     else
-      libexec.install "cromwell-#{version}.jar"
-      bin.write_jar_script libexec/"cromwell-#{version}.jar", "cromwell"
+      libexec.install Dir["cromwell-*.jar"][0]
     end
+    bin.write_jar_script Dir[libexec/"cromwell-*.jar"][0], "cromwell"
   end
 
   test do
@@ -51,6 +50,6 @@ class Cromwell < Formula
 
     result = shell_output("#{bin}/cromwell run hello.wdl hello.json")
 
-    assert_match "test_hello_response", result
+    assert_match "test.hello.response", result
   end
 end

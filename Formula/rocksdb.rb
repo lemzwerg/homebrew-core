@@ -1,20 +1,21 @@
 class Rocksdb < Formula
   desc "Embeddable, persistent key-value store for fast storage"
   homepage "http://rocksdb.org"
-  url "https://github.com/facebook/rocksdb/archive/v5.1.2.tar.gz"
-  sha256 "b0ba1cd2eba224228d2c1336fd0216e365ee41ff9c1029582fe41daa46d0abe1"
+  url "https://github.com/facebook/rocksdb/archive/v5.6.1.tar.gz"
+  sha256 "9165c3d032d0578536aaaf80e7986ca0cc3491a1c5e644038697f2d3cdfc7c93"
 
   bottle do
     cellar :any
-    sha256 "75eab43a054935005e9019723b84f2657c4c28635623b75701b7140662d62f55" => :sierra
-    sha256 "80b4a6541f01681c1ec4e6589734fca43b2e9ca97471b428ea0f89ab1709a7cc" => :el_capitan
-    sha256 "fb2df51142305d7b414a1407b9993d75a1330ba731be269dadf5f161fd648ab9" => :yosemite
+    sha256 "2432711805d7bbda7213ccc8f1f2b391ef588cae047d515866ddd3f1773c435d" => :sierra
+    sha256 "ed6233ce744628f0e9fbd9d79de214b43d80bf2cd05cbbc2c1ed105d5d68d1cb" => :el_capitan
+    sha256 "3ba783f8108039b2a4b764d7dd9e299e85a1cae31983914bdc216fd7f1abc247" => :yosemite
   end
 
   needs :cxx11
   depends_on "snappy"
   depends_on "lz4"
   depends_on "gflags"
+  depends_on "jemalloc"
 
   def install
     ENV.cxx11
@@ -69,7 +70,7 @@ class Rocksdb < Formula
     assert_match "rocksdb_sanity_test <path>", shell_output("#{bin}/rocksdb_sanity_test --help 2>&1", 1)
     assert_match "rocksdb_stress [OPTIONS]...", shell_output("#{bin}/rocksdb_stress --help 2>&1", 1)
     assert_match "rocksdb_write_stress [OPTIONS]...", shell_output("#{bin}/rocksdb_write_stress --help 2>&1", 1)
-    assert_match "ldb - LevelDB Tool", shell_output("#{bin}/rocksdb_ldb --help 2>&1", 1)
+    assert_match "ldb - RocksDB Tool", shell_output("#{bin}/rocksdb_ldb --help 2>&1", 1)
     assert_match "rocksdb_repl_stress:", shell_output("#{bin}/rocksdb_repl_stress --help 2>&1", 1)
     assert_match "rocksdb_dump:", shell_output("#{bin}/rocksdb_dump --help 2>&1", 1)
     assert_match "rocksdb_undump:", shell_output("#{bin}/rocksdb_undump --help 2>&1", 1)

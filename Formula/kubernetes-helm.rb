@@ -2,15 +2,15 @@ class KubernetesHelm < Formula
   desc "The Kubernetes package manager"
   homepage "https://helm.sh/"
   url "https://github.com/kubernetes/helm.git",
-      :tag => "v2.2.0",
-      :revision => "fc315ab59850ddd1b9b4959c89ef008fef5cdf89"
+      :tag => "v2.5.1",
+      :revision => "7cf31e8d9a026287041bae077b09165be247ae66"
   head "https://github.com/kubernetes/helm.git"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "5c3589aa7825873103f58c18fc5c9a5e26c4bad0cdf6dd4838df39f78d2b88df" => :sierra
-    sha256 "70255393999ecadbec883e0b5bc61ae996384891e3fa38c768f900d469ed648e" => :el_capitan
-    sha256 "34a7f881df04ca4058d5fb34724d94f122d25789ede4b9b469f3ad2a96c0f27f" => :yosemite
+    sha256 "10f0adc2f8cec764ca81463f3def275a4cc16ab24e873226c47582381708c359" => :sierra
+    sha256 "42890d1aa4fdef684e1b4b58b3361028d841b79afe29429acdc9e08faf3f1aba" => :el_capitan
+    sha256 "f25f06aa01ecf9ae109d13ca2a8a90159942f8b6201db93f45584b842d291f1a" => :yosemite
   end
 
   depends_on :hg => :build
@@ -27,17 +27,16 @@ class KubernetesHelm < Formula
     dir.install buildpath.children - [buildpath/".brew_home"]
 
     cd dir do
-      # Set git config to follow redirects
-      # Change in behavior in git: https://github.com/git/git/commit/50d3413740d1da599cdc0106e6e916741394cc98
-      # Upstream issue: https://github.com/niemeyer/gopkg/issues/50
-      system "git", "config", "--global", "http.https://gopkg.in.followRedirects", "true"
-
       # Bootstap build
       system "make", "bootstrap"
 
       # Make binary
       system "make", "build"
       bin.install "bin/helm"
+      bin.install "bin/tiller"
+
+      # Install man pages
+      man1.install Dir["docs/man/man1/*"]
 
       # Install bash completion
       bash_completion.install "scripts/completions.bash" => "helm"
@@ -50,5 +49,6 @@ class KubernetesHelm < Formula
 
     version_output = shell_output("#{bin}/helm version --client 2>&1")
     assert_match "GitTreeState:\"clean\"", version_output
+    assert_match stable.instance_variable_get(:@resource).instance_variable_get(:@specs)[:revision], version_output if build.stable?
   end
 end

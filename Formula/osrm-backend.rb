@@ -1,25 +1,26 @@
 class OsrmBackend < Formula
   desc "High performance routing engine"
   homepage "http://project-osrm.org/"
-  url "https://github.com/Project-OSRM/osrm-backend/archive/v5.4.3.tar.gz"
-  sha256 "501b9302d4ae622f04305debacd2f59941409c6345056ebb272779ac375f874d"
-  revision 2
+  url "https://github.com/Project-OSRM/osrm-backend/archive/v5.9.0.tar.gz"
+  sha256 "bd1ac8a7c8a45b617e32e01cd326c432468c791291a072219627742ecc9ea130"
   head "https://github.com/Project-OSRM/osrm-backend.git"
 
   bottle do
     cellar :any
-    sha256 "72c18b03a4856feaf45dbda1cdb45f525d2e1616fb32c27f02afdd333117ea63" => :sierra
-    sha256 "657a7fb717477ab7f79a6cf1edcf55c7ef71dfb37d3041ecb6d6cb88ef3c27b9" => :el_capitan
-    sha256 "e65bf2c7c5f6baa953e85702a30f952acebba68c5cf20d99795a813f39f18441" => :yosemite
+    sha256 "8b438814f2a4bebca0aae29a59c0f80322c8521f2387c63a57828699ba8a05b2" => :sierra
+    sha256 "d0132022efe3ae558b356d1b4a905822113d09a6f62bd824c750d9d0fa0f7221" => :el_capitan
   end
+
+  # "invalid use of non-static data member 'offset'"
+  # https://github.com/Project-OSRM/osrm-backend/issues/3719
+  depends_on :macos => :el_capitan
 
   depends_on "cmake" => :build
   depends_on "boost"
   depends_on "libstxxl"
   depends_on "libxml2"
   depends_on "libzip"
-  depends_on "lua@5.1"
-  depends_on "luabind"
+  depends_on "lua"
   depends_on "tbb"
 
   def install

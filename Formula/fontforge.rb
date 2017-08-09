@@ -1,15 +1,14 @@
 class Fontforge < Formula
   desc "Command-line outline and bitmap font editor/converter"
   homepage "https://fontforge.github.io"
-  url "https://github.com/fontforge/fontforge/archive/20161012.tar.gz"
-  sha256 "a5f5c2974eb9109b607e24f06e57696d5861aaebb620fc2c132bdbac6e656351"
+  url "https://github.com/fontforge/fontforge/releases/download/20170731/fontforge-dist-20170731.tar.xz"
+  sha256 "840adefbedd1717e6b70b33ad1e7f2b116678fa6a3d52d45316793b9fd808822"
   revision 1
-  head "https://github.com/fontforge/fontforge.git"
 
   bottle do
-    sha256 "57809a9c61afc72a933fa905464d80de5b8fe59749cadb962e861749698e4453" => :sierra
-    sha256 "8d2501b45449f86695410f21da449aa5a7f80b15efb74fb975e0d40f6eeb8974" => :el_capitan
-    sha256 "77aacdcdc740df564b186c043890f433459122b34b3225bdbe3952172f466dd7" => :yosemite
+    sha256 "c5f796bec473c8e3a365c793b9c581725d516b2a63907ace8d0085e4de02a97d" => :sierra
+    sha256 "6816df4e681a07432b50199a512585d0b4025d3030c3e8719465c135fcfabc50" => :el_capitan
+    sha256 "7d8cfe9ef3650fa1ed45fbd536b8ba35d78aa58f0a53a1f8af1840f4be14567d" => :yosemite
   end
 
   option "with-giflib", "Build with GIF support"
@@ -17,9 +16,6 @@ class Fontforge < Formula
 
   deprecated_option "with-gif" => "with-giflib"
 
-  # Autotools are required to build from source in all releases.
-  depends_on "autoconf" => :build
-  depends_on "automake" => :build
   depends_on "pkg-config" => :build
   depends_on "libtool" => :run
   depends_on "gettext"
@@ -33,11 +29,6 @@ class Fontforge < Formula
   depends_on "libspiro" => :optional
   depends_on "libuninameslist" => :optional
   depends_on :python if MacOS.version <= :snow_leopard
-
-  resource "gnulib" do
-    url "git://git.savannah.gnu.org/gnulib.git",
-        :revision => "29ea6d6fe2a699a32edbe29f44fe72e0c253fcee"
-  end
 
   def install
     ENV["PYTHON_CFLAGS"] = `python-config --cflags`.chomp
@@ -56,13 +47,7 @@ class Fontforge < Formula
     args << "--without-libspiro" if build.without? "libspiro"
     args << "--without-libuninameslist" if build.without? "libuninameslist"
 
-    # Bootstrap in every build: https://github.com/fontforge/fontforge/issues/1806
-    resource("gnulib").fetch
-    system "./bootstrap",
-           "--gnulib-srcdir=#{resource("gnulib").cached_download}",
-           "--skip-git"
     system "./configure", *args
-    system "make"
     system "make", "install"
 
     # The app here is not functional.
@@ -90,6 +75,7 @@ class Fontforge < Formula
 
   test do
     system bin/"fontforge", "-version"
+    ENV.append_path "PYTHONPATH", lib+"python2.7/site-packages"
     system "python", "-c", "import fontforge"
   end
 end

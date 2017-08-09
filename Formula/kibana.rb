@@ -4,19 +4,19 @@ class Kibana < Formula
   desc "Analytics and search dashboard for Elasticsearch"
   homepage "https://www.elastic.co/products/kibana"
   url "https://github.com/elastic/kibana.git",
-      :tag => "v5.2.1",
-      :revision => "03953ddae5c505842cc39d2df349b7e35f30ee5b"
+      :tag => "v5.5.1",
+      :revision => "32ff80dbccdff23911015425bfaf4ae32ea0c0c1"
   head "https://github.com/elastic/kibana.git"
 
   bottle do
-    sha256 "190c3cfd9f2faa102c5760b0792ab9e8add7dd410fb4c5683006a12516e83150" => :sierra
-    sha256 "8e851b92e1878cf5f6de03a133b2b689ec773d449f0300340fe82e9d5eab1e8c" => :el_capitan
-    sha256 "c4260914193f719bcab3037ed008147dd631e2d905d81ce94b714bf0abcdee69" => :yosemite
+    sha256 "c27b83a19870dec9a9fddb0fa9298a067adc49aa465b87900072d9a2a8207baa" => :sierra
+    sha256 "53d004692f0c43b25d92cd848c697c374da55be09ef053d4567d56be9bd73b84" => :el_capitan
+    sha256 "63a4e1d4c60d97aa20f6759d0fbd90a81fced80b984040bc389adb9e12caaade" => :yosemite
   end
 
   resource "node" do
-    url "https://nodejs.org/dist/v6.9.0/node-v6.9.0.tar.xz" # N.B. includes vendored dependencies
-    sha256 "656342ed8a84c95a36af902f309aeeca7103b16d61c02925bd37bd47d2194915"
+    url "https://nodejs.org/dist/v6.11.1/node-v6.11.1.tar.xz"
+    sha256 "6f6655b85919aa54cb045a6d69a226849802fcc26491d0db4ce59873e41cc2b8"
   end
 
   def install
@@ -27,11 +27,11 @@ class Kibana < Formula
     end
 
     # do not build packages for other platforms
-    platforms = Set.new(["darwin-x64", "linux-x64", "linux-x86", "windows-x86"])
+    platforms = Set.new(["darwin-x64", "linux-x64", "windows-x64"])
     if MacOS.prefer_64_bit?
       platform = "darwin-x64"
     else
-      raise "Installing Kibana via Homebrew is only supported on Darwin x86_64, Linux i386, Linux i686, and Linux x86_64"
+      raise "Installing Kibana via Homebrew is only supported on macOS x86_64"
     end
     platforms.delete(platform)
     sub = platforms.to_a.join("|")
@@ -42,11 +42,10 @@ class Kibana < Formula
 
     # set npm env and fix cache edge case (https://github.com/Homebrew/brew/pull/37#issuecomment-208840366)
     ENV.prepend_path "PATH", prefix/"libexec/node/bin"
-    Pathname.new("#{ENV["HOME"]}/.npmrc").write Language::Node.npm_cache_config
-    system "npm", "install", "--verbose"
+    system "npm", "install", "-ddd", "--build-from-source", "--#{Language::Node.npm_cache_config}"
     system "npm", "run", "build", "--", "--release", "--skip-os-packages", "--skip-archives"
 
-    prefix.install Dir["build/kibana-#{version}-#{platform.sub("x64", "x86_64")}/{bin,config,node_modules,optimize,package.json,src,webpackShims}"]
+    prefix.install Dir["build/kibana-#{version}-#{platform.sub("x64", "x86_64")}/{bin,config,node_modules,optimize,package.json,src,ui_framework,webpackShims}"]
 
     inreplace "#{bin}/kibana", %r{/node/bin/node}, "/libexec/node/bin/node"
     inreplace "#{bin}/kibana-plugin", %r{/node/bin/node}, "/libexec/node/bin/node"
