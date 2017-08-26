@@ -7,11 +7,19 @@ class Ffmpeg < Formula
     sha256 "1069ac8fc7f52e566bea28b41b9c437246aeb5096f82fb26fa96dc7d5a10a473"
 
     depends_on "yasm" => :build
+
+    # Upstream commit from 23 Jun 2017 "Add support for LibOpenJPEG v2.2/git"
+    # See https://github.com/FFmpeg/FFmpeg/commit/078322f33ced4b2db6ac3e5002f98233d6fbf643
+    patch do
+      url "https://raw.githubusercontent.com/Homebrew/formula-patches/dfe0fd6/ffmpeg/openjpeg-2.2.patch"
+      sha256 "77fbc0f61f2e5742f33116e0da3d246882717affeee2f25112a8a8a69dc17815"
+    end
   end
 
   bottle do
-    sha256 "1b419e42dd75c6d1faf17bd9bc0598bc6e2f6720f9fec1247ece6b3e2c820f31" => :sierra
-    sha256 "dffc8990189b26ea1848b0c798c7abb0bc2348b3e60d01fdb40e51d079345347" => :el_capitan
+    rebuild 1
+    sha256 "6e3ad60d2c3ad7430cc5edf147b1c0e50a7e695e8c74451ab0a3f9d9723ecf46" => :sierra
+    sha256 "d49156d6f3d5717add11f697361b13c5bf321161ff3d84d7062e111f0dfdb513" => :el_capitan
   end
 
   head do
@@ -151,6 +159,7 @@ class Ffmpeg < Formula
     args << "--enable-libzimg" if build.with? "zimg"
     args << "--enable-libzmq" if build.with? "zeromq"
     args << "--enable-opencl" if MacOS.version > :lion
+    args << "--enable-videotoolbox" if MacOS.version >= :mountain_lion
     args << "--enable-openssl" if build.with? "openssl"
 
     if build.with? "xz"

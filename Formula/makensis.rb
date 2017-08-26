@@ -6,10 +6,14 @@ class Makensis < Formula
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "0588148e9bf4ac37af42b79d24552a9786aa00c27295d625643832ee7d8e25c0" => :sierra
-    sha256 "458ce8cc204a59dc7b3a4ecbff84437c842be1ef3eebc0c79eb5d4709d59ef16" => :el_capitan
-    sha256 "2b802ba4f889a4add1ca35d16c0e9a291afde7f55fb3cea6b47d5a637a4d3934" => :yosemite
+    rebuild 1
+    sha256 "0a5adaa8cc82a78075755a80f68a72e34f3a59c1e72823c49c2c1d23bd5209ff" => :sierra
+    sha256 "932fd48662e03d1f964482ac5aa812c60486126f1138b2f774aeb7641e6b406b" => :el_capitan
+    sha256 "4e7ee251f0e53b7cc3b254f6d7ee5a247f18287327f25dbba586ee75a43084fb" => :yosemite
   end
+
+  # From https://nsis.sourceforge.io/Special_Builds#Advanced_logging
+  option "with-advanced-logging", "Enable advanced logging of all installer actions"
 
   # Build makensis so installers can handle strings > 1024 characters
   # From https://nsis.sourceforge.io/Special_Builds#Large_strings
@@ -43,7 +47,9 @@ class Makensis < Formula
     end
 
     # Don't strip, see https://github.com/Homebrew/homebrew/issues/28718
-    args = ["STRIP=0", "ZLIB_W32=#{@zlib_path}", "SKIPUTILS=NSIS Menu"]
+    args = ["STRIP=0", "ZLIB_W32=#{@zlib_path}", "SKIPUTILS=NSIS Menu",
+            "VERSION=#{version}"]
+    args << "NSIS_CONFIG_LOG=yes" if build.with? "advanced-logging"
     args << "NSIS_MAX_STRLEN=8192" if build.with? "large-strings"
     scons "makensis", *args
     bin.install "build/urelease/makensis/makensis"
@@ -52,6 +58,15 @@ class Makensis < Formula
 
   test do
     system "#{bin}/makensis", "-VERSION"
+    (testpath/"test.nsi").write <<-EOS.undent
+      # name the installer
+      OutFile "test.exe"
+      # default section start; every NSIS script has at least one section.
+      Section
+      # default section end
+      SectionEnd
+    EOS
+    system "#{bin}/makensis", "#{testpath}/test.nsi"
   end
 end
 

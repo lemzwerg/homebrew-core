@@ -1,17 +1,18 @@
 class Pdftoedn < Formula
   desc "Extract PDF document data and save the output in EDN format"
   homepage "https://github.com/edporras/pdftoedn"
-  url "https://github.com/edporras/pdftoedn/archive/v0.34.2.tar.gz"
-  sha256 "94e5888accae92380fd5e4b6a7ee4211f05814059a9f540b071a27993113be95"
+  url "https://github.com/edporras/pdftoedn/archive/v0.34.3.tar.gz"
+  sha256 "7ff6d097d1a53246b3c71d9fdaeb58e43aac14291f647d76855c62769c585f25"
   revision 1
 
   bottle do
     cellar :any
-    sha256 "730bcc44f0950bf7457ea2079c6d1224f05da3943e0155857e39ea9aaaf7a77b" => :sierra
-    sha256 "4fd2548af0f00293b0fbe9ee6d242634769d3efc79155343ca7b7ed7cafc0088" => :el_capitan
-    sha256 "7daf38023468ab13246f72e199fd9b17d0a0a3c5c84ca4f20066914f160e70b8" => :yosemite
+    sha256 "41dbac992cf79513fa237f0f59bfe02f65ca0bb270a1f8e87ade8cb73b5677b5" => :sierra
+    sha256 "3c811d9b53fad3a54c12c2a112c9f6d0a6c2d869bd08b40ee1dd43360975b03b" => :el_capitan
+    sha256 "30486a29f7293bea13f31a6d882cb8367e97ee2e5994f38dff6b1cc29bf9a862" => :yosemite
   end
 
+  needs :cxx11
   depends_on "automake" => :build
   depends_on "autoconf" => :build
   depends_on "freetype"

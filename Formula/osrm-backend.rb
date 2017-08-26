@@ -1,14 +1,15 @@
 class OsrmBackend < Formula
   desc "High performance routing engine"
   homepage "http://project-osrm.org/"
-  url "https://github.com/Project-OSRM/osrm-backend/archive/v5.9.0.tar.gz"
-  sha256 "bd1ac8a7c8a45b617e32e01cd326c432468c791291a072219627742ecc9ea130"
+  url "https://github.com/Project-OSRM/osrm-backend/archive/v5.11.0.tar.gz"
+  sha256 "de95e00933c0ac040bac65c24d6b9ced5c580a115f9e50ce3948f78993f4636b"
+  revision 1
   head "https://github.com/Project-OSRM/osrm-backend.git"
 
   bottle do
     cellar :any
-    sha256 "8b438814f2a4bebca0aae29a59c0f80322c8521f2387c63a57828699ba8a05b2" => :sierra
-    sha256 "d0132022efe3ae558b356d1b4a905822113d09a6f62bd824c750d9d0fa0f7221" => :el_capitan
+    sha256 "7a6134c0acda80252b8235fb61c9aede8ca04517b5c8df63d4219d94f7717283" => :sierra
+    sha256 "d6e53d9dbf60a7de0b82318b0ce457bb4493c053577cdb63cd0b8449dc45596b" => :el_capitan
   end
 
   # "invalid use of non-static data member 'offset'"
@@ -25,7 +26,7 @@ class OsrmBackend < Formula
 
   def install
     mkdir "build" do
-      system "cmake", "..", *std_cmake_args
+      system "cmake", "..", "-DENABLE_CCACHE:BOOL=OFF", *std_cmake_args
       system "make"
       system "make", "install"
     end

@@ -2,14 +2,14 @@ class FaasCli < Formula
   desc "CLI for templating and/or deploying FaaS functions"
   homepage "http://docs.get-faas.com/"
   url "https://github.com/alexellis/faas-cli.git",
-      :tag => "0.4.5",
-      :revision => "e9c738f9a2833980a1bfc0102b3dfdf0cce2684a"
+      :tag => "0.4.7",
+      :revision => "0b2e05dcbab61e5a462b65352d4cf6ddf3dbf58a"
 
   bottle do
     cellar :any_skip_relocation
-    sha256 "57ecf94c6e61ca56a1ab9c35fd542494248abbede4be867f010c01486fae9f47" => :sierra
-    sha256 "f80d2ebd8564816f5d133b5c8a59058c761e0f6cafa066c46ea938cbe9499906" => :el_capitan
-    sha256 "974e2513f6d2886adcb856665b9f9f562a75543a2a053a121d246114b1e51eac" => :yosemite
+    sha256 "b89b44b1a990de13659cc1d6ef03ec6cad72ede9f60b5c8b0d6639ca84210dce" => :sierra
+    sha256 "28ab1835bccff4f261c286e9d1d0df699bbe2fc2c5209b7def6aa0a8e8537e97" => :el_capitan
+    sha256 "e3a7567fd99ab802575078586b4d309f592e26bc1bbaa9e9f42690ebe70c159e" => :yosemite
   end
 
   depends_on "go" => :build

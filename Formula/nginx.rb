@@ -4,7 +4,7 @@ class Nginx < Formula
   url "https://nginx.org/download/nginx-1.12.1.tar.gz"
   sha256 "8793bf426485a30f91021b6b945a9fd8a84d87d17b566562c3797aba8fac76fb"
 
-  head "http://hg.nginx.org/nginx/", :using => :hg
+  head "https://hg.nginx.org/nginx/", :using => :hg
 
   bottle do
     sha256 "93bcf8e3aec465c219b6c0b4f4d5437c61bf00f2a930ef5702e0521edc51f20e" => :sierra
@@ -13,8 +13,8 @@ class Nginx < Formula
   end
 
   devel do
-    url "https://nginx.org/download/nginx-1.13.3.tar.gz"
-    sha256 "5b73f98004c302fb8e4a172abf046d9ce77739a82487e4873b39f9b0dcbb0d72"
+    url "https://nginx.org/download/nginx-1.13.4.tar.gz"
+    sha256 "de21f3c49ba65c611329d8759a63d72e5fcf719bc6f2a3270e2541348ef1fbba"
   end
 
   # Before submitting more options to this formula please check they aren't

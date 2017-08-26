@@ -1,14 +1,14 @@
 class PerconaServerAT56 < Formula
   desc "Drop-in MySQL replacement"
   homepage "https://www.percona.com"
-  url "https://www.percona.com/downloads/Percona-Server-5.6/Percona-Server-5.6.36-82.1/source/tarball/percona-server-5.6.36-82.1.tar.gz"
-  version "5.6.36-82.1"
-  sha256 "bebab31321e17682bc23f0f1e95211f002ba2a24c21d9a7ce9821cbe2a1ba4ba"
+  url "https://www.percona.com/downloads/Percona-Server-5.6/Percona-Server-5.6.37-82.2/source/tarball/percona-server-5.6.37-82.2.tar.gz"
+  version "5.6.37-82.2"
+  sha256 "3cf04b64c8bf5b9cc1ea1a68c54ba77a4709d9c9051314e70a4cbd4c904da702"
 
   bottle do
-    sha256 "fbf6414d980e37cd0ebf0e96a33821c37873dddca93635a653add3f7d2c4864b" => :sierra
-    sha256 "312286b391c1dfe47711b2fa0070c7527bcf0d0c90eb6015d9a393499d7ecc17" => :el_capitan
-    sha256 "b6c9f3bffa304fa5e5f7e775f6dee52249ba6c6b58b9c4c7d9df656387935d70" => :yosemite
+    sha256 "a5dc522f52d0c853b2ff04291884156111729f67379b24fa7d7022bcd3347632" => :sierra
+    sha256 "a9ba8cad6f5237e783ad3495206f3ba63365fff78048e34008f23cdd500a2c90" => :el_capitan
+    sha256 "ef56b2abe4ad121257e62cc4178c459dc034407b18ffc06bea6cf39c60d7286b" => :yosemite
   end
 
   keg_only :versioned_formula
@@ -43,6 +43,7 @@ class PerconaServerAT56 < Formula
 
     args = std_cmake_args + %W[
       -DMYSQL_DATADIR=#{datadir}
+      -DINSTALL_PLUGINDIR=lib/plugin
       -DSYSCONFDIR=#{etc}
       -DINSTALL_MANDIR=#{man}
       -DINSTALL_DOCDIR=#{doc}

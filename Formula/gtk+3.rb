@@ -1,17 +1,14 @@
 class Gtkx3 < Formula
   desc "Toolkit for creating graphical user interfaces"
   homepage "https://gtk.org/"
-  url "https://download.gnome.org/sources/gtk+/3.22/gtk+-3.22.18.tar.xz"
-  sha256 "b64b1c2ec20adf128ac08ee704d1f4e7b0a8d3df097d51f62edb271c7bb1bf69"
+  url "https://download.gnome.org/sources/gtk+/3.22/gtk+-3.22.19.tar.xz"
+  sha256 "9883d3ca5244f9b3168ce660e87d52900e141d0f7147dea0640bdd6fe8e5166c"
 
   bottle do
-    sha256 "da5883629947536e64cd999f7fda4b2c7859b8682683dd46632f378cfd33aaed" => :sierra
-    sha256 "b346b9d8ad6e176f29a92d5b07883653184ac25935d199014fdb11a0ddf5f51c" => :el_capitan
-    sha256 "2f87657f1c96770a85b3ae2cb577cdcc225feae73a2d2253008e69ab3e6777aa" => :yosemite
+    sha256 "d67780b58945ab95d9a2fe472999920568134f704c6b8b73e4c01ad75d7f9a7e" => :sierra
+    sha256 "93d6f15da103c2c30a1fe653ed84b17024642846f487a4bc44f752bf281dae63" => :el_capitan
+    sha256 "850d0ba5092d2d8ac36ec68ab840767b0acf53a8224bb0f485915822099f7c4b" => :yosemite
   end
-
-  # see https://bugzilla.gnome.org/show_bug.cgi?id=781118
-  patch :DATA
 
   option "with-quartz-relocation", "Build with quartz relocation support"
 
@@ -114,32 +111,3 @@ class Gtkx3 < Formula
     system "./test"
   end
 end
-
-__END__
-diff --git a/gdk/quartz/gdkscreen-quartz.c b/gdk/quartz/gdkscreen-quartz.c
-index 586f7af..d032643 100644
---- a/gdk/quartz/gdkscreen-quartz.c
-+++ b/gdk/quartz/gdkscreen-quartz.c
-@@ -79,7 +79,7 @@ gdk_quartz_screen_init (GdkQuartzScreen *quartz_screen)
-   NSDictionary *dd = [[[NSScreen screens] objectAtIndex:0] deviceDescription];
-   NSSize size = [[dd valueForKey:NSDeviceResolution] sizeValue];
-
--  _gdk_screen_set_resolution (screen, size.width);
-+  _gdk_screen_set_resolution (screen, 72.0);
-
-   gdk_quartz_screen_calculate_layout (quartz_screen);
-
-@@ -334,11 +334,8 @@ gdk_quartz_screen_get_height (GdkScreen *screen)
- static gint
- get_mm_from_pixels (NSScreen *screen, int pixels)
- {
--  const float mm_per_inch = 25.4;
--  NSDictionary *dd = [[[NSScreen screens] objectAtIndex:0] deviceDescription];
--  NSSize size = [[dd valueForKey:NSDeviceResolution] sizeValue];
--  float dpi = size.width;
--  return (pixels / dpi) * mm_per_inch;
-+  const float dpi = 72.0;
-+  return (pixels / dpi) * 25.4;
- }
-
- static gchar *
