@@ -40,8 +40,9 @@ class Ttfautohint < Formula
 
     args << "--without-qt" if build.without? "qt"
 
+    ENV["QMAKESPEC"] = "macx-clang"
     system "./bootstrap" if build.head?
-    system "QMAKESPEC='macx-clang' ./configure", *args
+    system "./configure", *args
     system "make", "install"
   end
 
