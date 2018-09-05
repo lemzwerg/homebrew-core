@@ -37,7 +37,7 @@ class Curl < Formula
   # HTTP/2 support requires OpenSSL 1.0.2+ or LibreSSL 2.1.3+ for ALPN Support
   # which is currently not supported by Secure Transport (DarwinSSL).
   if MacOS.version < :mountain_lion || build.with?("nghttp2")
-    ENV['CFLAGS']='-mmacosx-version-min=10.7'
+    ENV["CFLAGS"]="-mmacosx-version-min=10.7"
     depends_on "openssl"
   else
     option "with-openssl", "Build with OpenSSL instead of Secure Transport"
