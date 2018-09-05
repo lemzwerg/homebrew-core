@@ -27,6 +27,12 @@ class Cmake < Formula
   def install
     ENV.cxx11 if MacOS.version < :mavericks
 
+    # Cf. https://github.com/macports/macports-ports/commit/603f4cb48a089a823cbbe840ca63e568faf8b3a6
+    if MacOS.version <= :lion
+      ENV.append "CFLAGS", "-fpermissive"
+      ENV.append "CXXFLAGS", "-fpermissive"
+    end
+
     args = %W[
       --prefix=#{prefix}
       --no-system-libs
