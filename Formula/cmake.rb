@@ -27,7 +27,8 @@ class Cmake < Formula
   def install
     ENV.cxx11 if MacOS.version < :mavericks
 
-    # Cf. https://github.com/macports/macports-ports/commit/603f4cb48a089a823cbbe840ca63e568faf8b3a6
+    # Avoid the following compiler error:
+    # SecKeychain.h:102:46: error: shift expression '(1853123693 << 8)' overflows
     if MacOS.version <= :lion
       ENV.append "CFLAGS", "-fpermissive"
       ENV.append "CXXFLAGS", "-fpermissive"
