@@ -29,10 +29,7 @@ class Cmake < Formula
 
     # Avoid the following compiler error:
     # SecKeychain.h:102:46: error: shift expression '(1853123693 << 8)' overflows
-    if MacOS.version <= :lion
-      ENV.append "CFLAGS", "-fpermissive"
-      ENV.append "CXXFLAGS", "-fpermissive"
-    end
+    ENV.append_to_cflags "-fpermissive" if MacOS.version <= :lion
 
     args = %W[
       --prefix=#{prefix}
