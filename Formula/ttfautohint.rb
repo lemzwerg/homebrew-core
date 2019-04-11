@@ -37,6 +37,8 @@ class Ttfautohint < Formula
   end
 
   test do
-    system "#{bin}/ttfautohint", "-V"
+    cp "/Library/Fonts/Arial.ttf", testpath
+    system "#{bin}/ttfautohint", "Arial.ttf", "output.ttf"
+    assert_predicate testpath/"output.ttf", :exist?
   end
 end
